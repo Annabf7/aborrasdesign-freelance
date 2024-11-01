@@ -1,0 +1,46 @@
+.generative-gallery-container {
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  text-align: center;
+  background-color: #1f1f1f;
+  color: #d7b46a;
+}
+
+.gallery-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.gallery-title2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #d7b46a;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Mostra les imatges en una quadrícula de 4 columnes */
+  gap: 20px;
+}
+
+.gallery-item {
+  position: relative;
+}
+
+.generative-gallery-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .generative-gallery-image {
+  transform: scale(1.05);
+}

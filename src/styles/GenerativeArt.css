@@ -1,0 +1,49 @@
+/* Generative Art Section */
+.generative-art-section {
+  position: relative; /* Per permetre que el text estigui a sobre del vídeo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; /* Ajusta segons necessitats */
+  background-color: #252423; /* Fons de suport per si el vídeo triga a carregar */
+  overflow: hidden;
+}
+
+/* Estils per al vídeo */
+.generative-art-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Assegura que el vídeo s'ajusti a la pantalla */
+  z-index: 1; /* Posa el vídeo darrere del text */
+}
+
+/* Contenidor del text */
+.generative-art-overlay {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Fons negre semitransparent darrere del text */
+  padding: 80px 160px; /* Opcional: espai al voltant del text */
+  display: inline-block; /* Per limitar el fons només al voltant del text */
+  border-radius: 10px;
+}
+
+/* Estils per al títol */
+.generative-art-title {
+  font-size: 3rem;
+  color: #d7b46a;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.generative-art-title a {
+  text-decoration: none;
+  color: #d7b46a;
+  transition: color 0.3s ease;
+}
+
+.generative-art-title a:hover {
+  color: #ececec;
+}

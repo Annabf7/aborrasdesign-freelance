@@ -1,0 +1,99 @@
+.choose-artwork-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  background-color: #f5f5f5;
+  height: calc(105vh - 160px); /* Ajustem per tenir en compte el menú i el footer */
+}
+
+.choose-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-right: 2em;
+  padding-right: 3em;
+  margin-left: -4.3em;
+}
+
+.artwork-size-selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.artwork-preview {
+  flex: 3; /* Aumenta la proporció per a que ocupi més espai */
+  margin-top: 4em;
+  margin-right: 20px;
+}
+
+.artwork-image {
+  max-width: 90%;
+  border: 5px solid #d7b46a;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.artwork-options {
+  min-width: 10%;
+  flex: 1; /* Fa la secció de l'opció més petita */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  margin-left: -6em;
+
+  margin-bottom: 1em;
+  padding-bottom: 4em;
+}
+
+.artwork-options h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.artwork-options label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.artwork-options select,
+.artwork-options input {
+  margin-bottom: 20px;
+  padding: 5px;
+  font-size: 1rem;
+  width: 100%; /* Amplia els inputs a tota l'amplada disponible */
+  box-sizing: border-box; /* Assegura que el padding s'inclogui dins l'amplada total */
+  height: 50px; /* Assigna una alçada fixa per assegurar que tots dos inputs siguin iguals */
+}
+
+.confirm-button {
+  background-color: #d7b46a;
+  color: #1f1f1f;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background-color: #b6953c;
+  transition: background-color 0.3s ease;
+}
+
+/* Afegir estrelles de valoració */
+.rating-stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.rating-stars img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}

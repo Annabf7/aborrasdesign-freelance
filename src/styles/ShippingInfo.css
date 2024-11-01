@@ -1,0 +1,114 @@
+/* Contenidor principal per a Shipping Info i Cart Summary */
+.containerWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+.shippingInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+.shippingInfoSection {
+  width: 40%;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Shipping Method Section */
+.shippingMethod {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.radioButton {
+  flex-shrink: 0;
+  margin-bottom: 1px;
+}
+
+.shippingLabel {
+  flex-grow: 1;
+  margin-left: 5px;
+  white-space: normal; /* Permet el text en diverses línies si cal */
+}
+
+.shippingLabel label {
+  font-size: 12px; /* Ajusta aquesta mida segons el que necessitis */
+}
+
+.shippingPrice {
+  flex-shrink: 0;
+  text-align: right; /* Alinea el preu a la dreta */
+}
+
+/* Informació extra */
+.additionalInfo {
+  font-size: 12px;
+  width: 100%;
+  margin-top: 10px;
+  text-align: justify;
+  background-color: #f7f7f7;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden; /* Assegura que el contingut es mantingui dins del contenidor */
+}
+
+.additionalInfo h4 {
+  color: #e63946;
+  margin-top: 10px;
+}
+
+.additionalInfo p {
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* Responsivitat específica per ajustar aquests elements */
+@media (max-width: 768px) {
+  .shippingMethod {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shippingLabel {
+    margin-left: 0;
+    width: 100%; /* Fa que ocupi tot l'ample disponible en pantalles petites */
+  }
+
+  .shippingPrice {
+    margin-left: 0;
+    width: 100%; /* Fa que el preu també ocupi tota la línia si cal */
+    text-align: left;
+  }
+
+  .additionalInfo {
+    font-size: 11px;
+    padding: 15px;
+  }
+}
+
+.cartSummary {
+  width: 45%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: hidden;
+}

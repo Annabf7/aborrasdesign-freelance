@@ -1,0 +1,72 @@
+/* Estils per a la finestra de personalització */
+.customization-window {
+  position: fixed;
+  top: 20px; /* Finestra a la part superior */
+  left: 20px; /* Finestra a l'esquerra */
+  width: 200px; /* Amplada més petita */
+  max-height: 0; /* Amaga la finestra per defecte */
+  overflow: hidden; /* Evita que el contingut sigui visible quan està tancada */
+  background-color: #fff;
+  border: 2px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  z-index: 9999; /* Z-index alt per sobreposar-se al canvas */
+  transition: max-height 0.5s ease, opacity 0.5s ease; /* Transició per obrir/tancar la finestra */
+  opacity: 0; /* Inicialment invisible */
+}
+
+.customization-window.open {
+  max-height: 300px; /* Alçada màxima quan està oberta */
+  opacity: 1; /* Fes visible la finestra */
+}
+
+/* Ajustos dels controls */
+.customization-title {
+  font-size: 1rem; /* Mida del títol més petita */
+  margin-bottom: 10px;
+}
+
+.customization-controls label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.customization-controls input,
+.customization-controls select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+
+.customization-controls button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 10px; /* Botó més petit */
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.customization-controls button:hover {
+  background-color: #45a049;
+}
+
+/* Botó per obrir/tancar la finestra */
+.customization-button {
+  position: fixed;
+  top: 480px; /* Posicionat més alt i a prop de la finestra */
+  left: 20px;
+  background-color: #d7b46a;
+  color: black;
+  padding: 8px 10px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 10000; /* Assegura que el botó està sobre la resta */
+}
+
+.customization-button:hover {
+  background-color: dimgray;
+  color: #d7b46a;
+}

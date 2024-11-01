@@ -1,0 +1,197 @@
+/* Contenidor general per a les dues seccions */
+.containerWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+.checkoutContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+/* Checkout Form */
+.checkoutForm {
+  width: 40%;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* Botó d'inici de sessió */
+.signInButton {
+  align-self: flex-start;
+  background-color: #1e1f1f;
+  color: #d7b46a;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Checkbox per codis promocionals */
+/* Estil per al botó que sembla un enllaç */
+.promoLink {
+  background: none;
+  border: none;
+  color: #1e1f1f;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  display: inline-block; /* Assegura que el botó es comporti com un enllaç */
+  white-space: nowrap; /* Manté el text en una sola línia */
+  margin-left: 2px;
+}
+
+/* Botons de pagament */
+.paymentOptions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.paypalButton,
+.amazonButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+  background-color: #d7b46a;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.paypalButton img,
+.amazonButton img {
+  width: 50%;
+  height: auto;
+  display: block;
+}
+
+.amazonButton img {
+  margin-top: 8px;
+}
+
+/* Camps del formulari */
+.formInput {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #1b1b1b;
+  width: 100%; /* Cada camp ocupa el 100% del seu contenidor */
+  font-size: 14px;
+  color: #1b1b1b;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #b5974f;
+}
+
+/* Files de camps d'entrada */
+.formRow {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.formRowLarge {
+  width: 100%;
+}
+
+.formRowLarge .formInput {
+  width: 100%; /* Els camps 'Email' i 'Address' ocupen el 100% de l'espai */
+}
+
+.formLabel {
+  font-size: 12px; /* Ajusta aquest valor segons les teves preferències */
+  color: #1e1f1f; /* Ajusta el color si cal */
+}
+
+/* Botó 'Continue to shipping method' */
+button[type="submit"] {
+  background-color: #1e1f1f;
+  color: #d7b46a;
+  border: none;
+  padding: 15px;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+button[type="submit"]:hover {
+  background-color: #d7b46a;
+  color: #1e1f1f;
+}
+
+/* Estil per a 'Your information is secure' */
+.secureInfo {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.secureInfo img {
+  width: 20px;
+  height: auto;
+  margin-right: 8px;
+}
+
+/* adaptació pantalles petites*/
+
+@media (max-width: 768px) {
+  .checkoutContainer {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .checkoutForm,
+  .cartSummary {
+    width: 100%;
+  }
+
+  .promoCheckbox,
+  .paymentOptions,
+  button[type="submit"] {
+    width: 100%;
+  }
+}
+
+/*--------------- cartSummary----------------------*/
+
+.cartSummary {
+  width: 45%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: hidden;
+}

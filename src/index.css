@@ -8,6 +8,8 @@ html {
   color: #333;
   box-sizing: border-box;
   height: 100%;
+  display: flex;
+  flex-direction: column; /* Afegeix flexbox per fer el layout vertical */
 }
 
 body {
@@ -15,6 +17,7 @@ body {
   font-size: 14px;
   font-weight: 400; /* Regular */
   line-height: 1.5;
+  flex: 1; /* Assegura que el contingut principal ocupa l'espai restant */
 }
 
 a {
@@ -25,12 +28,15 @@ a {
 /* Contenidor de pàgina */
 .container {
   max-width: 1200px;
+
   margin: 0 auto;
   padding: 0 20px;
+  flex: 1; /* El contingut principal ocupa l'espai restant */
+  display: flex;
+  flex-direction: column; /* Assegura que el contingut segueix la direcció de columna */
 }
 
 /* Nav bar */
-
 .menu-container {
   display: flex;
   justify-content: space-between; /* Separar logotip i menú */
@@ -50,14 +56,16 @@ a {
 
 .menu-items {
   display: flex;
-  gap: 40px; /* Augmentem l'espai entre els elements del menú */
+  gap: 30px; /* Augmentem l'espai entre els elements del menú */
   font-family: "Montserrat", sans-serif; /* Canviem la font a una més moderna */
+  margin-bottom: -2.5em;
+  margin-right: 2em;
 }
 
-.iconEnglish {
+.logIn {
   margin-left: 20px;
   margin-right: 0; /* La icona es manté a la dreta */
-  width: 36px;
+  width: 26px;
   height: auto;
 }
 
@@ -101,41 +109,30 @@ a {
   color: #d7b46a;
 }
 
-/*      FOOTER      */
-
+/* Estils comuns del footer */
 .footer {
-  background-color: #ececec;
-  color: #272525;
-  text-align: center;
-  padding: 40px 0;
+  padding-top: 45px;
+  padding-bottom: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  position: relative; /* Canvi a relative */
-  margin-top: auto; /* Fa que el footer sempre es mantingui abaix */
-}
-
-.footer-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centrar tant el text com les icones */
-}
-
-.footer-left h3 {
-  margin-bottom: 10px; /* Ajustar l'espai entre el text i les icones */
+  background-color: #252423;
+  color: #d7b46a;
+  position: relative;
+  bottom: 0;
 }
 
 .footer-left,
 .footer-center,
 .footer-right {
-  flex: 1; /* Farem que cada secció del footer ocupi el mateix espai */
+  flex: 1;
 }
 
 .footerWidth {
   display: flex;
-  width: 80%; /* Ocupa tot l'ample del footer */
-  justify-content: space-between; /* Distribueix les columnes equitativament */
+  width: 80%;
+  justify-content: space-between;
   margin: 0 auto;
 }
 
@@ -143,25 +140,21 @@ a {
   text-align: center;
 }
 
-.footer-right {
-  text-align: right;
-}
-
 .footer-logo {
-  width: 100px;
+  width: 90px;
   margin-bottom: 20px;
 }
 
 .contact-text {
   font-size: 14px;
-  margin-bottom: 10px;
-  font-weight: bold;
+  margin-left: 55%;
+  margin-top: 20px;
 }
 
 .contact-email {
   color: #d7b46a;
   text-decoration: none;
-  font-weight: bold;
+  font-size: 14px;
 }
 
 .social-icons {
@@ -171,5 +164,23 @@ a {
 
 .social-icon {
   width: 32px;
+  height: auto;
+}
+
+/* Estils del footer negre */
+.footer-black {
+  background-color: #252423;
+  color: #d7b46a;
+}
+
+/* Estils del footer blanc */
+.footer-white {
+  background-color: #ececec;
+  color: #272525;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
   height: auto;
 }

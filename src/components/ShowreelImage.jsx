@@ -5,7 +5,9 @@ const ShowreelSection = () => {
   return (
     <div className="showreel-container">
       <div className="image-container">
-        <img className="showreel-image" src={sheiImage} alt="Showreel preview" />
+        <div className="image-wrapper">
+          <img className="showreel-image" src={sheiImage} alt="Showreel preview" />
+        </div>
       </div>
       <div className="text-container">
         <h1>

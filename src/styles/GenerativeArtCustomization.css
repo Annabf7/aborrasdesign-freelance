@@ -1,0 +1,51 @@
+.customization-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px;
+  background-color: #1f1f1f;
+  position: relative;
+}
+
+.customization-controls {
+  margin-bottom: 20px;
+  text-align: center;
+  z-index: 2; /* Controls visuals davant de l'sketch */
+}
+
+.customization-sketch {
+  width: 80%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Modifiquem la posició del botó */
+.finish-button {
+  background-color: #d7b46a;
+  color: #1f1f1f;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 3; /* Assegurem que el botó es mostri per sobre de l'sketch */
+  position: fixed; /* Canviem a 'fixed' perquè el botó es mantingui visible */
+  bottom: 20px; /* El posicionem a la part inferior dreta */
+  right: 20px; /* Desplaçament cap a la dreta */
+}
+
+.finish-button:hover {
+  background-color: #b6953c;
+  transition: background-color 0.3s ease;
+}
+
+.finalize-button {
+  margin-bottom: 20px;
+  z-index: 2;
+}

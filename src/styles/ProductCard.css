@@ -1,0 +1,130 @@
+/* Estructura del producte */
+.productGrid {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Estil de la imatge del producte */
+.productImage {
+  width: 120px;
+  height:180px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Detalls del producte */
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+/* Informació del producte */
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Preu del producte */
+.productPrice {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Nom del producte */
+.productName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Mida del producte */
+.productSize {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Controls de quantitat */
+.quantityControls {
+  display: flex;
+  align-items: center;
+  max-width: 320px;
+  gap: 40px;
+  margin-top: 10px;
+}
+
+.quantityControls button {
+  background-color: #e0e0e0;
+  color: #1e1f1f;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.quantityControls button:hover {
+  background-color: #d7b46a;
+}
+
+.quantityControls span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Estil per als enllaços d'accions del producte */
+.cartActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -30px;
+  max-width: 340px;
+  gap:90px;
+  margin-left:-10px;
+}
+
+.cartActions button {
+  background: none;
+  border: none;
+  color: #1e1f1f;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 12px;
+  transition: color 0.3s ease;
+}
+
+.cartActions button:hover {
+  color: #0056b3;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .productGrid {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .productImage {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+
+  .productDetails {
+    align-items: center;
+  }
+
+  .cartActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+}

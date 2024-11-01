@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import englishImage from "../assets/english.png";
+import logIn from "../assets/icons/log in.svg";
 import logo from "../assets/logo.png";
 
 function NavigationMenu() {
@@ -15,7 +15,7 @@ function NavigationMenu() {
         </Link>
 
         <div className="dropdown">
-          <span className="menu-item">Services</span> {/* Desplegable sense enllaç directe */}
+          <span className="menu-item">Services</span>
           <div className="dropdown-content">
             <Link to="/photography">Photography</Link>
             <Link to="/webfrontend">WebFrontend</Link>
@@ -25,7 +25,9 @@ function NavigationMenu() {
         <Link className="menu-item" to="/about">
           About
         </Link>
-        <img className="iconEnglish" src={englishImage} alt="English" />
+        <Link to="/auth">
+          <img className="logIn" src={logIn} alt="Registered user form" />
+        </Link>
       </nav>
     </div>
   );

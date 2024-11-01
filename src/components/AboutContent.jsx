@@ -6,7 +6,9 @@ function AboutContent() {
   return (
     <div className="about-section">
       <div className="about-description-wrapper">
-        <h1 className="about-title">About aborrasdesign</h1>
+        <h1 className="about-title">
+          About aborrasdesign<span className="reg-symbol">&reg;</span>
+        </h1>
         <p className="about-description">
           To be an independent artist is to be an entrepreneur. It is someone who constantly risks
           everything they have, and they always bring something new with their proposals.

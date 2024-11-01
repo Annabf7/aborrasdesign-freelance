@@ -1,0 +1,45 @@
+/* Resum de la comanda */
+.summarySection {
+  padding-top: 20px;
+}
+
+/* Títol del resum */
+.summaryTitle {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Fila del resum */
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Divisor entre seccions */
+.divider {
+  margin-top: 15px;
+  border-top: 2px solid #ccc;
+}
+
+/* Fila del total estimat */
+.totalRow {
+  display: flex;
+  justify-content: space-between; /* Alinea els elements a banda i banda */
+  font-weight: bold;
+  font-size: 18px;
+  color: #000;
+}
+
+/* Estil per a "Currency notice" */
+.currencyNotice {
+  margin-top: 100px;
+  font-size: 14px;
+  color: #999;
+  text-align: justify;
+}
+
+.noticeHighlight {
+  color: #e63946;
+  font-weight: bold;
+}

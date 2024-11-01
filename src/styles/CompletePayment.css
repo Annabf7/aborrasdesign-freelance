@@ -1,0 +1,131 @@
+/* Contenidor principal */
+.containerWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+.paymentContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  gap: 20px;
+}
+
+/* Secció d'informació de pagament */
+.paymentInfo {
+  width: 40%;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Títol i enllaç d'inici de sessió */
+.paymentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signInLink {
+  background: none;
+  color: #1e1f1f;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+/* Informació de la direcció d'enviament */
+.shippingInfo {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  font-size: 14px;
+}
+
+/* Mètode de pagament */
+.paymentMethod {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea tot el contingut a l'esquerra */
+}
+
+.paymentMethod h4 {
+  margin-bottom: 10px; /* Afegeix una mica d'espai entre el títol i el contingut */
+}
+
+.paymentMethod label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.paymentButton {
+  width: 100%;
+  background-color: #1e1f1f;
+  color: #d7b46a;
+  padding: 15px 30px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  border: none;
+}
+
+.paymentButton:hover {
+  background-color: #d7b46a;
+  color: #1e1f1f;
+}
+
+/* Informació de seguretat */
+.secureInfo {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.secureInfo img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+/* Responsivitat específica per ajustar aquests elements */
+@media (max-width: 768px) {
+  .shippingMethod {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shippingLabel {
+    margin-left: 0;
+    width: 100%; /* Fa que ocupi tot l'ample disponible en pantalles petites */
+  }
+
+  .shippingPrice {
+    margin-left: 0;
+    width: 100%; /* Fa que el preu també ocupi tota la línia si cal */
+    text-align: left;
+  }
+
+  .additionalInfo {
+    font-size: 11px;
+    padding: 15px;
+  }
+}
+
+.cartSummary {
+  width: 45%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: hidden;
+}
