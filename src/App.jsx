@@ -1,16 +1,19 @@
 import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import NavigationMenu from "./components/NavigationMenu";
+import Cart from "./components/Cart";
 import AuthPage from "./components/AuthPage";
+import { AuthProvider } from "./components/AuthContext";
 import RegistrationSuccesful from "./components/RegistrationSuccesful";
 import SignIn from "./components/SignIn";
+import UserProfile from "./components/UserProfile";
+import OrderHistory from "./components/OrderHistory";
 import ShowreelImage from "./components/ShowreelImage";
 import AnimationProjects from "./components/AnimationProjects";
 import PortraitSection from "./components/PortraitSection";
 import ProfileSection from "./components/ProfileSection";
 import { FooterBlack, FooterWhite } from "./components/Footer";
 import AboutSection from "./components/AboutSection";
-import GenerativeArt from "./components/GenerativeArt";
 import GenerativeArtGallery from "./components/GenerativeArtGallery";
 import GenerativeArtCustomization from "./components/GenerativeArtCustomization";
 import GenerativeArtSelection from "./components/GenerativeArtSelection"; // Afegeix l'import del GenerativeArtSelection
@@ -34,15 +37,14 @@ import { CartProvider } from "./components/CartContext";
 import PhotographySection from "./components/PhotographySection";
 import WebFrontEndSection from "./components/WebFrontEndSection";
 import MotionGraphicSection from "./components/MotionGraphicSection";
-
 import "./App.css";
 
 function App() {
   return (
-    <CartProvider>
-      <ArtworkProvider>
-        <ShippingProvider>
-          <Router>
+    <AuthProvider>
+      <CartProvider>
+        <ArtworkProvider>
+          <ShippingProvider>
             <NavigationMenu />
 
             <Routes>
@@ -54,8 +56,25 @@ function App() {
                     <AnimationProjects />
                     <PortraitSection />
                     <ProfileSection />
-                    {/* Mostra el FooterWhite a la pàgina principal */}
                     <FooterBlack />
+                  </div>
+                }
+              />
+              <Route
+                path="/profile" // Ruta per a la pàgina de perfil
+                element={
+                  <div>
+                    <UserProfile />
+                    <FooterWhite />
+                  </div>
+                }
+              />
+              <Route
+                path="/order-history" // Ruta per a la pàgina d'historial de comandes
+                element={
+                  <div>
+                    <OrderHistory />
+                    <FooterWhite />
                   </div>
                 }
               />
@@ -64,7 +83,6 @@ function App() {
                 element={
                   <div>
                     <AboutSection />
-                    <GenerativeArt />
                     <FooterBlack />
                   </div>
                 }
@@ -224,11 +242,20 @@ function App() {
                   </div>
                 }
               />
+              <Route
+                path="/cart"
+                element={
+                  <div>
+                    <Cart />
+                    <FooterBlack />
+                  </div>
+                }
+              />
             </Routes>
-          </Router>
-        </ShippingProvider>
-      </ArtworkProvider>
-    </CartProvider>
+          </ShippingProvider>
+        </ArtworkProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

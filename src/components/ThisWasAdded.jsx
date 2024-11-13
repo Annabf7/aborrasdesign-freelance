@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importem useNavigate per redirigir l'usuari
-import "../styles/ThisWasAdded.css"; // Estils personalitzats per la pàgina
+import { useNavigate } from "react-router-dom"; 
+import "../styles/ThisWasAdded.css"; 
 
 const ThisWasAdded = ({ artworkImage, artworkName, artworkPrice, onClose }) => {
   const [size, setSize] = useState("Medium");
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(artworkPrice);
 
-  const navigate = useNavigate(); // Per a la navegació
+  const navigate = useNavigate(); 
 
   const handleSizeChange = (e) => {
     setSize(e.target.value);

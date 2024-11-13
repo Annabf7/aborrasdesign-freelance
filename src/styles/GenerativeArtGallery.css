@@ -1,8 +1,7 @@
+/* -------------------------- Generative Gallery Section -------------------------- */
+
 .generative-gallery-container {
-  padding-right: 40px;
-  padding-left: 40px;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  padding: 1.25rem 2.5rem 3.125rem;
   text-align: center;
   background-color: #1f1f1f;
   color: #d7b46a;
@@ -12,7 +11,7 @@
   font-family: "Bebas Neue", sans-serif;
   font-weight: 300;
   font-size: 2rem;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: left;
 }
 
@@ -21,13 +20,13 @@
   font-weight: 400;
   color: #d7b46a;
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 0.625rem;
 }
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Mostra les imatges en una quadrícula de 4 columnes */
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
 }
 
 .gallery-item {
@@ -36,11 +35,27 @@
 
 .generative-gallery-image {
   width: 100%;
-  height: 250px;
+  height: 15.625rem;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
 .gallery-item:hover .generative-gallery-image {
   transform: scale(1.05);
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr); /* Redueix a 2 columnes en pantalles petites */
+  }
+
+  .gallery-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .gallery-title2 {
+    font-size: 1.2rem;
+  }
 }

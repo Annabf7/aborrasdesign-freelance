@@ -5,7 +5,7 @@
 
 /* Títol del resum */
 .summaryTitle {
-  font-size: 24px;
+  font-size: 1.5rem; /* 24px */
   margin-bottom: 20px;
 }
 
@@ -25,16 +25,16 @@
 /* Fila del total estimat */
 .totalRow {
   display: flex;
-  justify-content: space-between; /* Alinea els elements a banda i banda */
+  justify-content: space-between;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
   color: #000;
 }
 
 /* Estil per a "Currency notice" */
 .currencyNotice {
   margin-top: 100px;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   color: #999;
   text-align: justify;
 }
@@ -42,4 +42,20 @@
 .noticeHighlight {
   color: #e63946;
   font-weight: bold;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .summaryTitle {
+    font-size: 1.25rem; /* Redueix una mica la mida del títol */
+  }
+
+  .totalRow {
+    font-size: 1rem; /* Ajusta la mida del text per a pantalles petites */
+  }
+
+  .currencyNotice {
+    font-size: 0.75rem; /* Redueix la mida del text */
+    margin-top: 20px; /* Redueix l'espai superior per a una visualització més compacta */
+  }
 }

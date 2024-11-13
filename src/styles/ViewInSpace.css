@@ -1,15 +1,15 @@
 .view-in-space-container {
   display: flex;
-  justify-content: flex-start; /* Alineem tots els elements a l'esquerra */
+  justify-content: flex-start;
   padding-top: 80px;
   padding-bottom: 6em;
-  width: 80%; /* Ajustem l'amplada general */
+  width: 80%;
   margin: auto;
 }
 
 .image-preview-section {
   position: relative;
-  width: 50%; /* Ample de la imatge */
+  width: 50%;
   margin-right: 20%;
 }
 
@@ -40,21 +40,20 @@
   transform: translate(-30%, -30%);
 }
 
-/* Movem els botons sota el boto de Upload */
 .upload-checkout-tools {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  
 }
+
 
 .tools-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .tool-btn {
@@ -62,6 +61,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 
 button {
   width: 200px;
@@ -71,7 +71,7 @@ button {
   border: 2px solid #d7b46a;
   cursor: pointer;
   text-align: center;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 }
 
 button:hover {
@@ -79,14 +79,10 @@ button:hover {
   color: #333;
 }
 
-.frame-options {
-  margin-left: 0px; /* Ajustar per apropar-lo */
-}
-
 .tool-btn button {
   width: 50px;
   height: 50px;
-  background-color: 1e1F1F;
+  background-color: #1e1f1f;
   color: #d7b46a;
   border: 2px solid #d7b46a;
   border-radius: 50%;
@@ -107,9 +103,8 @@ button:hover {
   font-size: 14px;
 }
 
-/* Ajustem l'amplada de la secció de Frame Options */
 .frame-options {
-  width: 55%; /* Adeqüem l'espai restant a Frame Options */
+  width: 55%;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -119,6 +114,61 @@ button:hover {
 .upload-checkout-buttons {
   width: 15%;
   margin-right: 20px;
-  
 }
 
+/* Ajust per a tauletes */
+@media (max-width: 768px) {
+  .view-in-space-container {
+    flex-direction: column;
+    width: 90%;
+    padding-top: 40px;
+    padding-bottom: 4em;
+  }
+
+  .image-preview-section {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .frame-options,
+  .upload-checkout-buttons {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+/* Ajust per a mòbils */
+@media (max-width: 480px) {
+  .space-img {
+    max-width: 100%;
+    max-height: 400px;
+  }
+
+  .artwork-in-space {
+    width: 40%;
+    transform: translate(-40%, -40%);
+  }
+
+  .tool-btn button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .tool-btn span {
+    font-size: 12px;
+  }
+
+  .view-in-space-container,
+  .image-preview-section,
+  .frame-options,
+  .upload-checkout-buttons {
+    width: 100%;
+    margin: 10px auto;
+  }
+}

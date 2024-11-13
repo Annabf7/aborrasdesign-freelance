@@ -1,3 +1,4 @@
+/* Contenidor Sign In */
 .signin-container {
   display: flex;
   min-height: 100vh;
@@ -18,7 +19,7 @@
 }
 
 .message-section {
-  position: relative; /* Afegit */
+  position: relative;
   flex: 1;
   background-color: #333;
   color: #d7b46a;
@@ -37,9 +38,9 @@
   color: #d7b46a;
   text-align: center;
   position: absolute;
-  top: 10%; /* Fixa la posició del títol */
+  top: 10%;
   left: 50%;
-  transform: translateX(-50%); /* Centra horitzontalment */
+  transform: translateX(-50%);
 }
 
 .message-section h2 {
@@ -50,15 +51,12 @@
 .message-section p {
   font-size: 16px;
   margin-top: 20px;
-  
-  
-  
 }
 
 .message-section button {
   padding: 10px 20px;
   font-size: 14px;
-  background-color:#222;
+  background-color: #222;
   color: #d7b46a;
   border: none;
   cursor: pointer;
@@ -68,4 +66,44 @@
 .message-section button:hover {
   background-color: #b5974f;
   color: #222;
+}
+
+/* Adaptació per a tablets */
+@media (max-width: 768px) {
+  .signin-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .brand-title {
+    font-size: 3em;
+    top: 5%;
+  }
+
+  .message-section h2 {
+    font-size: 18px;
+  }
+
+  .message-section p {
+    font-size: 14px;
+  }
+}
+
+/* Adaptació per a mòbils */
+@media (max-width: 480px) {
+  .signin-container {
+    padding: 15px;
+  }
+
+  .brand-title {
+    font-size: 2.5em;
+  }
+
+  .message-section h2 {
+    font-size: 16px;
+  }
+
+  .message-section p {
+    font-size: 13px;
+  }
 }

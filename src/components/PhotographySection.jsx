@@ -48,8 +48,8 @@ const PhotographySection = () => {
         <div className="content-wrapper">
           <h1 className="title">Digital Photography</h1>
           <p className="description">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua."
+            In a digital world, quality visuals are not just assets; they are essential tools for
+            meaningful connection
           </p>
           <div className="call-to-action">
             <button>more info!</button>
@@ -62,10 +62,10 @@ const PhotographySection = () => {
         description={
           <>
             <p>
-              ContactForm The images must be a means of communication, which, captured with
-              sensitivity, will help to transmit the values ​​and culture of the brand. You can
-              create the best website, app or communication campaign, but without good images to
-              accompany the project, we will end up halfway.
+              The images must be a means of communication, which, captured with sensitivity, will
+              help to transmit the values ​​and culture of the brand. You can create the best
+              website, app or communication campaign, but without good images to accompany the
+              project, we will end up halfway.
             </p>
             <p>
               {" "}

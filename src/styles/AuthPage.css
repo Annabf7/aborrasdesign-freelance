@@ -1,3 +1,5 @@
+/* ---------------------------- AuthPage ---------------------------- */
+
 .auth-page {
   display: flex;
   min-height: 100vh;
@@ -18,7 +20,7 @@
 }
 
 .auth-form-section {
-  position: relative; /* Afegit */
+  position: relative;
   flex: 1;
   background-color: #333;
   color: #d7b46a;
@@ -31,18 +33,34 @@
 
 .brand-title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 4em;
+  font-size: 4rem;
   font-weight: 300;
   color: #d7b46a;
   text-align: center;
   position: absolute;
-  top: 10%; /* Fixa la posició del títol */
+  top: 10%;
   left: 50%;
-  transform: translateX(-50%); /* Centra horitzontalment */
+  transform: translateX(-50%);
 }
 
 .auth-toggle {
   cursor: pointer;
   color: #d7b46a;
   text-decoration: underline;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .auth-page {
+    flex-direction: column;
+  }
+
+  .auth-form-section {
+    padding: 1.5rem;
+  }
+
+  .brand-title {
+    font-size: 2.5rem;
+    top: 5%;
+  }
 }

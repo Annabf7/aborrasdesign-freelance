@@ -1,0 +1,70 @@
+/* -------------------------------------- Image gallery --------------------------------------------*/
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 5rem; /* 80px */
+  padding-bottom: 1.5rem; /* 25px */
+  background-color: #1f1f1f;
+}
+
+.gallery-image {
+  width: 25%; /* Ajusta l'amplada per mantenir l’espai entre les imatges */
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  background-color: #1f1f1f;
+  opacity: 0.7;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.gallery-image:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.description-section {
+  text-align: right;
+  padding-right: 15rem;
+  margin-top: -1.5rem;
+  padding-bottom: 2rem;
+  background-color: #1f1f1f;
+}
+
+.description-text {
+  color: #d7b46a;
+  padding-top:1rem;
+  padding-bottom: 2rem;
+}
+
+.feather-smile {
+  margin-bottom: -4px;
+  width: 25px;
+  height: 25px;
+  stroke: #d7b46a;
+  transition: stroke 0.3s ease;
+}
+
+.feather-smile:hover {
+  stroke: beige;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .image-gallery {
+    flex-direction: column; /* Apila les imatges en columnes */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .gallery-image {
+    width: 100%; /* Les imatges ocupen el 100% d’amplada */
+    margin-bottom: 1rem; /* Espai entre imatges */
+  }
+
+  .description-section {
+    padding-right: 2rem;
+    text-align: center;
+  }
+}

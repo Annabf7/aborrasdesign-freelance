@@ -1,3 +1,91 @@
-.register-container h2{
-    font-size: 16px;
+
+/* -------------------- Register Page Styles -------------------- */
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15rem;
+  padding-bottom: 5rem;
+  width: 100%;
+  margin: 0 auto;
+ 
+}
+
+.registerForm {
+  width: 50%;
+  padding: 1.875rem;
+  border-radius: 8px;
+  background-color: #ECECEC;
+  box-shadow: 0 4px 10px rgba(236, 236, 236, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.register-title {
+  font-size: 1.5rem;
+  color:#b5974f;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* Camps d'entrada del formulari */
+.registerInput {
+  margin-bottom: 0.625rem;
+  padding: 0.5rem;
+  border: 1px solid #1b1b1b;
+  width: 100%;
+  font-size: 0.875rem;
+  color:#b5974f;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.registerInput:focus {
+  outline: none;
+  border-color: #b5974f;
+}
+
+.registerLabel {
+  font-size: 0.75rem;
+  color:#b5974f;
+  margin-bottom: 0.25rem;
+}
+
+/* Botó de registre */
+.registerButton {
+  background-color: #1e1f1f;
+  color: #d7b46a;
+  border: none;
+  padding: 0.938rem;
+  font-size: 0.875rem;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.registerButton:hover {
+  background-color: #d7b46a;
+  color: #1e1f1f;
+}
+
+/* Missatge d'error */
+.error-message {
+  color: #e63946;
+  font-size: 0.875rem;
+  margin-top: 0.625rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .registerForm {
+    width: 90%;
+  }
 }

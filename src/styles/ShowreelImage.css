@@ -1,0 +1,103 @@
+/*------------------------------------------------ Pàgina inici (Showreel) --------------------------------*/
+
+.showreel-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  background-color: #1f1f1f;
+  color: #d7b46a;
+}
+
+.image-container {
+  flex: 1;
+  margin-right: 20px;
+  margin-left: 15%;
+  position: relative;
+  overflow: hidden;
+}
+
+.showreel-image {
+  width: 90%;
+  object-fit: cover;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+  transition: transform 1s ease-in-out;
+}
+
+.showreel-image:hover {
+  transform: scale(1.07);
+}
+
+.text-container {
+  flex: 1;
+  margin-right: 12%;
+  margin-left: -1%;
+  text-align: left;
+  color: #d7b46a;
+}
+
+.text-container h1 {
+  font-size: 60px;
+  margin-bottom: 20px;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 300;
+}
+
+.text-container p {
+  font-size: 16px;
+  color: #d7b46a;
+}
+
+.text-container a {
+  color: #d7b46a;
+  text-decoration: underline;
+}
+
+/* Adaptació per a tablets */
+@media (max-width: 768px) {
+  .showreel-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .image-container,
+  .text-container {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .showreel-image {
+    width: 100%;
+  }
+
+  .text-container h1 {
+    font-size: 48px;
+  }
+
+  .text-container p {
+    font-size: 14px;
+  }
+}
+
+/* Adaptació per a mòbils */
+@media (max-width: 480px) {
+  .showreel-container {
+    padding: 15px;
+  }
+
+  .showreel-image {
+    width: 100%;
+  }
+
+  .text-container h1 {
+    font-size: 36px;
+  }
+
+  .text-container p {
+    font-size: 13px;
+  }
+}

@@ -18,7 +18,7 @@
 }
 
 .message-section {
-  position: relative; /* Afegit */
+  position: relative;
   flex: 1;
   background-color: #333;
   color: #d7b46a;
@@ -32,29 +32,30 @@
 
 .brand-title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 4em;
+  font-size: 4rem;
   font-weight: 300;
   color: #d7b46a;
   text-align: center;
   position: absolute;
-  top: 10%; /* Fixa la posició del títol */
+  top: 10%;
   left: 50%;
-  transform: translateX(-50%); /* Centra horitzontalment */
+  transform: translateX(-50%);
 }
 
 .message-section h2 {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #d7b46a;
 }
 
 .message-section p {
-  font-size: 16px;
-  margin: 20px 0;
+  font-size: 1rem;
+  margin: 1.25rem 0;
+  color: #d7b46a;
 }
 
 .message-section button {
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
   background-color: #d7b46a;
   color: #333;
   border: none;
@@ -65,4 +66,47 @@
 .message-section button:hover {
   background-color: #b5974f;
   color: #222;
+}
+
+/* Adaptació per a dispositius tablets */
+@media (max-width: 768px) {
+  .brand-title {
+    font-size: 3rem;
+    top: 8%;
+  }
+
+  .message-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .message-section p {
+    font-size: 0.9rem;
+  }
+
+  .message-section button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Adaptació per a dispositius mòbils */
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 2.5rem;
+    top: 5%;
+  }
+
+  .message-section h2 {
+    font-size: 1rem;
+  }
+
+  .message-section p {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  .message-section button {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
 }

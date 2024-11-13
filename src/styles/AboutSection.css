@@ -1,0 +1,123 @@
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1f1f1f;
+  color: #d7b46a;
+  width: 100%;
+}
+
+.content-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Dues columnes, 2:1 */
+  gap: 20rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 5rem;
+  margin-top: 2rem;
+}
+
+.about-description-wrapper {
+  padding-right: 1rem;
+}
+
+.about-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3.5em;
+  margin-bottom: 1rem;
+}
+
+.about-description,
+.about-maintext,
+.about-secondarytext {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1em;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+/*---- As a freelance...--------*/
+.about-secondarytext {
+  text-align: center;
+  width: 90%;
+  margin: auto;
+  line-height: 1.6;
+}
+/*------------------------------*/
+.quote {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2em;
+  font-style: italic;
+  color: #d7b46a;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.services-wrapper h3 {
+  margin-top: 3rem;
+  font-size: 1.5em;
+  margin-bottom: 0.5rem;
+}
+
+.services-list,
+.software-list,
+.social-list {
+  list-style: none;
+  padding: 0;
+  font-size: 1em;
+  line-height: 0.9;
+}
+
+.services-list li,
+.software-list li,
+.social-list li {
+  margin-bottom: 0.5rem;
+}
+
+/* Generative Art Section */
+.generative-art-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  width: 100%;
+  background-color: #252423;
+  overflow: hidden;
+}
+
+.generative-art-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.generative-art-overlay {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px 100px;
+  border-radius: 10px;
+}
+
+.generative-art-title {
+  font-size: 3rem;
+  font-family: "Bebas Neue", sans-serif;
+  color: #d7b46a;
+  text-align: center;
+}
+
+.generative-art-title a {
+  text-decoration: none;
+  color: #d7b46a;
+}
+
+.generative-art-title a:hover {
+  color: #ececec;
+  transition: color 0.3s ease;
+}

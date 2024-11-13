@@ -1,0 +1,54 @@
+/* -----------------------------------Featured Work Section -----------------------------------------*/
+
+.grid-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnes */
+  grid-gap: 1.25rem;
+  padding: 1.25rem;
+  margin-bottom: 3rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.motion-video {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: left;
+  padding-top: 2rem;
+  padding-left: 1.8rem;
+}
+
+.filter-container button {
+  margin: 0 0.625rem;
+  padding: 0.625rem 1.25rem;
+  background-color: #1f1f1f;
+  color: #d7b46a;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-container button:hover {
+  background-color: #d7b46a;
+  color: #252423;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .grid-gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnes per a pantalles més petites */
+  }
+
+  .filter-container {
+    padding-left: 1rem;
+  }
+
+  .filter-container button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+}

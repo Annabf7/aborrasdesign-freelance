@@ -1,15 +1,30 @@
-import React, { useState, useContext } from "react";
-import { ArtworkContext } from "./ArtworkContext"; // Importem el context
+import React, { useState, useContext, useEffect } from "react";
+import { ArtworkContext } from "./ArtworkContext";
 import "../styles/ChooseYourArtworkSize.css";
-import crudeImage from "../assets/crude.png"; // Imatge per defecte
+import crudeImage from "../assets/crude.png";
 import starIcon from "../assets/icons/star.svg";
 import ThisWasAdded from "./ThisWasAdded";
 
 const ChooseYourArtworkSize = () => {
-  const { artworkImage } = useContext(ArtworkContext); // Utilitzem el context
+  const { artworkImage } = useContext(ArtworkContext);
   const [size, setSize] = useState("Medium");
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
+  const [syncVariants, setSyncVariants] = useState([]);
+
+  useEffect(() => {
+    const fetchVariants = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/printful/products");
+        const data = await response.json();
+        setSyncVariants(data);
+        console.log("Variants sincronitzats:", data);
+      } catch (error) {
+        console.error("Error obtenint les variants:", error);
+      }
+    };
+    fetchVariants();
+  }, []);
 
   const handleSizeChange = (e) => {
     setSize(e.target.value);
@@ -19,8 +34,26 @@ const ChooseYourArtworkSize = () => {
     setQuantity(e.target.value);
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
     setShowModal(true);
+
+    const orderData = {
+      recipient: {
+        name: "Anna Borras",
+        address1: "Carrer de l'Exemple",
+        city: "Barcelona",
+        country_code: "ES",
+        zip: "08001",
+      },
+      items: [
+        {
+          sync_variant_id: syncVariants[0]?.id || null,
+          quantity: quantity,
+        },
+      ],
+    };
+
+    console.log("Dades de la comanda:", orderData);
   };
 
   const handleCloseModal = () => {
@@ -32,11 +65,7 @@ const ChooseYourArtworkSize = () => {
       <div className="choose-artwork-container">
         <div className="artwork-size-selection">
           <div className="artwork-preview">
-            <img
-              src={artworkImage || crudeImage} // Utilitza la imatge global o la per defecte
-              alt="Artwork Preview"
-              className="artwork-image"
-            />
+            <img src={artworkImage || crudeImage} alt="Artwork Preview" className="artwork-image" />
           </div>
           <div className="artwork-column">
             <h1 className="choose-title">Choose Your Artwork Size</h1>

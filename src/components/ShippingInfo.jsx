@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom"; // Afegim importació de useNavigate
+import { useNavigate } from "react-router-dom"; 
 import { ArtworkContext } from "./ArtworkContext";
 import { ShippingContext } from "./ShippingContext";
 import { CartContext } from "./CartContext"; // Nou context per gestionar el carretó

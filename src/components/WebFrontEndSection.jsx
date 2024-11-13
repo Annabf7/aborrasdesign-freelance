@@ -2,7 +2,6 @@ import React from "react";
 import ServicesSection from "./ServicesSection";
 import PhotoCorporatePortraits from "./PhotoCorporatePortraits";
 import Experience from "./Experience";
-import frontendImage from "../assets/website.jpg";
 import webTemplateOne from "../assets/webTemplateOne.jpg";
 import webTemplateTwo from "../assets/webTemplateTwo.jpg";
 import webTemplateThree from "../assets/webTemplateThree.jpg";
@@ -44,20 +43,13 @@ const WebFrontEndSection = () => {
 
   return (
     <>
-      <div
-        className="section-wrapper frontend-section"
-        style={{
-          backgroundImage: `url(${frontendImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "70vh",
-        }}
-      >
+      <div className="section-wrapper frontend-section">
+        <div className="hero-image"></div>
         <div className="content-wrapper">
           <h1 className="title">Front-end Web Development</h1>
           <p className="description">
             Front-end development is crucial for delivering visually appealing, responsive, and
-            user-friendly websites...
+            user-friendly websites
           </p>
           <div className="call-to-action">
             <button>more info!</button>

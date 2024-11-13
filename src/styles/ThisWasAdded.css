@@ -12,12 +12,12 @@
 
 .this-was-added-window {
   position: relative;
-  padding: 20px;
+  padding: 26px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 320px; /* Ample màxim ajustat */
-  width: 100%; /* Ocupa tota l'amplada disponible */
+  max-width: 320px;
+  width: 100%;
   margin: auto;
   z-index: 10;
 }
@@ -25,32 +25,34 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Alineem verticalment els elements */
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 2px;
 }
 
 .this-was-added-window h2 {
-  font-size: 1.2rem;
-  margin: 0; /* Elimina qualsevol marge per defecte */
+  font-size: 1.1rem;
+  margin: 0;
 }
 
 .close-button {
-  background: transparent;
+  background-color:#d7b46a;
   border: none;
   font-size: 1.2rem;
   color: #333;
   cursor: pointer;
   padding: 2px;
+  max-width: 3rem;
+  margin-top: 2rem;
 }
 
 .close-button:hover {
-  color:#D7B46A;
+  color: #d7b46a;
 }
 
 .artwork-preview {
   width: 100%;
   height: auto;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .order-details {
@@ -66,16 +68,16 @@
 label {
   font-size: 0.9rem;
   font-weight: bold;
-  display: block; /* Forces el label a tenir el seu propi espai */
+  display: block;
   margin-bottom: 5px;
 }
 
 select,
 input {
-  width: 100%; /* Amplada completa */
+  width: 100%;
   padding: 8px;
   font-size: 0.9rem;
-  box-sizing: border-box; /* Inclou padding dins l'amplada */
+  box-sizing: border-box;
 }
 
 .buy-button {
@@ -90,5 +92,40 @@ input {
 }
 
 .buy-button:hover {
-  background-color: #b6953c;
+  background-color: #1f1f1f;
+  color:#d7b46a;
+}
+
+/* Adaptació per a tablets */
+@media (max-width: 768px) {
+  .this-was-added-window {
+    max-width: 280px;
+    padding: 15px;
+  }
+
+  .this-was-added-window h2 {
+    font-size: 1.1rem;
+  }
+
+  .buy-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Adaptació per a mòbils */
+@media (max-width: 480px) {
+  .this-was-added-window {
+    max-width: 240px;
+    padding: 10px;
+  }
+
+  .this-was-added-window h2 {
+    font-size: 1rem;
+  }
+
+  .buy-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
 }

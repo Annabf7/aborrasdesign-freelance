@@ -1,41 +1,42 @@
-/* Estils per a la finestra de personalització */
+/* -------------------------- Customization Window -------------------------- */
+
 .customization-window {
   position: fixed;
-  top: 20px; /* Finestra a la part superior */
-  left: 20px; /* Finestra a l'esquerra */
-  width: 200px; /* Amplada més petita */
-  max-height: 0; /* Amaga la finestra per defecte */
-  overflow: hidden; /* Evita que el contingut sigui visible quan està tancada */
+  top: 1.25rem;
+  left: 1.25rem;
+  width: 12.5rem; /* 200px per adaptar-ho a rem */
+  max-height: 0;
+  overflow: hidden;
   background-color: #fff;
   border: 2px solid #ccc;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  z-index: 9999; /* Z-index alt per sobreposar-se al canvas */
-  transition: max-height 0.5s ease, opacity 0.5s ease; /* Transició per obrir/tancar la finestra */
-  opacity: 0; /* Inicialment invisible */
+  padding: 0.9375rem;
+  z-index: 9999;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
 }
 
 .customization-window.open {
-  max-height: 300px; /* Alçada màxima quan està oberta */
-  opacity: 1; /* Fes visible la finestra */
+  max-height: 18.75rem; /* 300px */
+  opacity: 1;
 }
 
 /* Ajustos dels controls */
 .customization-title {
-  font-size: 1rem; /* Mida del títol més petita */
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 .customization-controls label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
 }
 
 .customization-controls input,
 .customization-controls select {
   width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
+  padding: 0.3125rem;
+  margin-bottom: 0.625rem;
   font-size: 0.8rem;
 }
 
@@ -43,7 +44,7 @@
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 8px 10px; /* Botó més petit */
+  padding: 0.5rem 0.625rem;
   font-size: 0.9rem;
   cursor: pointer;
 }
@@ -55,18 +56,32 @@
 /* Botó per obrir/tancar la finestra */
 .customization-button {
   position: fixed;
-  top: 480px; /* Posicionat més alt i a prop de la finestra */
-  left: 20px;
+  top: 30rem;
+  left: 1.25rem;
   background-color: #d7b46a;
   color: black;
-  padding: 8px 10px;
+  padding: 0.5rem 0.625rem;
   border: none;
   font-size: 0.9rem;
   cursor: pointer;
-  z-index: 10000; /* Assegura que el botó està sobre la resta */
+  z-index: 10000;
 }
 
 .customization-button:hover {
   background-color: dimgray;
   color: #d7b46a;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .customization-window {
+    width: 90%; /* Amplada total en pantalles petites */
+    left: 5%; /* Centra la finestra */
+    top: 1rem;
+  }
+  .customization-button {
+    top: auto;
+    bottom: 1.25rem; /* Col·loca el botó a prop de la part inferior */
+    left: 5%;
+  }
 }

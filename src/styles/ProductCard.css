@@ -1,15 +1,16 @@
 /* Estructura del producte */
 .productGrid {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   align-items: flex-start;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 /* Estil de la imatge del producte */
 .productImage {
-  width: 120px;
-  height:180px;
+  width: 7.5rem;
+  height: 11.25rem;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -19,7 +20,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 0.625rem;
   flex-grow: 1;
 }
 
@@ -27,20 +28,20 @@
 .productInfo {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.3125rem;
 }
 
 /* Preu del producte */
 .productPrice {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #333;
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 }
 
 /* Nom del producte */
 .productName {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -48,7 +49,7 @@
 
 /* Mida del producte */
 .productSize {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #666;
 }
 
@@ -56,9 +57,9 @@
 .quantityControls {
   display: flex;
   align-items: center;
-  max-width: 320px;
-  gap: 40px;
-  margin-top: 10px;
+  max-width: 20rem;
+  gap: 2.5rem;
+  margin-top: 0.625rem;
 }
 
 .quantityControls button {
@@ -66,7 +67,7 @@
   color: #1e1f1f;
   border: none;
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease;
@@ -77,7 +78,7 @@
 }
 
 .quantityControls span {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -85,10 +86,10 @@
 .cartActions {
   display: flex;
   justify-content: space-between;
-  margin-top: -30px;
-  max-width: 340px;
-  gap:90px;
-  margin-left:-10px;
+  margin-top: -1.875rem;
+  max-width:20.25rem;
+  gap: 5.5rem;
+  
 }
 
 .cartActions button {
@@ -97,12 +98,13 @@
   color: #1e1f1f;
   cursor: pointer;
   text-decoration: underline;
-  font-size: 12px;
+  font-size: 0.75rem;
   transition: color 0.3s ease;
+  padding:1rem;
 }
 
 .cartActions button:hover {
-  color: #0056b3;
+  color:#d7b46a;
 }
 
 /* Responsivitat */
@@ -110,21 +112,21 @@
   .productGrid {
     flex-direction: column;
     align-items: center;
-    text-align: center;
   }
 
   .productImage {
     width: 100px;
-    margin-bottom: 10px;
+    height: 150px;
   }
 
-  .productDetails {
-    align-items: center;
+  .quantityControls,
+  .cartActions {
+    max-width: 100%;
+    gap: 1rem;
   }
 
   .cartActions {
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    margin-left: 0;
+    justify-content: center;
   }
 }

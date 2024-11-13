@@ -7,8 +7,7 @@ function PhotoCorporatePortraits({ title, description, services }) {
         <div className="photo-leftColumn">
           <div className="photo-contentWrapper">
             <h1 className="photo-title">{title}</h1>
-            <p className="photo-description">{description}</p>{" "}
-            {/* Aquí està bé perquè no està dins d'una altra etiqueta */}
+            <div className="photo-description">{description}</div>
             <button className="photo-ctaButton">
               <span className="photo-ctaText">more info!</span>
             </button>
@@ -22,8 +21,7 @@ function PhotoCorporatePortraits({ title, description, services }) {
                   <div className="photo-serviceContent">
                     <img src={service.icon} alt="" className="photo-serviceIcon" />
                     <h2 className="photo-serviceTitle">{service.title}</h2>
-                    {/* Canviem el <p> per un <span> o un altre <div> per evitar el conflicte */}
-                    <span className="photo-serviceDescription">{service.description}</span>
+                    <span className="photo-serviceDescription">{service.description}</span>{" "}
                   </div>
                 </div>
               ))}
@@ -34,8 +32,7 @@ function PhotoCorporatePortraits({ title, description, services }) {
                   <div className="photo-serviceContent">
                     <img src={service.icon} alt="" className="photo-serviceIcon" />
                     <h2 className="photo-serviceTitle">{service.title}</h2>
-                    {/* Substituïm el <p> aquí també */}
-                    <span className="photo-serviceDescription">{service.description}</span>
+                    <span className="photo-serviceDescription">{service.description}</span>{" "}
                   </div>
                 </div>
               ))}

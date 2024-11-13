@@ -1,5 +1,6 @@
 import React from "react";
 import sheiImage from "../assets/shei.jpg";
+import "../styles/ShowreelImage.css"
 
 const ShowreelSection = () => {
   return (

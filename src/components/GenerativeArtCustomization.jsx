@@ -14,16 +14,7 @@ const GenerativeArtCustomization = ({ sketchName }) => {
         </select>
 
         <label htmlFor="sizeFactor">Line Length Factor:</label>
-        <input
-          type="range"
-          id="sizeFactor"
-          min="0.5"
-          max="2"
-          step="0.1"
-          onChange={(e) => {
-            // Aquí podries ajustar la variable de mida directament en el sketch
-          }}
-        />
+        <input type="range" id="sizeFactor" min="0.5" max="2" step="0.1" onChange={(e) => {}} />
       </div>
       <button className="close-button" onClick={() => window.closeCustomization()}>
         Close

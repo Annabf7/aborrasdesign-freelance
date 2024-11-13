@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom";
 import { ArtworkContext } from "./ArtworkContext"; // Importa el context per a la imatge global
-import p5 from "p5"; // Importem la llibreria p5.js
-import "../styles/GenerativeSketch.css"; // Assegura't que aquest CSS estigui inclòs
-
+import p5 from "p5"; 
+import "../styles/GenerativeSketch.css"; 
 const GenerativeSketch_8 = () => {
   const sketchRef = useRef();
   const navigate = useNavigate(); // Definim useNavigate per a la redirecció

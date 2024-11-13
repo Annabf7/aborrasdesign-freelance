@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
-import { useNavigate, useLocation } from "react-router-dom"; // Importa useLocation
+import { useNavigate, useLocation } from "react-router-dom"; 
 import "../styles/SignIn.css";
 import grandma3 from "../assets/grandma3.jpg";
 

@@ -9,15 +9,13 @@ html {
   box-sizing: border-box;
   height: 100%;
   display: flex;
-  flex-direction: column; /* Afegeix flexbox per fer el layout vertical */
+  flex-direction: column;
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 400; /* Regular */
+  font-size: 1rem;
   line-height: 1.5;
-  flex: 1; /* Assegura que el contingut principal ocupa l'espai restant */
+  flex: 1;
 }
 
 a {
@@ -27,57 +25,55 @@ a {
 
 /* Contenidor de pàgina */
 .container {
-  max-width: 1200px;
-
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
-  flex: 1; /* El contingut principal ocupa l'espai restant */
+  padding: 0 5%;
+  flex: 1;
   display: flex;
-  flex-direction: column; /* Assegura que el contingut segueix la direcció de columna */
+  flex-direction: column;
 }
 
 /* Nav bar */
 .menu-container {
   display: flex;
-  justify-content: space-between; /* Separar logotip i menú */
+  justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  background-color: #f4f4f4; /* Un color més subtil per al fons */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Afegim una ombra per fer el menú més sofisticat */
+  padding: 1rem 5%;
+  background-color: #f4f4f4;
   position: relative;
   z-index: 10;
 }
 
 .logo {
-  margin-left: 40px;
+  margin-left: 1rem;
   margin-right: auto;
-  height: 66px; /* Col·loca el logotip a l'esquerra */
+  height: 4rem;
 }
 
 .menu-items {
   display: flex;
-  gap: 30px; /* Augmentem l'espai entre els elements del menú */
-  font-family: "Montserrat", sans-serif; /* Canviem la font a una més moderna */
-  margin-bottom: -2.5em;
-  margin-right: 2em;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  margin-right: 1rem;
 }
 
-.logIn {
-  margin-left: 20px;
-  margin-right: 0; /* La icona es manté a la dreta */
-  width: 26px;
+.logIn,
+.shopping-cart {
+  width: 1.5rem;
   height: auto;
+  cursor: pointer;
 }
 
+/* Drop down services */
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: white;
   min-width: 160px;
-  padding: 10px 0;
+  padding: 0.5rem 0;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  border-radius: 4px; /* Arrodonim les cantonades */
+  border-radius: 4px;
 }
 
 .dropdown:hover .dropdown-content {
@@ -86,23 +82,55 @@ a {
 
 .dropdown-content a {
   color: #333;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   display: block;
-  transition: background 0.3s ease; /* Transició suau per canviar el fons en hover */
+  transition: background 0.3s ease;
 }
 
 .dropdown-content a:hover {
-  background-color: #ececec; /* Canvi de color en hover */
+  background-color: #ececec;
   color: #d7b46a;
 }
 
+/* Drop down user */
+.user-dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  padding: 0.5rem 0;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-menu:hover .user-dropdown {
+  display: block;
+}
+
+.user-dropdown .dropdown-item {
+  color: #333;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s ease;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #ececec;
+  color: #d7b46a;
+}
+
+/* Menu item */
 .menu-item {
-  padding: 0px 40px;
+  padding: 0px 1rem;
   text-decoration: none;
   color: #333;
-  font-size: 16px; /* Augmentem lleugerament la mida del text */
+  font-size: 1rem;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .menu-item:hover {
@@ -111,8 +139,7 @@ a {
 
 /* Estils comuns del footer */
 .footer {
-  padding-top: 45px;
-  padding-bottom: 15px;
+  padding: 2.5rem 0%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -131,9 +158,11 @@ a {
 
 .footerWidth {
   display: flex;
-  width: 80%;
+  width: 100%;
+  max-width: 1700px;
   justify-content: space-between;
   margin: 0 auto;
+  padding: 0 5%;
 }
 
 .footer-center {
@@ -141,29 +170,29 @@ a {
 }
 
 .footer-logo {
-  width: 90px;
-  margin-bottom: 20px;
+  width: 5.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .contact-text {
-  font-size: 14px;
-  margin-left: 55%;
-  margin-top: 20px;
+  font-size: 0.875rem;
+  text-align: right;
+  margin-top: 1.4rem;
 }
 
 .contact-email {
   color: #d7b46a;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .social-icons {
   display: flex;
-  gap: 35px;
+  gap: 1.25rem;
 }
 
 .social-icon {
-  width: 32px;
+  width: 2rem;
   height: auto;
 }
 
@@ -179,8 +208,122 @@ a {
   color: #272525;
 }
 
+/* canvas obra generative-art */
 canvas {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  /* Tauletes */
+  .container {
+    padding: 0 2rem;
+  }
+
+  .menu-container {
+    padding: 1rem;
+    flex-direction: column;
+  }
+
+  .menu-items {
+    margin-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer {
+    padding: 1.5rem 2rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footerWidth {
+    width: 100%;
+    padding: 0 4%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  .contact-text {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-logo {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mòbils */
+  .menu-items {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .menu-container {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footerWidth {
+    width: 100%;
+    padding: 0 2%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  .footer-logo {
+    width: 4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-text {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1.2rem; /* Augmentem l'espai entre icones */
+    justify-content: center;
+    padding: 0 1rem; /* Afegim padding per assegurar la simetria */
+  }
+
+  .logo {
+    margin-bottom: 0.5rem;
+  }
 }

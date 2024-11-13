@@ -2,6 +2,7 @@ import React from "react";
 import fannyImage from "../assets/fanny.jpg";
 import pulseraImage from "../assets/pulsera.jpg";
 import sheiImage from "../assets/shei_arrecada.jpg";
+import "../styles/PortraitSection.css";
 
 const imageDescriptions = [
   "Portrait of a women wearing a headscarf and golden earrings",
@@ -27,7 +28,7 @@ const ImageGallery = () => {
   );
 };
 
-// Portrait Section Component
+// Portrait Section Component + cara somrient
 const PortraitSection = () => {
   return (
     <>

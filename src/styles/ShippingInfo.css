@@ -45,16 +45,16 @@
 .shippingLabel {
   flex-grow: 1;
   margin-left: 5px;
-  white-space: normal; /* Permet el text en diverses línies si cal */
+  white-space: normal;
 }
 
 .shippingLabel label {
-  font-size: 12px; /* Ajusta aquesta mida segons el que necessitis */
+  font-size: 12px;
 }
 
 .shippingPrice {
   flex-shrink: 0;
-  text-align: right; /* Alinea el preu a la dreta */
+  text-align: right;
 }
 
 /* Informació extra */
@@ -66,7 +66,7 @@
   background-color: #f7f7f7;
   padding: 20px;
   box-sizing: border-box;
-  overflow: hidden; /* Assegura que el contingut es mantingui dins del contenidor */
+  overflow: hidden;
 }
 
 .additionalInfo h4 {
@@ -79,30 +79,6 @@
   line-height: 1.4;
 }
 
-/* Responsivitat específica per ajustar aquests elements */
-@media (max-width: 768px) {
-  .shippingMethod {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .shippingLabel {
-    margin-left: 0;
-    width: 100%; /* Fa que ocupi tot l'ample disponible en pantalles petites */
-  }
-
-  .shippingPrice {
-    margin-left: 0;
-    width: 100%; /* Fa que el preu també ocupi tota la línia si cal */
-    text-align: left;
-  }
-
-  .additionalInfo {
-    font-size: 11px;
-    padding: 15px;
-  }
-}
-
 .cartSummary {
   width: 45%;
   padding: 25px;
@@ -111,4 +87,46 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* Adaptació per a dispositius tablets */
+@media (max-width: 768px) {
+  .containerWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .shippingInfoContainer {
+    width: 90%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .shippingInfoSection,
+  .cartSummary {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .additionalInfo {
+    font-size: 0.875rem;
+  }
+}
+
+/* Adaptació per a dispositius mòbils */
+@media (max-width: 480px) {
+  .shippingInfoSection,
+  .cartSummary {
+    padding: 15px;
+    box-shadow: none;
+  }
+
+  .shippingLabel label {
+    font-size: 11px;
+  }
+
+  .additionalInfo {
+    padding: 15px;
+  }
 }

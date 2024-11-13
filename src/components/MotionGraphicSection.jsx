@@ -2,7 +2,6 @@ import React from "react";
 import ServicesSection from "./ServicesSection";
 import PhotoCorporatePortraits from "./PhotoCorporatePortraits";
 import Experience from "./Experience";
-import motionImage from "../assets/motion.jpg"; // Imatge de fons per la secció de Motion Graphics
 import motionTemplateOne from "../assets/motionTemplateOne.png";
 import motionTemplateTwo from "../assets/motionTemplateTwo.jpg";
 import motionTemplateThree from "../assets/motionTemplateThree.jpg";
@@ -17,22 +16,12 @@ const MotionGraphicsSection = () => {
 
   return (
     <>
-      <div
-        className="section-wrapper motion-section"
-        style={{
-          backgroundImage: `url(${motionImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "50vh",
-        }}
-      >
+      <div className="section-wrapper motion-section">
+        <div className="hero-image"></div>
         <div className="content-wrapper">
           <h1 className="title">Motion Graphics</h1>
           <p className="description">
-            Motion Graphics bring life to visual storytelling. Combining animation, design, and
-            motion, I create engaging visuals that help communicate complex ideas in a dynamic and
-            compelling way. From logo animations to full promotional videos, my goal is to captivate
-            and connect with the audience.
+            Blending design and motion to bring stories alive and inspire audiences
           </p>
           <div className="call-to-action">
             <button>more info!</button>

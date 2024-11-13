@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/AnimationProjects.css";
 
 // Importa els vídeos de la categoria "Motion"
 import motion_1 from "../assets/motion/motion_1.mp4";

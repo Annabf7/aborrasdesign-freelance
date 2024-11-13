@@ -1,12 +1,13 @@
-/* Contenidor principal */
+/* -------------------------- Payment Page -------------------------- */
+
 .containerWrapper {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 80px;
-  gap: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 5rem;
+  gap: 1.25rem;
 }
 
 .paymentContainer {
@@ -14,15 +15,15 @@
   justify-content: space-between;
   width: 60%;
   margin: 0 auto;
-  padding-top: 80px;
-  padding-bottom: 80px;
-  gap: 20px;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  gap: 1.25rem;
 }
 
 /* Secció d'informació de pagament */
 .paymentInfo {
   width: 40%;
-  padding: 30px;
+  padding: 1.875rem;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -39,31 +40,31 @@
   color: #1e1f1f;
   cursor: pointer;
   text-decoration: underline;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* Informació de la direcció d'enviament */
 .shippingInfo {
-  margin-top: 35px;
-  margin-bottom: 35px;
-  font-size: 14px;
+  margin-top: 2.1875rem;
+  margin-bottom: 2.1875rem;
+  font-size: 0.875rem;
 }
 
 /* Mètode de pagament */
 .paymentMethod {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinea tot el contingut a l'esquerra */
+  align-items: flex-start;
 }
 
 .paymentMethod h4 {
-  margin-bottom: 10px; /* Afegeix una mica d'espai entre el títol i el contingut */
+  margin-bottom: 0.625rem;
 }
 
 .paymentMethod label {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   white-space: nowrap;
 }
 
@@ -71,11 +72,11 @@
   width: 100%;
   background-color: #1e1f1f;
   color: #d7b46a;
-  padding: 15px 30px;
-  font-size: 14px;
+  padding: 0.9375rem 1.875rem;
+  font-size: 0.875rem;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   border: none;
 }
 
@@ -88,44 +89,38 @@
 .secureInfo {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 
 .secureInfo img {
-  width: 20px;
-  margin-right: 10px;
-}
-
-/* Responsivitat específica per ajustar aquests elements */
-@media (max-width: 768px) {
-  .shippingMethod {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .shippingLabel {
-    margin-left: 0;
-    width: 100%; /* Fa que ocupi tot l'ample disponible en pantalles petites */
-  }
-
-  .shippingPrice {
-    margin-left: 0;
-    width: 100%; /* Fa que el preu també ocupi tota la línia si cal */
-    text-align: left;
-  }
-
-  .additionalInfo {
-    font-size: 11px;
-    padding: 15px;
-  }
+  width: 1.25rem;
+  margin-right: 0.625rem;
 }
 
 .cartSummary {
   width: 45%;
-  padding: 25px;
+  padding: 1.5625rem;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* Responsivitat */
+@media (max-width: 768px) {
+  .paymentContainer {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .paymentInfo,
+  .cartSummary {
+    width: 100%;
+  }
+
+  .containerWrapper {
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
 }

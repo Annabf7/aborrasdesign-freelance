@@ -1,12 +1,13 @@
-/* Contenidor general per a les dues seccions */
+/* -------------------------- Checkout Page -------------------------- */
+
 .containerWrapper {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 80px;
-  gap: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 5rem;
+  gap: 1.25rem;
 }
 
 .checkoutContainer {
@@ -14,15 +15,15 @@
   justify-content: space-between;
   width: 60%;
   margin: 0 auto;
-  padding-top: 80px;
-  padding-bottom: 80px;
-  gap: 20px;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  gap: 1.25rem;
 }
 
 /* Checkout Form */
 .checkoutForm {
   width: 40%;
-  padding: 30px;
+  padding: 1.875rem;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -37,34 +38,33 @@
   background-color: #1e1f1f;
   color: #d7b46a;
   border: none;
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
-/* Checkbox per codis promocionals */
-/* Estil per al botó que sembla un enllaç */
+/* Botó per codis promocionals */
 .promoLink {
   background: none;
   border: none;
   color: #1e1f1f;
   text-decoration: underline;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   padding: 0;
-  margin-bottom: 20px;
-  display: inline-block; /* Assegura que el botó es comporti com un enllaç */
-  white-space: nowrap; /* Manté el text en una sola línia */
+  margin-bottom: 1.25rem;
+  display: inline-block;
+  white-space: nowrap;
   margin-left: 2px;
 }
 
 /* Botons de pagament */
 .paymentOptions {
   display: flex;
-  gap: 10px;
-  margin-bottom: 40px;
+  gap: 0.625rem;
+  margin-bottom: 2.5rem;
   width: 100%;
 }
 
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 45px;
+  height: 2.8125rem;
   background-color: #d7b46a;
   border: none;
   border-radius: 8px;
@@ -89,16 +89,16 @@
 }
 
 .amazonButton img {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 /* Camps del formulari */
 .formInput {
-  margin-bottom: 10px;
-  padding: 8px;
+  margin-bottom: 0.625rem;
+  padding: 0.5rem;
   border: 1px solid #1b1b1b;
-  width: 100%; /* Cada camp ocupa el 100% del seu contenidor */
-  font-size: 14px;
+  width: 100%;
+  font-size: 0.875rem;
   color: #1b1b1b;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -112,7 +112,7 @@
 /* Files de camps d'entrada */
 .formRow {
   display: flex;
-  gap: 20px;
+  gap: 5rem;
   width: 100%;
 }
 
@@ -121,12 +121,12 @@
 }
 
 .formRowLarge .formInput {
-  width: 100%; /* Els camps 'Email' i 'Address' ocupen el 100% de l'espai */
+  width: 100%;
 }
 
 .formLabel {
-  font-size: 12px; /* Ajusta aquest valor segons les teves preferències */
-  color: #1e1f1f; /* Ajusta el color si cal */
+  font-size: 0.75rem;
+  color: #1e1f1f;
 }
 
 /* Botó 'Continue to shipping method' */
@@ -134,12 +134,12 @@ button[type="submit"] {
   background-color: #1e1f1f;
   color: #d7b46a;
   border: none;
-  padding: 15px;
-  font-size: 14px;
+  padding: 0.938rem;
+  font-size: 0.875rem;
   width: 100%;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   text-align: center;
 }
 
@@ -152,20 +152,19 @@ button[type="submit"]:hover {
 .secureInfo {
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #999;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   align-self: flex-start;
 }
 
 .secureInfo img {
-  width: 20px;
+  width: 1.25rem;
   height: auto;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
-/* adaptació pantalles petites*/
-
+/* Responsivitat */
 @media (max-width: 768px) {
   .checkoutContainer {
     flex-direction: column;
@@ -188,7 +187,7 @@ button[type="submit"]:hover {
 
 .cartSummary {
   width: 45%;
-  padding: 25px;
+  padding: 1.5625rem;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

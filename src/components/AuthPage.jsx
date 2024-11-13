@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Register from "./Register";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import "../styles/AuthPage.css";
 import grandma from "../assets/grandma.jpg";
 
@@ -9,7 +10,20 @@ function AuthPage() {
   const [isRegister, setIsRegister] = useState(true);
 
   const handleLoginClick = () => {
-    navigate("/login"); // Redirigeix a la pàgina de login
+    navigate("/login");
+  };
+
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        navigate("/"); // Redirigeix a la pàgina principal
+      })
+      .catch((error) => {
+        console.error("Error en iniciar sessió:", error);
+      });
   };
 
   return (
@@ -43,6 +57,7 @@ function AuthPage() {
             </p>
           </>
         )}
+        <button onClick={handleGoogleLogin}>Inicia sessió amb Google</button>
       </div>
     </div>
   );

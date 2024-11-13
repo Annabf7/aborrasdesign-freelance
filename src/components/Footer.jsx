@@ -1,7 +1,6 @@
 import React from "react";
 import logoFooterBlack from "../assets/icons/logo_footer_gold.svg"; // Logo daurat per a fons fosc
 import logoFooterWhite from "../assets/icons/logo_footer.svg"; // Logo negre per a fons clar
-
 import instagramIcon from "../assets/icons/instagram.png";
 import behanceIcon from "../assets/icons/behance.png";
 import linkedinIcon from "../assets/icons/linkedin.png";

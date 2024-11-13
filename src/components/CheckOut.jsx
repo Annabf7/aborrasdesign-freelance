@@ -1,20 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArtworkContext } from "./ArtworkContext";
-import { ShippingContext } from "./ShippingContext"; // Import the context
-import { CartContext } from "./CartContext"; // Nou context per gestionar el carretó
+import { ShippingContext } from "./ShippingContext";
+import { CartContext } from "./CartContext";
+import { auth, db } from "../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import "../styles/CheckOut.css";
 import defaultImage from "../assets/generative/style_1.png";
 import paypalIcon from "../assets/icons/paypal.svg";
 import amazonIcon from "../assets/icons/amazon.svg";
 import secureIcon from "../assets/icons/candado.png";
 
-const FormInput = ({ label, type = "text", ...props }) => (
+const FormInput = ({ label, type = "text", readOnly = false, ...props }) => (
   <div>
     <label className="formLabel" htmlFor={props.id}>
       {label}
     </label>
-    <input type={type} className="formInput" aria-label={label} {...props} />
+    <input type={type} className="formInput" aria-label={label} readOnly={readOnly} {...props} />
   </div>
 );
 
@@ -78,7 +80,7 @@ const OrderSummary = ({ subtotal, shipping }) => {
 export const CheckOut = () => {
   const { artworkImage } = useContext(ArtworkContext);
   const { setUserAddress } = useContext(ShippingContext);
-  const { quantity, setQuantity } = useContext(CartContext); // Accedeix a quantity des de CartContext
+  const { quantity, setQuantity } = useContext(CartContext);
   const [shippingInfo, setShippingInfo] = useState({
     email: "",
     firstName: "",
@@ -89,7 +91,35 @@ export const CheckOut = () => {
     postalCode: "",
     phone: "",
   });
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        setIsUserLoggedIn(true);
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const [firstName, lastName] = userData.name.split(" "); // Dividim `name` en `firstName` i `lastName`
+
+          setShippingInfo({
+            email: userData.email || "",
+            firstName: firstName || "", // Assigna el primer nom de `name`
+            lastName: lastName || "", // Assigna el segon nom de `name`, si existeix
+            address: userData.address || "",
+            country: userData.country || "",
+            city: userData.city || "",
+            postalCode: userData.postalCode || "",
+            phone: userData.phone || "",
+          });
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -127,9 +157,11 @@ export const CheckOut = () => {
     <div className="containerWrapper">
       <main className="checkoutContainer">
         <section className="checkoutForm">
-          <button className="signInButton" onClick={handleSignInRedirect}>
-            Sign in to your account
-          </button>
+          {!isUserLoggedIn && (
+            <button className="signInButton" onClick={handleSignInRedirect}>
+              Sign in to your account
+            </button>
+          )}
 
           <button className="promoLink" onClick={(e) => e.preventDefault()}>
             Apply promo codes and gift cards
@@ -143,7 +175,7 @@ export const CheckOut = () => {
               <img src={amazonIcon} alt="Pay with Amazon" />
             </button>
           </div>
-          <h3>Shipping information</h3>
+          <h3>Shipping Information</h3>
 
           <div className="formRowLarge">
             <FormInput
@@ -151,6 +183,7 @@ export const CheckOut = () => {
               label="Email"
               value={shippingInfo.email}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
           </div>
@@ -160,6 +193,7 @@ export const CheckOut = () => {
               label="First Name"
               value={shippingInfo.firstName}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
             <FormInput
@@ -167,6 +201,7 @@ export const CheckOut = () => {
               label="Last Name"
               value={shippingInfo.lastName}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
           </div>
@@ -177,6 +212,7 @@ export const CheckOut = () => {
               label="Address"
               value={shippingInfo.address}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
           </div>
@@ -187,6 +223,7 @@ export const CheckOut = () => {
               label="Country"
               value={shippingInfo.country}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
             <FormInput
@@ -194,6 +231,7 @@ export const CheckOut = () => {
               label="City"
               value={shippingInfo.city}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
           </div>
@@ -204,6 +242,7 @@ export const CheckOut = () => {
               label="Postal Code"
               value={shippingInfo.postalCode}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               required
             />
             <FormInput
@@ -211,6 +250,7 @@ export const CheckOut = () => {
               label="Phone Number"
               value={shippingInfo.phone}
               onChange={handleInputChange}
+              readOnly={isUserLoggedIn}
               type="tel"
               required
             />
