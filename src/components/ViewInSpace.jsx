@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const ViewInSpace = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { artworkImage, artworkName } = location.state;
+  const { artworkImage, artworkName, frameOption } = location.state; // Afegim el frameOption aquí
 
   const [uploadedImage, setUploadedImage] = useState(null);
   const [artworkStyle, setArtworkStyle] = useState({
@@ -17,7 +17,7 @@ const ViewInSpace = () => {
     transform: "translate(-50%, -50%) rotate(0deg) scale(1)",
   });
   const [showArtwork, setShowArtwork] = useState(false);
-  const [frameOption, setFrameOption] = useState("None");
+  const [frame, setFrame] = useState(frameOption || "Black"); // Estableix el color de marc per defecte
 
   const containerRef = useRef(null); // Referència a la imatge contenedora
 
@@ -70,6 +70,23 @@ const ViewInSpace = () => {
     if (file) {
       reader.readAsDataURL(file);
     }
+  };
+
+  // Funció per canviar el color del marc
+  const handleFrameChange = (e) => {
+    setFrame(e.target.value);
+  };
+
+  // Genera la URL de la imatge segons el color del marc seleccionat
+  const generateFrameImage = () => {
+    if (frame === "Black") {
+      return "https://files.cdn.printful.com/products/172/6883_1527683114.jpg"; // Exemple de marc negre
+    } else if (frame === "White") {
+      return "https://files.cdn.printful.com/products/172/10761_1565092757.jpg"; // Exemple de marc blanc
+    } else if (frame === "Red Oak") {
+      return "https://files.cdn.printful.com/products/172/15007_1651047527.jpg"; // Exemple de marc Red Oak
+    }
+    return ""; // Si no hi ha cap marc seleccionat, no mostrar imatge
   };
 
   return (
@@ -136,7 +153,6 @@ const ViewInSpace = () => {
         </div>
       </div>
 
-      {/* Aquí assegurem que l'obra s'integri dins de la imatge */}
       <div className="image-preview-section" ref={containerRef}>
         <div className="space-image-container">
           <img src={uploadedImage || space} alt="User's space" className="space-img" />
@@ -159,14 +175,31 @@ const ViewInSpace = () => {
         </div>
       </div>
 
+      {/* Secció de selecció de marc */}
       <div className="frame-options">
         <h3>Frame Options</h3>
-        <select value={frameOption} onChange={(e) => setFrameOption(e.target.value)}>
-          <option value="None">None</option>
-          <option value="Wood">Wood</option>
-          <option value="Metal">Metal</option>
-          <option value="Glass">Glass</option>
+        <select value={frame} onChange={handleFrameChange}>
+          <option value="Black">Black</option>
+          <option value="Red Oak">Red Oak</option>
+          <option value="White">White</option>
         </select>
+      </div>
+
+      {/* Secció de la imatge de la noia amb l'obra integrada dins del marc */}
+      <div className="frame-with-artwork">
+        <h4>Preview of your artwork with the selected frame:</h4>
+        <img
+          src={generateFrameImage()}
+          alt={`${frame} frame with artwork`}
+          className="frame-image"
+        />
+        {/*}
+        <img
+          src={artworkImage}
+          alt={artworkName}
+          className="artwork-in-frame"
+          style={artworkStyle}
+        />*/}
       </div>
     </div>
   );

@@ -3,13 +3,14 @@
   justify-content: flex-start;
   padding-top: 80px;
   padding-bottom: 6em;
-  width: 80%;
+  width: 70%;
   margin: auto;
+  
 }
 
 .image-preview-section {
   position: relative;
-  width: 50%;
+  width: 100%;
   margin-right: 20%;
 }
 
@@ -18,7 +19,7 @@
 }
 
 .space-img {
-  max-width: 190%;
+  max-width: 100%;
   max-height: 680px;
   object-fit: contain;
   border: 20px solid #ddd;
@@ -47,7 +48,6 @@
   gap: 15px;
 }
 
-
 .tools-section {
   display: flex;
   flex-direction: column;
@@ -61,7 +61,6 @@
   flex-direction: column;
   align-items: center;
 }
-
 
 button {
   width: 200px;
@@ -103,12 +102,34 @@ button:hover {
   font-size: 14px;
 }
 
+/* columna 3: Frame options + Imatge de la noia amb l'obra */
 .frame-options {
-  width: 55%;
+  width: 50%; 
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin-right: 20px;
+  margin-left: -8%;
+}
+
+.frame-with-artwork {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  margin-top: 210px;
+  margin-left: -23%;
+}
+
+.frame-image {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.artwork-in-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  transform: translate(-50%, -50%);
 }
 
 .upload-checkout-buttons {
@@ -170,5 +191,16 @@ button:hover {
   .upload-checkout-buttons {
     width: 100%;
     margin: 10px auto;
+  }
+
+  .frame-options {
+    margin-left: 0; /* Evitar marges a l'esquerra en mòbils */
+    margin-right: 0; /* Evitar marges a la dreta en mòbils */
+  }
+
+  .frame-with-artwork {
+    margin-top: 10px; /* Reduir l'espai superior en mòbils */
+    margin-left: 0; /* Ajustar el marge esquerre */
+    margin-right: 0; /* Ajustar el marge dret */
   }
 }

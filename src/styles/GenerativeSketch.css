@@ -1,87 +1,59 @@
-/* -------------------------- Customization Window -------------------------- */
-
-.customization-window {
-  position: fixed;
-  top: 1.25rem;
-  left: 1.25rem;
-  width: 12.5rem; /* 200px per adaptar-ho a rem */
-  max-height: 0;
-  overflow: hidden;
-  background-color: #fff;
-  border: 2px solid #ccc;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 0.9375rem;
-  z-index: 9999;
-  transition: max-height 0.5s ease, opacity 0.5s ease;
-  opacity: 0;
-}
-
-.customization-window.open {
-  max-height: 18.75rem; /* 300px */
-  opacity: 1;
-}
-
-/* Ajustos dels controls */
-.customization-title {
-  font-size: 1rem;
-  margin-bottom: 0.625rem;
-}
-
-.customization-controls label {
+/* Canvas del p5.js */
+canvas {
+  position: fixed; /* Fixat a tota la finestra */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Amplada total de la finestra */
+  height: 100vh; /* Alçada total de la finestra */
   display: block;
-  margin-bottom: 0.3125rem;
 }
 
-.customization-controls input,
-.customization-controls select {
-  width: 100%;
-  padding: 0.3125rem;
-  margin-bottom: 0.625rem;
-  font-size: 0.8rem;
-}
-
-.customization-controls button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 0.5rem 0.625rem;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.customization-controls button:hover {
-  background-color: #45a049;
-}
-
-/* Botó per obrir/tancar la finestra */
-.customization-button {
-  position: fixed;
-  top: 30rem;
-  left: 1.25rem;
+/* Botó per guardar la personalització */
+.finish-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  padding: 10px 20px;
   background-color: #d7b46a;
-  color: black;
-  padding: 0.5rem 0.625rem;
+  color: #1f1f1f;
   border: none;
-  font-size: 0.9rem;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  z-index: 10000;
+  transition: background-color 0.3s ease;
 }
 
-.customization-button:hover {
-  background-color: dimgray;
+.finish-button:hover {
+  background-color: #1f1f1f;
   color: #d7b46a;
 }
 
-/* Responsivitat */
-@media (max-width: 768px) {
-  .customization-window {
-    width: 90%; /* Amplada total en pantalles petites */
-    left: 5%; /* Centra la finestra */
-    top: 1rem;
-  }
-  .customization-button {
-    top: auto;
-    bottom: 1.25rem; /* Col·loca el botó a prop de la part inferior */
-    left: 5%;
-  }
+.finish-button:active {
+  background-color: #900;
+}
+
+/* Botó per guardar la personalització */
+.finish-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  padding: 10px 20px;
+  background-color: #d7b46a;
+  color: #1f1f1f;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.finish-button:hover {
+  background-color: #1f1f1f;
+  color: #d7b46a;
+}
+
+.finish-button:active {
+  background-color: #900;
 }

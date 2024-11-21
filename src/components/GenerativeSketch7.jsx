@@ -1,100 +1,72 @@
 import React, { useRef, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"; 
-import { ArtworkContext } from "./ArtworkContext"; // Importa el context per a la imatge global
-import p5 from "p5"; // Importem la llibreria p5.js
+import { useNavigate } from "react-router-dom";
+import { ArtworkContext } from "./ArtworkContext";
+import { vertexShaderCode } from "../shaders/vertexShaderCode7"; // Importem vertex shader
+import { fragmentShaderCode } from "../shaders/fragmentShaderCode7"; // Importem fragment shader
+import p5 from "p5";
 import "../styles/GenerativeSketch.css";
 
 const GenerativeSketch7 = () => {
   const sketchRef = useRef();
-  const navigate = useNavigate(); // Definim useNavigate per a la redirecció
-  const { setArtworkImage } = useContext(ArtworkContext); // Utilitzem el context per emmagatzemar la imatge
+  const navigate = useNavigate();
+  const { setArtworkImage } = useContext(ArtworkContext);
 
   useEffect(() => {
     const sketch = (p) => {
-      let triangles = [];
+      let theShader;
+      let shaderBg;
+      let params = { a: 15.5, b: 4.0, m: 3.0, n: 4.0 }; // Inicialització dels paràmetres
+
+      p.preload = function () {
+        theShader = p.createShader(vertexShaderCode.trim(), fragmentShaderCode.trim());
+      };
 
       p.setup = function () {
-        const navHeight = document.querySelector("nav")
-          ? document.querySelector("nav").offsetHeight
-          : 0;
-        const footerHeight = document.querySelector("footer")
-          ? document.querySelector("footer").offsetHeight
-          : 0;
-        p.createCanvas(p.windowWidth, p.windowHeight - navHeight - footerHeight);
+        p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL);
+        p.pixelDensity(1);
+        shaderBg = p.createGraphics(p.windowWidth, p.windowHeight, p.WEBGL);
 
-        // Genera triangles inicials
-        for (let i = 0; i < 30; i++) {
-          triangles.push({
-            x1: p.random(p.width),
-            y1: p.random(p.height),
-            x2: p.random(p.width),
-            y2: p.random(p.height),
-            x3: p.random(p.width),
-            y3: p.random(p.height),
-            speedX: p.random(-1, 1),
-            speedY: p.random(-1, 1),
-            color: [p.random(255), p.random(255), p.random(255)],
-          });
-        }
-      };
-
-      p.windowResized = function () {
-        const navHeight = document.querySelector("nav")
-          ? document.querySelector("nav").offsetHeight
-          : 0;
-        const footerHeight = document.querySelector("footer")
-          ? document.querySelector("footer").offsetHeight
-          : 0;
-        p.resizeCanvas(p.windowWidth, p.windowHeight - navHeight - footerHeight);
-      };
-
-      p.draw = function () {
-        p.background(0);
-
-        // Dibuixa i mou els triangles
-        triangles.forEach((triangle) => {
-          p.fill(triangle.color);
-          p.noStroke();
-          p.triangle(triangle.x1, triangle.y1, triangle.x2, triangle.y2, triangle.x3, triangle.y3);
-
-          // Mou el triangle
-          triangle.x1 += triangle.speedX;
-          triangle.y1 += triangle.speedY;
-          triangle.x2 += triangle.speedX;
-          triangle.y2 += triangle.speedY;
-          triangle.x3 += triangle.speedX;
-          triangle.y3 += triangle.speedY;
-
-          // Rebot a les vores
-          if (
-            triangle.x1 > p.width ||
-            triangle.x1 < 0 ||
-            triangle.x2 > p.width ||
-            triangle.x2 < 0 ||
-            triangle.x3 > p.width ||
-            triangle.x3 < 0
-          )
-            triangle.speedX *= -1;
-          if (
-            triangle.y1 > p.height ||
-            triangle.y1 < 0 ||
-            triangle.y2 > p.height ||
-            triangle.y2 < 0 ||
-            triangle.y3 > p.height ||
-            triangle.y3 < 0
-          )
-            triangle.speedY *= -1;
+        // Event de clic per actualitzar els paràmetres
+        p.canvas.addEventListener("click", () => {
+          params.a = p.random(10.0, 20.0); // Valors aleatoris per 'a'
+          params.b = p.random(2.0, 6.0); // Valors aleatoris per 'b'
+          params.m = p.random(1.0, 5.0); // Valors aleatoris per 'm'
+          params.n = p.random(1.0, 5.0); // Valors aleatoris per 'n'
         });
       };
 
-      // Funció per capturar la imatge del canvas
+      p.draw = function () {
+        shaderBg.shader(theShader);
+
+        const yMouse = (p.map(p.mouseY, 0, p.height, p.height, 0) / p.height) * 2 - 1;
+        const xMouse = (p.mouseX / p.width) * 2 - 1;
+        const normalizedXMouse = (xMouse * p.width) / p.height;
+
+        // Passar els uniformes al shader
+        theShader.setUniform("iResolution", [p.width, p.height]);
+        theShader.setUniform("iTime", p.millis() / 1000.0);
+        theShader.setUniform("iMouse", [normalizedXMouse, yMouse]);
+        theShader.setUniform("a", params.a); // Paràmetre interactiu
+        theShader.setUniform("b", params.b); // Paràmetre interactiu
+        theShader.setUniform("m", params.m); // Paràmetre interactiu
+        theShader.setUniform("n", params.n); // Paràmetre interactiu
+
+        shaderBg.rect(0, 0, p.width, p.height);
+        p.image(shaderBg, -p.width / 2, -p.height / 2, p.width, p.height);
+      };
+
+      p.windowResized = function () {
+        p.resizeCanvas(p.windowWidth, p.windowHeight);
+        shaderBg = p.createGraphics(p.windowWidth, p.windowHeight, p.WEBGL);
+      };
+
       p.captureImage = function () {
-        const base64Image = p.canvas.toDataURL(); // Captura el canvas com a imatge base64
-        return base64Image; // Retorna la imatge
+        const base64Image = p.canvas.toDataURL();
+        return base64Image;
       };
     };
 
-    let p5Instance = new p5(sketch, sketchRef.current);
+    const p5Instance = new p5(sketch, sketchRef.current);
 
     return () => {
       p5Instance.remove();
@@ -102,17 +74,14 @@ const GenerativeSketch7 = () => {
   }, []);
 
   const handleFinish = () => {
-    // Captura la imatge del canvas i redirigeix a la pàgina de selecció de mida
     const canvasElement = sketchRef.current.querySelector("canvas");
-    const base64Image = canvasElement.toDataURL("image/png"); // Captura la imatge com a base64
-
-    setArtworkImage(base64Image); // Emmagatzema la imatge al context global
-    // Redirigim a la pàgina de "ChooseYourArtworkSize"
+    const base64Image = canvasElement.toDataURL("image/png");
+    setArtworkImage(base64Image);
     navigate("/choose-your-artwork-size");
   };
 
   return (
-    <div>
+    <div className="generative-sketch-container">
       <div ref={sketchRef}></div>
       <button onClick={handleFinish} className="finish-button">
         Finish Personalization

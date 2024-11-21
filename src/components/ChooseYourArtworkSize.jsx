@@ -7,23 +7,39 @@ import ThisWasAdded from "./ThisWasAdded";
 
 const ChooseYourArtworkSize = () => {
   const { artworkImage } = useContext(ArtworkContext);
-  const [size, setSize] = useState("Medium");
+  const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [syncVariants, setSyncVariants] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const fetchVariants = async () => {
+    const fetchSizes = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/printful/products");
         const data = await response.json();
-        setSyncVariants(data);
-        console.log("Variants sincronitzats:", data);
+
+        // Normalitzar mides eliminant caràcters especials i filtrar les mides desitjades
+        const availableSizes = data
+          .map((variant) => ({
+            id: variant.id,
+            size: variant.size.replace(/[″]/g, '"'), // Substituir el símbol especial per cometes normals
+            price: parseFloat(variant.price),
+          }))
+          .filter((item) => ['10"×10"', '11"×14"', '12"×16"', '16"×20"'].includes(item.size));
+
+        // Eliminar duplicats per mida
+        const uniqueSizes = Array.from(
+          new Set(availableSizes.map((item) => item.size)) // Filtrar únicament per mida
+        ).map((size) => availableSizes.find((item) => item.size === size)); // Recuperar la primera instància de cada mida única
+
+        setSizes(uniqueSizes);
+        console.log("Mides disponibles filtrades (sense duplicats):", uniqueSizes);
       } catch (error) {
-        console.error("Error obtenint les variants:", error);
+        console.error("Error obtenint les mides:", error);
       }
     };
-    fetchVariants();
+    fetchSizes();
   }, []);
 
   const handleSizeChange = (e) => {
@@ -31,29 +47,28 @@ const ChooseYourArtworkSize = () => {
   };
 
   const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
+    const qty = e.target.value;
+    setQuantity(qty);
+    if (size) {
+      const selectedSize = sizes.find((item) => item.size === size);
+      setTotalPrice(selectedSize.price * qty);
+    }
   };
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrder = () => {
+    // Comprovar si s'ha seleccionat una mida
+    if (!size) {
+      alert("Please select a size before continuing.");
+      return; // No continuar fins que s'hagi seleccionat una mida
+    }
+
     setShowModal(true);
 
-    const orderData = {
-      recipient: {
-        name: "Anna Borras",
-        address1: "Carrer de l'Exemple",
-        city: "Barcelona",
-        country_code: "ES",
-        zip: "08001",
-      },
-      items: [
-        {
-          sync_variant_id: syncVariants[0]?.id || null,
-          quantity: quantity,
-        },
-      ],
-    };
+    const selectedSize = sizes.find((item) => item.size === size);
+    const totalPrice = selectedSize.price * quantity;
 
-    console.log("Dades de la comanda:", orderData);
+    // Passar les dades seleccionades a la modal
+    setTotalPrice(totalPrice);
   };
 
   const handleCloseModal = () => {
@@ -82,9 +97,11 @@ const ChooseYourArtworkSize = () => {
 
               <label htmlFor="artwork-size">Choose Size:</label>
               <select id="artwork-size" value={size} onChange={handleSizeChange}>
-                <option value="Small">Small - 8"x10"</option>
-                <option value="Medium">Medium - 12"x16"</option>
-                <option value="Large">Large - 16"x20"</option>
+                {sizes.map((item) => (
+                  <option key={item.id} value={item.size}>
+                    {item.size} - ${item.price}
+                  </option>
+                ))}
               </select>
 
               <label htmlFor="artwork-quantity">Quantity:</label>
@@ -109,7 +126,10 @@ const ChooseYourArtworkSize = () => {
         <ThisWasAdded
           artworkImage={artworkImage || crudeImage}
           artworkName="Noise Field"
-          artworkPrice={50.0}
+          artworkPrice={sizes.find((item) => item.size === size)?.price || 50.0}
+          size={size}
+          quantity={quantity}
+          totalPrice={totalPrice}
           onClose={handleCloseModal}
         />
       )}

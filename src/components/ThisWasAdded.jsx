@@ -1,28 +1,32 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-import "../styles/ThisWasAdded.css"; 
+import { useNavigate } from "react-router-dom";
+import "../styles/ThisWasAdded.css";
 
-const ThisWasAdded = ({ artworkImage, artworkName, artworkPrice, onClose }) => {
-  const [size, setSize] = useState("Medium");
-  const [quantity, setQuantity] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(artworkPrice);
+const ThisWasAdded = ({
+  artworkImage,
+  artworkName,
+  artworkPrice,
+  size,
+  quantity,
+  totalPrice,
+  onClose,
+}) => {
+  const [currentQuantity, setCurrentQuantity] = useState(quantity);
+  const [currentTotalPrice, setCurrentTotalPrice] = useState(totalPrice);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); 
-
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
-  };
-
+  // Funció per actualitzar la quantitat i el preu total
   const handleQuantityChange = (e) => {
-    const qty = e.target.value;
-    setQuantity(qty);
-    setTotalPrice(artworkPrice * qty); // Calcula el preu segons la quantitat
+    const newQuantity = parseInt(e.target.value);
+    setCurrentQuantity(newQuantity);
+    const newTotalPrice = artworkPrice * newQuantity;
+    setCurrentTotalPrice(newTotalPrice); // Actualitza el preu total
   };
 
   const handleViewInSpace = () => {
     // Redirigeix a ViewInSpace amb les dades seleccionades
     navigate("/view-in-space", {
-      state: { artworkImage, artworkName, size, quantity, totalPrice },
+      state: { artworkImage, artworkName, size, currentQuantity, currentTotalPrice },
     });
   };
 
@@ -40,29 +44,23 @@ const ThisWasAdded = ({ artworkImage, artworkName, artworkPrice, onClose }) => {
         <div className="order-details">
           <div className="order-size">
             <label htmlFor="size">Size</label>
-            <select id="size" value={size} onChange={handleSizeChange}>
-              <option value="Small">Small 8"x10"</option>
-              <option value="Medium">Medium 12"x16"</option>
-              <option value="Large">Large 16"x20"</option>
-            </select>
+            <p>{size}</p> {/* Mostra la mida seleccionada */}
           </div>
           <div className="order-quantity">
             <label htmlFor="quantity">Quantity</label>
             <input
               type="number"
               id="quantity"
-              value={quantity}
-              onChange={handleQuantityChange}
+              value={currentQuantity}
               min="1"
+              onChange={handleQuantityChange} // Actualitza la quantitat i el preu total
             />
           </div>
           <div className="order-price">
-            <p>Total: ${totalPrice.toFixed(2)}</p>
+            <p>Total: ${currentTotalPrice.toFixed(2)}</p> {/* Mostra el preu actualitzat */}
           </div>
         </div>
         <button className="buy-button" onClick={handleViewInSpace}>
-          {" "}
-          {/* Afegeix la funció de redirecció */}
           View in space & buy
         </button>
       </div>

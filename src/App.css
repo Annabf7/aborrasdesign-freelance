@@ -97,7 +97,8 @@ button {
 }
 
 button:hover {
-  background: #3a3a3a;
+  background: #d7b46a;
+  color: #3a3a3a;
 }
 
 /*-------------- serveix de patró per a les diferents 3 seccions -------------------------------- */
@@ -130,6 +131,10 @@ button:hover {
   transition: filter 0.3s ease-in-out;
 }
 
+.serviceItem .serviceIcon:hover {
+  filter: brightness(90%);
+}
+
 .serviceTitle {
   margin-top: 1.313rem;
 }
@@ -155,7 +160,7 @@ button:hover {
   max-width: 90rem;
   margin: 0 auto;
   padding: 1.5rem;
-  padding-bottom:2.4rem;
+  padding-bottom: 2.4rem;
   display: flex;
   justify-content: space-between;
 }
@@ -210,12 +215,11 @@ button:hover {
   display: flex;
   justify-content: space-between;
   gap: 8.75rem;
-  
 }
 
 .photo-serviceColumn {
   width: 45%;
-  margin-top:3rem;
+  margin-top: 3rem;
 }
 
 .photo-serviceContent {
@@ -426,7 +430,8 @@ button:hover {
 }
 
 .contact-form button:hover {
-  background-color: #b59356;
+  background: #d7b46a;
+  color: #3a3a3a;
 }
 
 /* Responsivitat */
@@ -514,7 +519,8 @@ button {
 }
 
 button:hover {
-  background: #3a3a3a;
+  background: #d7b46a;
+  color: #3a3a3a;
 }
 
 /* Responsivitat */
@@ -601,7 +607,8 @@ button {
 }
 
 button:hover {
-  background: #3a3a3a;
+  background: #d7b46a;
+  color: #3a3a3a;
 }
 
 /* Responsivitat */

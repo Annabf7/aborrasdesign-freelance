@@ -1,8 +1,10 @@
 // printfulApi.js
 
-// Funció per obtenir les variants sincronitzades
+// printfulApi.js
+
+// Funció per obtenir les variants específiques del producte amb ID 172
 export const getSyncVariants = async () => {
-  const baseUrl = "https://api.printful.com/store/products";
+  const baseUrl = "https://api.printful.com/products/172";
   const accessToken = process.env.PRINTFUL_API_KEY;
 
   try {
@@ -18,9 +20,10 @@ export const getSyncVariants = async () => {
     }
 
     const data = await response.json();
-    return data.result; // Retorna la llista de productes sincronitzats
+    console.log("Dades de les variants:", data.result.variants); // Per verificar que obtenim les variants
+    return data.result.variants; // Retorna la llista de variants del producte
   } catch (error) {
-    console.error("Error obtenint sync_variant_id:", error);
+    console.error("Error obtenint les variants del producte:", error);
   }
 };
 

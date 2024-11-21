@@ -23,7 +23,7 @@
 
 .about-title {
   font-family: "Bebas Neue", sans-serif;
-  font-size: 3.5em;
+  font-size: 3.3em;
   margin-bottom: 1rem;
 }
 
@@ -52,6 +52,8 @@
   color: #d7b46a;
   margin-top: 2rem;
   text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .services-wrapper h3 {
@@ -66,7 +68,7 @@
   list-style: none;
   padding: 0;
   font-size: 1em;
-  line-height: 0.9;
+  line-height: 1;
 }
 
 .services-list li,

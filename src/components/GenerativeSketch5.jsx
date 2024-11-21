@@ -11,7 +11,7 @@ const GenerativeSketch5 = () => {
 
   useEffect(() => {
     const sketch = (p) => {
-      let circles = [];
+      let colors;
 
       p.setup = function () {
         const navHeight = document.querySelector("nav")
@@ -22,16 +22,17 @@ const GenerativeSketch5 = () => {
           : 0;
         p.createCanvas(p.windowWidth, p.windowHeight - navHeight - footerHeight);
 
-        for (let i = 0; i < 20; i++) {
-          circles.push({
-            x: p.random(p.width),
-            y: p.random(p.height),
-            r: p.random(10, 50),
-            speedX: p.random(-2, 2),
-            speedY: p.random(-2, 2),
-            color: [p.random(255), p.random(255), p.random(255)],
-          });
-        }
+        // Definició de colors inspirats en Georges Braque
+        colors = {
+          base1: p.color(216, 195, 165), // Marró clar
+          base2: p.color(163, 151, 133), // Gris fosc
+          accent1: p.color(108, 74, 45), // Marró fosc
+          accent2: p.color(102, 120, 122), // Blau grisós
+          highlight: p.color(228, 222, 212), // Gris clar
+          darkAccent: p.color(48, 36, 30, 150), // Fosc translúcid
+        };
+
+        drawArtwork();
       };
 
       p.windowResized = function () {
@@ -42,20 +43,125 @@ const GenerativeSketch5 = () => {
           ? document.querySelector("footer").offsetHeight
           : 0;
         p.resizeCanvas(p.windowWidth, p.windowHeight - navHeight - footerHeight);
+        drawArtwork();
       };
 
-      p.draw = function () {
-        p.background(0);
+      function drawArtwork() {
+        drawBackgroundGradient();
+        drawCubistShapes();
+        drawStructuralLines();
+      }
 
-        circles.forEach((circle) => {
-          p.fill(circle.color);
-          p.noStroke();
-          p.ellipse(circle.x, circle.y, circle.r);
-          circle.x += circle.speedX;
-          circle.y += circle.speedY;
-          if (circle.x > p.width || circle.x < 0) circle.speedX *= -1;
-          if (circle.y > p.height || circle.y < 0) circle.speedY *= -1;
-        });
+      function drawStructuralLines() {
+        const cols = 6; // Nombre de columnes
+        const rows = 6; // Nombre de files
+        const cellWidth = p.width / cols;
+        const cellHeight = p.height / rows;
+
+        p.stroke(colors.darkAccent); // Línies fosques
+        p.strokeWeight(2);
+        for (let i = 0; i < 20; i++) {
+          // Només unes quantes cel·les
+          const col = Math.floor(p.random(cols));
+          const row = Math.floor(p.random(rows));
+
+          const x1 = col * cellWidth;
+          const y1 = row * cellHeight;
+
+          // Decideix aleatòriament quina vora dibuixar
+          const drawTop = p.random() > 0.5;
+          const drawRight = p.random() > 0.5;
+          const drawBottom = p.random() > 0.5;
+          const drawLeft = p.random() > 0.5;
+
+          if (drawTop) p.line(x1, y1, x1 + cellWidth, y1); // Vora superior
+          if (drawRight) p.line(x1 + cellWidth, y1, x1 + cellWidth, y1 + cellHeight); // Vora dreta
+          if (drawBottom) p.line(x1, y1 + cellHeight, x1 + cellWidth, y1 + cellHeight); // Vora inferior
+          if (drawLeft) p.line(x1, y1, x1, y1 + cellHeight); // Vora esquerra
+        }
+      }
+
+      function drawBackgroundGradient() {
+        let c1 = colors.base1; // Marró clar
+        let c2 = colors.base2; // Gris fosc
+        for (let y = 0; y < p.height; y++) {
+          let inter = p.map(y, 0, p.height, 0, 1);
+          let c = p.lerpColor(c1, c2, inter);
+          p.stroke(c);
+          p.line(0, y, p.width, y);
+        }
+      }
+
+      function drawCubistShapes() {
+        const cubistColors = [
+          colors.accent1, // Marró fosc
+          colors.accent2, // Blau grisós
+          colors.base1, // Marró clar
+          colors.highlight, // Gris clar
+          colors.darkAccent, // Fosc translúcid
+        ];
+
+        const cols = 6; // Nombre de columnes
+        const rows = 6; // Nombre de files
+        const cellWidth = p.width / cols;
+        const cellHeight = p.height / rows;
+
+        // Dibuixar formes a la quadrícula
+        for (let col = 0; col < cols; col++) {
+          for (let row = 0; row < rows; row++) {
+            const x = col * cellWidth;
+            const y = row * cellHeight;
+
+            // Decideix si la forma serà horitzontal o vertical
+            const isHorizontal = p.random() > 0.5;
+
+            // Mida de la forma
+            const rectWidth = isHorizontal
+              ? p.random(cellWidth * 0.8, cellWidth)
+              : p.random(cellWidth * 0.4, cellWidth * 2);
+            const rectHeight = isHorizontal
+              ? p.random(cellHeight * 2, cellHeight * 0.5)
+              : p.random(cellHeight * 0.5, cellHeight);
+
+            // Seleccionar colors per al degradat
+            const color1 = p.random(cubistColors);
+            const color2 = p.random(cubistColors);
+
+            // Aplicar el degradat dins d'una forma
+            setGradient(
+              x,
+              y,
+              rectWidth,
+              rectHeight,
+              color1,
+              color2,
+              isHorizontal ? "HORIZONTAL" : "VERTICAL"
+            );
+          }
+        }
+      }
+
+      function setGradient(x, y, w, h, c1, c2, axis) {
+        if (axis === "VERTICAL") {
+          for (let i = y; i <= y + h; i++) {
+            const inter = p.map(i, y, y + h, 0, 1);
+            const c = p.lerpColor(c1, c2, inter);
+            p.stroke(c);
+            p.line(x, i, x + w, i);
+          }
+        } else if (axis === "HORIZONTAL") {
+          for (let i = x; i <= x + w; i++) {
+            const inter = p.map(i, x, x + w, 0, 1);
+            const c = p.lerpColor(c1, c2, inter);
+            p.stroke(c);
+            p.line(i, y, i, y + h);
+          }
+        }
+      }
+
+      p.keyPressed = function () {
+        // Redibuixa l'obra cada vegada que es prem una tecla
+        drawArtwork();
       };
 
       p.captureImage = function () {

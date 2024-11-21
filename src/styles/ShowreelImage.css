@@ -39,10 +39,9 @@
 }
 
 .text-container h1 {
-  font-size: 60px;
+  font-size: 3em;
   margin-bottom: 20px;
   font-family: "Bebas Neue", sans-serif;
-  font-weight: 300;
 }
 
 .text-container p {
