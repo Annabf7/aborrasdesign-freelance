@@ -1,139 +1,245 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ArtworkContext } from "./ArtworkContext";
-import "../styles/ChooseYourArtworkSize.css";
-import crudeImage from "../assets/crude.png";
-import starIcon from "../assets/icons/star.svg";
-import ThisWasAdded from "./ThisWasAdded";
+// ChooseYourArtworkSize.jsx
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import '../styles/ChooseYourArtworkSize.css';
+import { CartContext } from './CartContext';
 
 const ChooseYourArtworkSize = () => {
-  const { artworkImage } = useContext(ArtworkContext);
-  const [size, setSize] = useState("");
+  const { productId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { selectedStyle } = location.state || {}; // Estil seleccionat opcional
+  const { addToCart, cartItems } = useContext(CartContext);
+
+  const [product, setProduct] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [sizes, setSizes] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const fetchSizes = async () => {
+    const fetchProduct = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/printful/products");
+        setIsLoading(true);
+        setError(null);
+
+        const idToFetch = productId || selectedStyle?.id;
+        if (!idToFetch) {
+          throw new Error('Invalid product ID.');
+        }
+
+        const response = await fetch(
+          `http://localhost:4000/api/printful/products/${idToFetch}`
+        );
         const data = await response.json();
 
-        // Normalitzar mides eliminant caràcters especials i filtrar les mides desitjades
-        const availableSizes = data
-          .map((variant) => ({
-            id: variant.id,
-            size: variant.size.replace(/[″]/g, '"'), // Substituir el símbol especial per cometes normals
-            price: parseFloat(variant.price),
-          }))
-          .filter((item) => ['10"×10"', '11"×14"', '12"×16"', '16"×20"'].includes(item.size));
+        if (!data || !data.sync_product || !data.sync_variants) {
+          throw new Error('Product data not found.');
+        }
 
-        // Eliminar duplicats per mida
-        const uniqueSizes = Array.from(
-          new Set(availableSizes.map((item) => item.size)) // Filtrar únicament per mida
-        ).map((size) => availableSizes.find((item) => item.size === size)); // Recuperar la primera instància de cada mida única
+        console.log('Fetched Product Data:', data);
 
-        setSizes(uniqueSizes);
-        console.log("Mides disponibles filtrades (sense duplicats):", uniqueSizes);
+        setProduct({
+          ...data.sync_product,
+          sync_variants: data.sync_variants,
+        });
+
+        // Selecciona la variant per defecte o la variant seleccionada
+        const variantId = selectedStyle?.variantId;
+        const selectedVariant =
+          data.sync_variants.find((v) => v.id === variantId) ||
+          data.sync_variants[0];
+
+        if (!selectedVariant) {
+          throw new Error(
+            `Selected variant not found. Available variants: ${JSON.stringify(
+              data.sync_variants
+            )}`
+          );
+        }
+
+        setSelectedVariant(selectedVariant);
+        setTotalPrice(parseFloat(selectedVariant.retail_price));
       } catch (error) {
-        console.error("Error obtenint les mides:", error);
+        console.error('Error loading product:', error.message);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchSizes();
-  }, []);
 
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
+    fetchProduct();
+  }, [productId, selectedStyle]);
+
+  const handleVariantChange = (e) => {
+    const variantId = parseInt(e.target.value, 10);
+    const variant = product?.sync_variants?.find((v) => v.id === variantId);
+    setSelectedVariant(variant);
+    setTotalPrice(parseFloat(variant?.retail_price || 0) * quantity);
   };
 
   const handleQuantityChange = (e) => {
-    const qty = e.target.value;
+    const qty = parseInt(e.target.value, 10) || 1;
     setQuantity(qty);
-    if (size) {
-      const selectedSize = sizes.find((item) => item.size === size);
-      setTotalPrice(selectedSize.price * qty);
+    if (selectedVariant) {
+      setTotalPrice(parseFloat(selectedVariant.retail_price) * qty);
     }
   };
 
-  const handleConfirmOrder = () => {
-    // Comprovar si s'ha seleccionat una mida
-    if (!size) {
-      alert("Please select a size before continuing.");
-      return; // No continuar fins que s'hagi seleccionat una mida
+  const handleAddToCart = () => {
+    if (!selectedVariant) {
+      alert('Please select a size before adding to cart.');
+      return;
     }
 
+    // Captura de dades clau
+    const cartItem = {
+      name: product.name,
+      size: selectedVariant.name,
+      price: parseFloat(selectedVariant.retail_price),
+      image:
+        selectedStyle?.img ||
+        selectedVariant?.product?.image ||
+        'https://via.placeholder.com/300',
+      styleName: selectedStyle?.name || product.name,
+      sync_variant_id: selectedVariant.id, // Sync variant ID necessari per Printful
+      variant_id: selectedVariant.product.variant_id, // Variant ID necessari per Printful Shipping
+      quantity,
+      totalPrice,
+    };
+
+    // Log per depuració
+    console.log('Adding to cart:', cartItem);
+
+    // Afegir al context del carret
+    addToCart(cartItem);
+
+    // Mostra el modal de confirmació
     setShowModal(true);
-
-    const selectedSize = sizes.find((item) => item.size === size);
-    const totalPrice = selectedSize.price * quantity;
-
-    // Passar les dades seleccionades a la modal
-    setTotalPrice(totalPrice);
   };
 
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setShowModal(false);
   };
 
+  const handleCheckout = () => {
+    if (!cartItems || cartItems.length === 0) {
+      alert('Your cart is empty. Please add items before proceeding to checkout.');
+      return;
+    }
+
+    // Log de totes les dades abans de la navegació
+    console.log('Proceeding to checkout with cart items:', cartItems);
+
+    navigate('/checkout', {
+      state: {
+        cartItems, // Passa tots els articles del carret
+      },
+    });
+  };
+
+  if (isLoading) {
+    return <div className="loading-message">Loading artwork details...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">
+        <h2>Error:</h2>
+        <p>{error}</p>
+        <button onClick={() => navigate('/generative-art')}>Go Back</button>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="choose-artwork-container">
-        <div className="artwork-size-selection">
-          <div className="artwork-preview">
-            <img src={artworkImage || crudeImage} alt="Artwork Preview" className="artwork-image" />
+    <div className="choose-your-artwork-container">
+      <h2>{product.name}</h2>
+      <div className="artwork-layout">
+        <div className="artwork-details">
+          <img
+            src={product.thumbnail_url || 'https://via.placeholder.com/300'}
+            alt={product.name}
+            className="artwork-image"
+          />
+        </div>
+
+        <div className="artwork-options">
+          <label htmlFor="variant-select">Select Size:</label>
+          <select
+            id="variant-select"
+            value={selectedVariant?.id || ''}
+            onChange={handleVariantChange}
+          >
+            {product.sync_variants.map((variant) => (
+              <option key={variant.id} value={variant.id}>
+                {variant.name} - €{parseFloat(variant.retail_price).toFixed(2)}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="quantity-input">Quantity:</label>
+          <input
+            type="number"
+            id="quantity-input"
+            min="1"
+            value={quantity}
+            onChange={handleQuantityChange}
+          />
+
+          <div className="variant-thumbnail-preview">
+            <img
+              src={
+                selectedVariant.product.image ||
+                selectedVariant.files.find((file) => file.type === 'preview')
+                  ?.preview_url ||
+                'https://via.placeholder.com/150'
+              }
+              alt={`Selected Variant: ${selectedVariant.name}`}
+              className="variant-thumbnail"
+            />
           </div>
-          <div className="artwork-column">
-            <h1 className="choose-title">Choose Your Artwork Size</h1>
-            <div className="artwork-options">
-              <h2>Noise Field</h2>
 
-              <div className="rating-stars">
-                <img src={starIcon} alt="Star" />
-                <img src={starIcon} alt="Star" />
-                <img src={starIcon} alt="Star" />
-                <img src={starIcon} alt="Star" />
-                <img src={starIcon} alt="Star" />
-              </div>
-
-              <label htmlFor="artwork-size">Choose Size:</label>
-              <select id="artwork-size" value={size} onChange={handleSizeChange}>
-                {sizes.map((item) => (
-                  <option key={item.id} value={item.size}>
-                    {item.size} - ${item.price}
-                  </option>
-                ))}
-              </select>
-
-              <label htmlFor="artwork-quantity">Quantity:</label>
-              <input
-                type="number"
-                id="artwork-quantity"
-                min="1"
-                max="10"
-                value={quantity}
-                onChange={handleQuantityChange}
-              />
-
-              <button onClick={handleConfirmOrder} className="confirm-button">
-                Confirm Order
-              </button>
-            </div>
+          <div className="total-price">
+            <h3>Total Price: €{totalPrice.toFixed(2)}</h3>
           </div>
+
+          <button className="add-to-cart-button" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
 
       {showModal && (
-        <ThisWasAdded
-          artworkImage={artworkImage || crudeImage}
-          artworkName="Noise Field"
-          artworkPrice={sizes.find((item) => item.size === size)?.price || 50.0}
-          size={size}
-          quantity={quantity}
-          totalPrice={totalPrice}
-          onClose={handleCloseModal}
-        />
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>This was added to your cart!</h2><hr></hr>
+            <img
+              src={
+                selectedVariant.product.image ||
+                selectedVariant.files.find((file) => file.type === 'preview')
+                  ?.preview_url ||
+                'https://via.placeholder.com/300'
+              }
+              alt={selectedVariant.name}
+              className="artwork-preview"
+            />
+            <h3>{product.name}</h3><hr></hr>
+            <p>Size: {selectedVariant.name}</p><hr></hr>
+            <p>Quantity: {quantity}</p><hr></hr>
+            <p>Total Price: €{totalPrice.toFixed(2)}</p><hr></hr>
+            <button className="close-button" onClick={closeModal}>
+              x
+            </button>
+            <button className="checkout-button" onClick={handleCheckout}>
+              Go to Checkout
+            </button>
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

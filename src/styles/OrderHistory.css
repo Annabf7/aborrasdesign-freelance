@@ -44,7 +44,7 @@
 
 .order-list {
   width: 100%;
-  max-width: 500px;
+  max-width: 750px;
   margin-top: 1rem;
 }
 
@@ -53,22 +53,65 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-  color: #d7b46a;
+  color:black;
 }
 
 .order-item h3 {
   margin: 0;
 }
 
-.order-item button {
-  background-color: #d7b46a;
-  color: #333;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-top: 0.5rem;
+/* table */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
+
+.order-table th,
+.order-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+
+.order-table tr, .order-table th{
+  color:black;
+}
+
+.order-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.order-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.order-thumbnail-img {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.order-table button {
+  background-color: #ff9800;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-table button:hover {
+  background-color: #e68900;
+}
+
+
 
 /* Responsivitat */
 @media (max-width: 768px) {

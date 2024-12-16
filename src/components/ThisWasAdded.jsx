@@ -1,32 +1,33 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/ThisWasAdded.css";
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import '../styles/ThisWasAdded.css';
 
-const ThisWasAdded = ({
-  artworkImage,
-  artworkName,
-  artworkPrice,
-  size,
-  quantity,
-  totalPrice,
-  onClose,
-}) => {
-  const [currentQuantity, setCurrentQuantity] = useState(quantity);
-  const [currentTotalPrice, setCurrentTotalPrice] = useState(totalPrice);
+const ThisWasAdded = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // Funció per actualitzar la quantitat i el preu total
-  const handleQuantityChange = (e) => {
-    const newQuantity = parseInt(e.target.value);
-    setCurrentQuantity(newQuantity);
-    const newTotalPrice = artworkPrice * newQuantity;
-    setCurrentTotalPrice(newTotalPrice); // Actualitza el preu total
-  };
+  const {
+    artworkImage,
+    artworkName,
+    size,
+    quantity,
+    totalPrice,
+    variant_id, // Asegura que tenim el variant_id
+  } = location.state || {};
+
+  // Verifica que tots els camps són vàlids
+  if (!variant_id || !quantity) {
+    console.error('Missing required fields: variant_id or quantity');
+    return (
+      <div className="error-message">
+        <p>Invalid product data. Please try again.</p>
+      </div>
+    );
+  }
 
   const handleViewInSpace = () => {
-    // Redirigeix a ViewInSpace amb les dades seleccionades
-    navigate("/view-in-space", {
-      state: { artworkImage, artworkName, size, currentQuantity, currentTotalPrice },
+    navigate('/view-in-space', {
+      state: { artworkImage, artworkName, size, quantity, totalPrice },
     });
   };
 
@@ -35,7 +36,7 @@ const ThisWasAdded = ({
       <div className="this-was-added-window">
         <div className="header-container">
           <h2>This was added to your cart</h2>
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button" onClick={() => navigate(-1)}>
             &times;
           </button>
         </div>
@@ -44,20 +45,14 @@ const ThisWasAdded = ({
         <div className="order-details">
           <div className="order-size">
             <label htmlFor="size">Size</label>
-            <p>{size}</p> {/* Mostra la mida seleccionada */}
+            <p>{size}</p>
           </div>
           <div className="order-quantity">
             <label htmlFor="quantity">Quantity</label>
-            <input
-              type="number"
-              id="quantity"
-              value={currentQuantity}
-              min="1"
-              onChange={handleQuantityChange} // Actualitza la quantitat i el preu total
-            />
+            <p>{quantity}</p>
           </div>
           <div className="order-price">
-            <p>Total: ${currentTotalPrice.toFixed(2)}</p> {/* Mostra el preu actualitzat */}
+            <p>Total: €{totalPrice.toFixed(2)}</p>
           </div>
         </div>
         <button className="buy-button" onClick={handleViewInSpace}>

@@ -1,171 +1,294 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArtworkContext } from "./ArtworkContext";
-import { ShippingContext } from "./ShippingContext";
-import { CartContext } from "./CartContext";
-import { auth, db } from "../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import "../styles/CheckOut.css";
-import defaultImage from "../assets/generative/style_1.png";
-import paypalIcon from "../assets/icons/paypal.svg";
-import amazonIcon from "../assets/icons/amazon.svg";
-import secureIcon from "../assets/icons/candado.png";
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { useNavigate, Link} from 'react-router-dom';
+import { ShippingContext } from './ShippingContext';
+import { CartContext } from './CartContext';
+import { auth, db } from '../firebase/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import '../styles/CheckOut.css';
+import paypalIcon from '../assets/icons/paypal.svg';
+import amazonIcon from '../assets/icons/amazon.svg';
+import secureIcon from '../assets/icons/candado.png';
+import frameIcon from '../assets/icons/frame.png';
+import OrderSummary from './OrderSummary';
+import ProductCard from './ProductCard';
+import { useAuth } from './AuthContext';
 
-const FormInput = ({ label, type = "text", readOnly = false, ...props }) => (
-  <div>
-    <label className="formLabel" htmlFor={props.id}>
+const countryMap = {
+  España: 'ES',
+  Spain: 'ES',
+  France: 'FR',
+  Germany: 'DE',
+  Italia: 'IT',
+  Italy: 'IT',
+  'United States': 'US',
+  USA: 'US',
+  'Regne Unit': 'GB',
+  UK: 'GB',
+  Portugal: 'PT',
+  Andorra: 'AD',
+  México: 'MX',
+  Mexico: 'MX',
+  Argentina: 'AR',
+};
+
+const FormInput = ({
+  id,
+  label,
+  value,
+  onChange,
+  type = 'text',
+  required = false,
+  autoComplete = 'on',
+}) => (
+  <div className="formGroup">
+    <label className="formLabel" htmlFor={id}>
       {label}
     </label>
-    <input type={type} className="formInput" aria-label={label} readOnly={readOnly} {...props} />
+    <input
+      id={id}
+      name={id} 
+      type={type}
+      value={value?.trim() || ''}
+      onChange={onChange}
+      required={required}
+      className="formInput"
+      autoComplete={autoComplete} // Afegeixo autocomplete="on"
+    />
   </div>
 );
 
-const ProductCard = ({ price, name, size, image, quantity, onIncrement, onDecrement }) => (
-  <article className="productGrid">
-    <img loading="lazy" src={image} alt={name} className="productImage" />
-    <div className="productDetails">
-      <div className="productInfo">
-        <p className="productPrice">€{price}</p>
-        <h3 className="productName">{name}</h3>
-        <p className="productSize">{size}</p>
-        <div className="quantityControls">
-          <button onClick={onDecrement} disabled={quantity <= 1}>
-            -
-          </button>
-          <span>{quantity}</span>
-          <button onClick={onIncrement}>+</button>
-        </div>
-        <div className="cartActions">
-          <button>Move to wishlist</button>
-          <button>Edit item</button>
-        </div>
-      </div>
-    </div>
-  </article>
-);
 
-const OrderSummary = ({ subtotal, shipping }) => {
-  const total = subtotal + shipping;
-  return (
-    <section className="summarySection">
-      <h2 className="summaryTitle">Summary</h2>
-      <hr className="divider" />
-      <div className="summaryRow">
-        <span>Your cart items</span>
-        <span>€{subtotal}</span>
-      </div>
-      <hr className="divider" />
-      <div className="summaryRow">
-        <span>Shipping</span>
-        <span>€{shipping}</span>
-      </div>
-      <hr className="divider" />
-      <div className="totalRow">
-        <span>Estimated Total</span>
-        <span>€{total.toFixed(2)}</span>
-      </div>
-      <div className="currencyNotice">
-        <hr className="divider" />
-        <p className="noticeHighlight">Currency notice</p>
-        <p>
-          All payments are processed in EUR. The total amount charged will be displayed in EUR.
-          Please note that any additional currency conversions or fees are subject to your bank's
-          exchange rates and policies.
-        </p>
-      </div>
-    </section>
-  );
-};
+const CheckOut = () => {
+  const { 
+    cartItems, 
+    updateCartItemQuantity, 
+    discount, 
+    setDiscount, 
+    promoCode, 
+    setPromoCode, 
+    cartTotal, 
+    isDiscountApplied, 
+    setIsDiscountApplied 
+  } = useContext(CartContext);
 
-export const CheckOut = () => {
-  const { artworkImage } = useContext(ArtworkContext);
-  const { setUserAddress } = useContext(ShippingContext);
-  const { quantity, setQuantity } = useContext(CartContext);
+  const { setUserAddress, shippingCost } = useContext(ShippingContext);
+  const { user } = useAuth(); 
+
   const [shippingInfo, setShippingInfo] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    country: "",
-    city: "",
-    postalCode: "",
-    phone: "",
+    email: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    postalCode: '',
+    phone: '',
   });
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const [localPromoError, setLocalPromoError] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        setIsUserLoggedIn(true);
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          const [firstName, lastName] = userData.name.split(" "); // Dividim `name` en `firstName` i `lastName`
-
-          setShippingInfo({
-            email: userData.email || "",
-            firstName: firstName || "", // Assigna el primer nom de `name`
-            lastName: lastName || "", // Assigna el segon nom de `name`, si existeix
-            address: userData.address || "",
-            country: userData.country || "",
-            city: userData.city || "",
-            postalCode: userData.postalCode || "",
-            phone: userData.phone || "",
-          });
+      try {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const fetchedAddress = {
+              email: userData.email || '',
+              firstName: userData.firstName || '',
+              lastName: userData.lastName || '',
+              address: userData.address || '',
+              city: userData.city || '',
+              state: userData.state || '',
+              country: userData.country || '',
+              postalCode: userData.postalCode || '',
+              phone: userData.phone || '',
+            };
+            setUserAddress(fetchedAddress);
+            setShippingInfo(fetchedAddress);
+          } else {
+            console.warn('No user document found in Firestore.');
+          }
         }
+      } catch (error) {
+        console.error('Error fetching user data from Firebase:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [setUserAddress]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setShippingInfo({ ...shippingInfo, [id]: value });
+    setShippingInfo((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleContinueToShipping = () => {
-    setUserAddress(shippingInfo);
-    navigate("/shippinginfo");
+  const validateShippingInfo = () => {
+    const requiredFields = [
+      'email',
+      'firstName',
+      'lastName',
+      'address',
+      'city',
+      'country',
+      'postalCode',
+      'phone',
+    ];
+    return requiredFields.every((field) => shippingInfo[field]?.trim() !== '');
   };
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const handleContinue = () => {
+    if (validateShippingInfo()) {
+      setUserAddress(shippingInfo);
+      navigate('/shippinginfo');
+    } else {
+      alert('Please fill in all required fields.');
     }
   };
 
-  const cartItem = {
-    price: 800,
-    name: "Noise Field",
-    size: 'Medium 18 x 24 "standard"',
-    image: artworkImage || defaultImage,
-    quantity,
+  const subtotal = cartTotal;
+
+  const calculateDiscountFromResponse = (response) => {
+    const printfulCosts = response.result.costs;
+    const retailCosts = response.result.retail_costs;
+
+    const subtotalPrintful = printfulCosts.subtotal; 
+    const vat = printfulCosts.vat; 
+    const retailSubtotal = retailCosts.subtotal; 
+
+    // Eliminem la lògica de comprovar beneficis > 0.
+    // Sempre retornem els beneficis, si són negatius o zero, setDiscountValue ja ho clampa a 0.
+    const benefits = retailSubtotal - (subtotalPrintful + vat);
+    return benefits;
   };
 
-  const handleSignInRedirect = () => {
-    navigate("/login", { state: { from: "/checkout" } });
+  const fetchDiscount = useCallback(async () => {
+    if (!isDiscountApplied || promoCode.toUpperCase() !== 'ABORRASGIFT') {
+      return 0;
+    }
+    if (cartItems.length === 0) {
+      return 0;
+    }
+
+    const countryCode = countryMap[shippingInfo.country] || shippingInfo.country;
+
+    const recipient = {
+      name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
+      address1: shippingInfo.address,
+      city: shippingInfo.city,
+      country_code: countryCode,
+      zip: shippingInfo.postalCode,
+      phone: shippingInfo.phone,
+      email: shippingInfo.email
+    };
+
+    const items = cartItems.map(item => ({
+      sync_variant_id: item.sync_variant_id,
+      quantity: item.quantity
+    }));
+
+    const response = await fetch('http://localhost:4000/api/printful/estimate-costs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipient, items })
+    });
+
+    if (!response.ok) {
+      console.error('Error resposta del backend:', await response.text());
+      return 0;
+    }
+
+    const data = await response.json();
+
+    const discountAmount = calculateDiscountFromResponse(data);
+    return discountAmount;
+  }, [cartItems, promoCode, shippingInfo, isDiscountApplied]);
+
+  const applyPromoCode = async () => {
+    setLocalPromoError('');
+    const code = promoCode.trim().toUpperCase();
+    if (code !== 'ABORRASGIFT') {
+      setLocalPromoError('Codi de descompte no vàlid.');
+      setDiscount(0);
+      setIsDiscountApplied(false);
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      setLocalPromoError('No pots aplicar el descompte amb el carret buit.');
+      setDiscount(0);
+      setIsDiscountApplied(false);
+      return;
+    }
+
+    try {
+      // Codi correcte i hi ha obres, apliquem el descompte sempre.
+      setIsDiscountApplied(true);
+      const discountAmount = await fetchDiscount();
+      // No cal comprovar si hi ha beneficis > 0, sempre apliquem el descompte resultant.
+      setDiscount(discountAmount);
+      // No mostrem cap missatge d'error de beneficis.
+      setLocalPromoError('');
+    } catch (error) {
+      console.error('Error calculant el descompte:', error);
+      setLocalPromoError('Error calculant el descompte.');
+      setIsDiscountApplied(false);
+      setDiscount(0);
+    }
   };
+
+  // Recalcula el descompte si canvia el carret i el descompte està aplicat
+  useEffect(() => {
+    const recalculateIfNeeded = async () => {
+      if (isDiscountApplied && promoCode.toUpperCase() === 'ABORRASGIFT' && cartItems.length > 0) {
+        const discountAmount = await fetchDiscount();
+        setDiscount(discountAmount);
+      } else if (cartItems.length === 0) {
+        // Carret buit, reset
+        setDiscount(0);
+        setPromoCode('');
+        setIsDiscountApplied(false);
+      }
+    };
+    recalculateIfNeeded();
+  }, [cartItems, fetchDiscount, promoCode, setDiscount, setPromoCode, isDiscountApplied, setIsDiscountApplied]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="containerWrapper">
       <main className="checkoutContainer">
         <section className="checkoutForm">
-          {!isUserLoggedIn && (
-            <button className="signInButton" onClick={handleSignInRedirect}>
-              Sign in to your account
-            </button>
+          {!user && (
+            <Link 
+              to="/auth" 
+              className="signInButton"
+              state={{ from: '/checkout' }}
+            >
+              Sign In / Register
+            </Link>
           )}
-
-          <button className="promoLink" onClick={(e) => e.preventDefault()}>
-            Apply promo codes and gift cards
-          </button>
+          <h3 className="promoCodeHeader">Have a Promo Code?</h3>
+          <div className="promoCodeSection">
+            <input
+              type="text"
+              placeholder="Enter Promo Code"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+            />
+            <button onClick={applyPromoCode}>Apply promo code</button>
+          </div>
+          {localPromoError && <p className="promoError">{localPromoError}</p>}
 
           <div className="paymentOptions">
             <button className="paypalButton">
@@ -175,16 +298,16 @@ export const CheckOut = () => {
               <img src={amazonIcon} alt="Pay with Amazon" />
             </button>
           </div>
-          <h3>Shipping Information</h3>
 
+          <h3>Shipping Information</h3>
           <div className="formRowLarge">
             <FormInput
               id="email"
               label="Email"
               value={shippingInfo.email}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+              autoComplete="email" 
             />
           </div>
           <div className="formRow">
@@ -193,83 +316,117 @@ export const CheckOut = () => {
               label="First Name"
               value={shippingInfo.firstName}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+              autoComplete="given-name"
             />
             <FormInput
               id="lastName"
               label="Last Name"
               value={shippingInfo.lastName}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+               autoComplete="family-name"
             />
           </div>
-
           <div className="formRowLarge">
             <FormInput
               id="address"
               label="Address"
               value={shippingInfo.address}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+              autoComplete="address-line1"
             />
           </div>
-
           <div className="formRow">
-            <FormInput
-              id="country"
-              label="Country"
-              value={shippingInfo.country}
-              onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
-              required
-            />
             <FormInput
               id="city"
               label="City"
               value={shippingInfo.city}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+              autoComplete="address-level2"
+            />
+            <FormInput
+              id="country"
+              label="Country"
+              value={shippingInfo.country}
+              onChange={handleInputChange}
+              required
+              autoComplete="country"
             />
           </div>
-
           <div className="formRow">
             <FormInput
               id="postalCode"
               label="Postal Code"
               value={shippingInfo.postalCode}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
               required
+              autoComplete="postal-code"
             />
             <FormInput
               id="phone"
               label="Phone Number"
               value={shippingInfo.phone}
               onChange={handleInputChange}
-              readOnly={isUserLoggedIn}
-              type="tel"
               required
+              autoComplete="tel"
             />
           </div>
 
-          <button type="submit" onClick={handleContinueToShipping}>
+          <button type="submit" onClick={handleContinue}>
             Continue to shipping method
           </button>
-
           <div className="secureInfo">
             <img src={secureIcon} alt="Secure Icon" />
             <span>Your information is secure</span>
           </div>
+          
+ {/* Enllaç per tornar a la galeria i afegir més obres */}
+ <div className="backToGallery">
+      <Link to="/generative-art">
+      Back to Gallery 
+        <img src={frameIcon} alt="Frame Icon" className="frame-icon" />
+        
+      </Link>
+    </div>
+
         </section>
 
         <section className="cartSummary">
-          <h2>Items in your cart ({cartItem.quantity})</h2>
-          <ProductCard {...cartItem} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-          <OrderSummary subtotal={cartItem.price * cartItem.quantity} shipping={6.12} />
+          <h2>
+            Items in your cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+          </h2>
+
+          {cartItems.length > 0 ? (
+            cartItems.map((item, index) => (
+              <ProductCard
+                key={index}
+                {...item}
+                cartIndex={index}
+                onIncrement={(cartIndex, newQuantity) =>
+                  updateCartItemQuantity(cartIndex, newQuantity)
+                }
+                onDecrement={(cartIndex, newQuantity) =>
+                  updateCartItemQuantity(cartIndex, newQuantity)
+                }
+              />
+            ))
+          ) : (
+            <p>Your cart is empty. Please go back and add items.</p>
+          )}
+
+          <OrderSummary
+            subtotal={subtotal}
+            shipping={shippingCost || 0}
+            discount={discount}
+          />
+          {!shippingCost && (
+            <p className="shippingNotice">
+              *** Shipping costs will be calculated at shipping page.
+            </p>
+          )}
         </section>
       </main>
     </div>

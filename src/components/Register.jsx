@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase"; // Afegit db per a Firestore
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore"; // Afegit per guardar al Firestore
@@ -8,7 +8,8 @@ import "../styles/Register.css";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -20,12 +21,18 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+      // Creem l'usuari a Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Després de crear l'usuari, guardem la informació addicional al Firestore
+      // Actualitzem el perfil de l'usuari amb el displayName
+      const displayName = `${firstName} ${lastName}`;
+      await updateProfile(user, { displayName });
+
+      // Guardem la informació addicional al Firestore
       await setDoc(doc(db, "users", user.uid), {
-        name,
+        firstName,
+        lastName,
         phone,
         address,
         city,
@@ -37,95 +44,112 @@ const Register = () => {
       setError("");
       navigate("/registration-successful");
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        setError("This email is already in use. Please use a different email.");
-      } else if (error.code === "auth/invalid-email") {
-        setError("Invalid email format. Please enter a valid email address.");
-      } else if (error.code === "auth/weak-password") {
-        setError("Weak password. Please enter a stronger password.");
-      } else {
-        setError("An error occurred. Please try again.");
-      }
+      // Map de possibles errors de Firebase
+      const firebaseErrorMap = {
+        "auth/email-already-in-use": "This email is already in use. Please use a different email.",
+        "auth/invalid-email": "Invalid email format. Please enter a valid email address.",
+        "auth/weak-password": "Weak password. Please enter a stronger password.",
+      };
+      setError(firebaseErrorMap[error.code] || "An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="register-container">
-      
       <form className="registerForm" onSubmit={handleRegister}>
-        <label className="registerLabel">Name</label>
+        <label className="registerLabel" htmlFor="firstName">First Name</label>
         <input
+          id="firstName"
           type="text"
-          placeholder="Name"
+          placeholder="First Name"
           className="registerInput"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
         />
-        
-        <label className="registerLabel">Email</label>
+
+<label className="registerLabel" htmlFor="lastName">Last Name</label>
         <input
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+          className="registerInput"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+
+<label className="registerLabel" htmlFor="email">Email</label>
+        <input
+          id="email"
           type="email"
           placeholder="Email"
           className="registerInput"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        
-        <label className="registerLabel">Password</label>
+
+<label className="registerLabel" htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           className="registerInput"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        
-        <label className="registerLabel">Phone Number</label>
+
+<label className="registerLabel" htmlFor="phone">Phone Number</label>
         <input
+          id="phone"
           type="tel"
           placeholder="Phone Number"
           className="registerInput"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        
-        <label className="registerLabel">Address</label>
+
+        <label className="registerLabel" htmlFor="address">Address</label>
         <input
+          id="address"
           type="text"
           placeholder="Address"
           className="registerInput"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
-        
-        <label className="registerLabel">City</label>
+
+<label className="registerLabel" htmlFor="city">City</label>
         <input
+          id="city"
           type="text"
           placeholder="City"
           className="registerInput"
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
-        
-        <label className="registerLabel">Country</label>
+
+<label className="registerLabel" htmlFor="country">Country</label>
         <input
+          id="country"
           type="text"
           placeholder="Country"
           className="registerInput"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
         />
-        
-        <label className="registerLabel">Postal Code</label>
+
+<label className="registerLabel" htmlFor="postalCode">Postal Code</label>
         <input
+          id="postalCode"
           type="text"
           placeholder="Postal Code"
           className="registerInput"
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
         />
-        
-        <button type="submit" className="registerButton">Sign up</button>
+
+        <button type="submit" className="registerButton">
+          Sign up
+        </button>
         {error && <p className="error-message">{error}</p>}
       </form>
     </div>

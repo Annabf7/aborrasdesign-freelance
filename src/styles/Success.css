@@ -1,0 +1,158 @@
+.success-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.success-image-section {
+  flex: 1;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.success-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.success-details-section {
+  position: relative;
+  flex: 1;
+  background-color: #333;
+  color: #d7b46a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.success-details-section h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: #d7b46a;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.success-details-section p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.success-home-button {
+  background-color: #d7b46a;
+  color: #333;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.success-home-button:hover {
+  background-color: #000000;
+  color: #d7b46a;
+}
+
+.order-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dues columnes de la mateixa amplada */
+  gap: 3rem; /* Espai entre les columnes */
+  width: 100%; /* Assegura que ocupi tot l'ample disponible */
+  max-width: 80%; /* Ajustem per a espais grans */
+}
+
+.order-summary h2{
+  font-size:1.3rem;
+}
+
+.info-items,
+.info-shipping {
+  background-color: #ececec;
+  padding: 1.5rem; /* Ajustem el padding per més harmonia */
+  border-radius: 5px;
+  color: black;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lleugera ombra */
+}
+
+.order-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.order-item-details {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.order-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 1rem;
+  border-radius: 5px;
+}
+
+.order-item-text {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.order-item-text span {
+  font-size: 0.9rem;
+  color: #333;
+  
+}
+.info-shipping p{
+  font-size:1rem;
+  padding-bottom:2rem;
+  padding-top:1rem;
+}
+
+/* Responsivitat per pantalles petites */
+@media (max-width: 768px) {
+  .order-summary {
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
+
+  .success-details-section {
+    max-width: 90%;
+    padding: 2rem 1.5rem;
+  }
+
+  .success-details-section h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .success-details-section {
+    max-width: 95%;
+    padding: 1.5rem 1rem;
+  }
+
+  .success-details-section h1 {
+    font-size: 1.6rem;
+  }
+}

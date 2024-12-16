@@ -1,77 +1,85 @@
 /* -------------------------- Choose Artwork Section -------------------------- */
 
-.choose-artwork-container {
+.choose-your-artwork-container {
   display: flex;
   flex-direction: column;
-  padding-top: 1.25rem;
-  background-color: #f5f5f5;
-  height: calc(105vh - 10rem); /* Ajustat per tenir en compte el menú i el footer */
+  padding-bottom: 3rem;
+  background-color: #ececec;
+  min-height: calc(
+    100vh - 10rem
+  ); /* Ajustat per tenir en compte el menú i el footer */
+  flex-grow: 1; /* Fa que el contingut creixi per empènyer el footer cap avall */
 }
 
-.choose-title {
-  font-size: 1.2rem;
+.choose-your-artwork-container h2 {
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1.25rem;
-  margin-right: 2rem;
-  padding-right: 3rem;
-  margin-left: -4.3rem;
+  text-align: left;
+  padding-top: 1.5rem;
+  margin-bottom: 1rem;
+  margin-left: 22rem;
 }
 
-.artwork-size-selection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 80%;
+/* Contenidor principal per a la imatge i les opcions */
+.artwork-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* La imatge ocupa 2/3 i les opcions 1/3 */
+  gap: 3rem; /* Espai entre la imatge i les opcions */
+  max-width: 1200px;
   margin: 0 auto;
+  align-items: start;
 }
 
-.artwork-preview {
-  flex: 3;
-  margin-top: 4rem;
-  margin-right: 1.25rem;
+/* Estils per a la imatge */
+.artwork-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .artwork-image {
-  max-width: 90%;
+  max-width: 100%;
+  height: auto;
   border: 5px solid #d7b46a;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* Estils per a les opcions */
 .artwork-options {
-  min-width: 10%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   background-color: white;
   padding: 1.25rem;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-  margin-left: -6rem;
-  margin-bottom: 1rem;
-  padding-bottom: 4rem;
-}
-
-.artwork-options h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .artwork-options label {
   font-size: 1rem;
-  margin-bottom: 0.3125rem;
+  margin-bottom: 0.5rem;
 }
 
 .artwork-options select,
 .artwork-options input {
   margin-bottom: 1.25rem;
-  padding: 0.3125rem;
+  padding: 0.5rem;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
-  height: 3.125rem;
+  height: 2.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.confirm-button {
+.total-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.add-to-cart-button {
   background-color: #d7b46a;
   color: #1f1f1f;
   font-size: 1rem;
@@ -79,45 +87,190 @@
   padding: 0.625rem 1.875rem;
   border: none;
   cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  text-align: center;
 }
 
-.confirm-button:hover {
+.add-to-cart-button:hover {
   background-color: #b6953c;
   transition: background-color 0.3s ease;
 }
 
-/* Estrelles de valoració */
-.rating-stars {
+.variant-thumbnail-preview {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.9375rem;
+  justify-content: center; /* Centra la imatge horitzontalment */
+  align-items: center; /* Centra la imatge verticalment */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.rating-stars img {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.3125rem;
+.variant-thumbnail {
+  width: 15rem;
+  height: auto;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.variant-thumbnail:hover {
+  border-color: #d7b46a;
+  transform: scale(1.1);
+}
+
+/*------------------------- modal ThisWasAdded ---------------------------------------------------*/
+/* Overlay del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+
+/* Finestra del modal */
+.modal-content {
+  position: absolute;
+  top: 10vh; 
+  bottom: 10vh; 
+  max-height: 70vh; 
+  padding: 5px 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 2000;
+  overflow-y: auto; 
+}
+
+/* Header del modal */
+.modal-content h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  text-align: left;
+  padding-bottom: 1rem;
+  padding-top: 2.2rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.1rem;
+  right: 2rem;
+  background-color: #d7b46a;
+  border: none;
+  font-size: 1.2rem;
+  color: #333;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-button:hover {
+  color: #d7b46a;
+  background-color: #333;
+}
+
+/* Imatge del modal */
+.artwork-preview {
+  width: 100%;
+  height: auto;
+  padding-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 0;
+  border-radius: 8px;
+}
+
+/* Detalls de la comanda */
+.modal-content p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+  text-align: right;
+}
+
+.modal-content h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: right;
+  padding-top: 10px;
+}
+
+
+
+.checkout-button {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #1f1f1f;
+  color: #d7b46a;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #d7b46a;
+}
+/* Adaptació per a tablets */
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 280px;
+    padding: 15px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .buy-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Adaptació per a mòbils */
+@media (max-width: 480px) {
+  .modal-content {
+    max-width: 240px;
+    padding: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 1rem;
+  }
+
+  .buy-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
 }
 
 /* Responsivitat */
 @media (max-width: 768px) {
-  .artwork-size-selection {
-    flex-direction: column;
-    max-width: 100%;
-    padding: 1rem;
+  .artwork-layout {
+    grid-template-columns: 1fr; /* Passa a una sola columna */
+    gap: 1rem;
   }
 
-  .choose-title {
-    font-size: 1rem;
-    margin-left: 0;
-  }
-
-  .artwork-preview {
-    margin-top: 2rem;
-  }
-
-  .artwork-options {
-    margin-left: 0;
-    width: 100%;
+  .artwork-details {
+    text-align: center;
   }
 }

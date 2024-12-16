@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArtworkContext } from "./ArtworkContext";
-import p5 from "p5";
-import "../styles/GenerativeSketch.css";
+import React, { useRef, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArtworkContext } from './ArtworkContext';
+import p5 from 'p5';
+import '../styles/GenerativeSketch.css';
 
 const GenerativeSketch1 = () => {
   const sketchRef = useRef();
@@ -29,7 +29,9 @@ const GenerativeSketch1 = () => {
         ];
 
         for (let i = 0; i < parNum; i++) {
-          particles.push(new Particle(p.random(p.width), p.random(p.height), colors, p));
+          particles.push(
+            new Particle(p.random(p.width), p.random(p.height), colors, p),
+          );
         }
         p.background(30, 31, 31);
       };
@@ -46,7 +48,12 @@ const GenerativeSketch1 = () => {
         }
 
         while (particles.length < parNum) {
-          const newParticle = new Particle(p.random(p.width), p.random(p.height), colors, p);
+          const newParticle = new Particle(
+            p.random(p.width),
+            p.random(p.height),
+            colors,
+            p,
+          );
           if (!isInsideBlob(newParticle.x, newParticle.y)) {
             particles.push(newParticle);
           }
@@ -62,7 +69,7 @@ const GenerativeSketch1 = () => {
 
       // Alternar deformació amb l'espai
       p.keyPressed = function () {
-        if (p.key === " ") {
+        if (p.key === ' ') {
           deform = !deform;
         }
       };
@@ -161,10 +168,10 @@ const GenerativeSketch1 = () => {
   }, []);
 
   const handleFinish = () => {
-    const canvasElement = sketchRef.current.querySelector("canvas");
-    const base64Image = canvasElement.toDataURL("image/png");
+    const canvasElement = sketchRef.current.querySelector('canvas');
+    const base64Image = canvasElement.toDataURL('image/png');
     setArtworkImage(base64Image);
-    navigate("/choose-your-artwork-size");
+    navigate('/choose-your-artwork-size');
   };
 
   return (

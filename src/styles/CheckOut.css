@@ -34,15 +34,18 @@
 
 /* Botó d'inici de sessió */
 .signInButton {
-  align-self: flex-start;
-  background-color: #1e1f1f;
-  color: #d7b46a;
+  color: #1e1f1f;
   border: none;
-  padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
-  margin-bottom: 1.25rem;
+  font-size: 0.8rem;
+  margin-left: auto; 
+  text-decoration: underline;
+}
+
+.signInButton:hover{
+  color: #d7b46a;
 }
 
 /* Botó per codis promocionals */
@@ -64,7 +67,7 @@
 .paymentOptions {
   display: flex;
   gap: 0.625rem;
-  margin-bottom: 2.5rem;
+  margin-top: 2rem;
   width: 100%;
 }
 
@@ -129,6 +132,17 @@
   color: #1e1f1f;
 }
 
+.backToGallery{
+  margin-top:2em;
+  color: #1e1f1f;
+  margin-left: auto; 
+  text-decoration: underline; 
+}
+
+.backToGallery:hover{
+  color: #d7b46a;
+}
+
 /* Botó 'Continue to shipping method' */
 button[type="submit"] {
   background-color: #1e1f1f;
@@ -147,12 +161,51 @@ button[type="submit"]:hover {
   background-color: #d7b46a;
   color: #1e1f1f;
 }
+.promoCodeHeader {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.promoCodeSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0px;
+}
+
+.promoCodeSection input {
+  flex: 6;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  margin-top: 0px;
+  margin-bottom:0px;
+  box-sizing: border-box;
+}
+
+.promoCodeSection button {
+  flex: 4; 
+  padding: 0.68rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom:0px;
+  box-sizing: border-box;
+}
+
+
+.promoError {
+  color: red;
+  font-size: 0.8rem;
+  text-align: left; 
+  margin-top:4px;
+  margin-left: 2px;
+}
+
 
 /* Estil per a 'Your information is secure' */
 .secureInfo {
   display: flex;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #999;
   margin-top: 0.625rem;
   align-self: flex-start;
@@ -161,7 +214,31 @@ button[type="submit"]:hover {
 .secureInfo img {
   width: 1.25rem;
   height: auto;
-  margin-right: 0.5rem;
+  margin-left:0.3rem;
+}
+
+.removeButton{
+  width:80%;
+  margin:auto;
+}
+
+.signInButton {
+  color: #1e1f1f;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-left: auto; 
+  text-decoration: underline; 
+}
+
+.signInButton:hover{
+  color:#d7b46a;
+}
+
+.shippingNotice{
+  font-size:0.9rem;
 }
 
 /* Responsivitat */

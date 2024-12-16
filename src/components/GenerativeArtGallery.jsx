@@ -1,48 +1,72 @@
-import React from "react";
-import "../styles/GenerativeArtGallery.css";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import '../styles/GenerativeArtGallery.css';
+import { Link } from 'react-router-dom';
 
 // Importem les imatges dels estils d'art generatiu
-import style1 from "../assets/generative/style_1.png";
-import style2 from "../assets/generative/style_2.png";
-import style3 from "../assets/generative/style_3.png";
-import style4 from "../assets/generative/style_4.png";
-import style5 from "../assets/generative/style_5.png";
-import style6 from "../assets/generative/style_6.png";
-import style7 from "../assets/generative/style_7.png";
-import style8 from "../assets/generative/style_8.png";
+import style1 from '../assets/generative/style_1.png';
+import style2 from '../assets/generative/style_2.png';
+import style3 from '../assets/generative/style_3.png';
+import style4 from '../assets/generative/style_4.png';
+import style5 from '../assets/generative/style_5.png';
+import style6 from '../assets/generative/style_6.png';
+import style7 from '../assets/generative/style_7.png';
+import style8 from '../assets/generative/style_8.png';
 
 const GenerativeArtGallery = () => {
-  // Array amb les dades dels estils
+  // Dades dels estils d'art generatiu
   const artStyles = [
-    { id: 1, img: style1, name: "Style 1", link: "/generative-art/style-1" },
-    { id: 2, img: style2, name: "Style 2", link: "/generative-art/style-2" },
-    { id: 3, img: style3, name: "Style 3", link: "/generative-art/style-3" },
-    { id: 4, img: style4, name: "Style 4", link: "/generative-art/style-4" },
-    { id: 5, img: style5, name: "Style 5", link: "/generative-art/style-5" },
-    { id: 6, img: style6, name: "Style 6", link: "/generative-art/style-6" },
-    { id: 7, img: style7, name: "Style 7", link: "/generative-art/style-7" },
-    { id: 8, img: style8, name: "Style 8", link: "/generative-art/style-8" },
+    { id: 368460597, img: style1, name: 'Expressionism' },
+    { id: 368460811, img: style2, name: 'De Stijl' },
+    { id: 368460959, img: style3, name: 'Surrealism' },
+    { id: 368461089, img: style4, name: 'Pop art' },
+    { id: 368461819, img: style5, name: 'Cubism' },
+    { id: 368461953, img: style6, name: 'Constructivism' },
+    { id: 368462117, img: style7, name: 'Kinetic Art' },
+    { id: 368462348, img: style8, name: 'Bauhaus' },
   ];
+
+  // Precarrega d'imatges per optimitzar l'experiència de l'usuari
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    artStyles.forEach((style) => {
+      const img = new Image();
+      img.src = style.img;
+    });
+  }, []); // És segur ignorar artStyles perquè no canvia mai
+
+  // Comprovació si no hi ha estils disponibles
+  if (artStyles.length === 0) {
+    return <p>No generative art styles available at the moment.</p>;
+  }
 
   return (
     <div className="generative-gallery-container">
       <h1 className="gallery-title">
-        Interactive Generative Art:
-        <span className="gallery-title2">Create Your Own Masterpiece</span>
+        Interactive Generative Art: <span>Create Your Own Masterpiece</span>
       </h1>
-
       <div className="gallery-grid">
-        {artStyles.map((style) => (
-          <div key={style.id} className="gallery-item">
-            <Link
-              to="/generative-art/selection"
-              state={{ selectedStyle: style }} // Passem l'estil seleccionat a través de state
-            >
-              <img src={style.img} alt={`Style ${style.id}`} className="generative-gallery-image" />
-            </Link>
-          </div>
-        ))}
+        {artStyles.map((style) => {
+          // Comprovació de dades essencials abans de renderitzar
+          if (!style.id || !style.img || !style.name) {
+            console.warn('Estil incomplet detectat:', style);
+            return null;
+          }
+          return (
+            <div key={style.id} className="gallery-item">
+              <Link
+                to={`/choose-your-artwork-size/${style.id}`}
+                state={{ name: style.name, img: style.img }}
+              >
+                <img
+                  src={style.img}
+                  alt={style.name}
+                  className="generative-gallery-image"
+                />
+                <p>{style.name}</p>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

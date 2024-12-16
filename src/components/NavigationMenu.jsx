@@ -7,11 +7,13 @@ import shoppingCart from "../assets/icons/shopping-cart.png";
 
 function NavigationMenu() {
   const { user, logOut } = useAuth(); // Utilitza useAuth per obtenir user i logOut
+  console.log("[NavigationMenu] user from useAuth:", user);
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {  
     console.log("User authentication status:", user); // Verifica l'estat de l'usuari
+    console.log("[NavigationMenu] Mounted, user:", user);
   }, [user]);
 
   const handleLogOut = () => {

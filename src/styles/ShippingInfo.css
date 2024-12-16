@@ -89,6 +89,14 @@
   overflow: hidden;
 }
 
+.removeButton{
+  width:80%;
+  margin:auto;
+  background-color: #1e1f1f;
+  color: #d7b46a;
+}
+
+
 /* Adaptació per a dispositius tablets */
 @media (max-width: 768px) {
   .containerWrapper {

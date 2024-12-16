@@ -1,40 +1,130 @@
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom"; 
-import { ArtworkContext } from "./ArtworkContext";
-import { ShippingContext } from "./ShippingContext";
-import { CartContext } from "./CartContext"; // Nou context per gestionar el carretó
-import "../styles/ShippingInfo.css";
-import defaultImage from "../assets/generative/style_1.png";
-import secureIcon from "../assets/icons/candado.png";
-import ProductCard from "./ProductCard";
-import OrderSummary from "./OrderSummary";
+// ShippingInfo.jsx
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ShippingContext } from './ShippingContext';
+import { CartContext } from './CartContext';
+import '../styles/ShippingInfo.css';
+import secureIcon from '../assets/icons/candado.png';
+import ProductCard from './ProductCard';
+import OrderSummary from './OrderSummary';
 
 export const ShippingInfo = () => {
-  const { artworkImage } = useContext(ArtworkContext);
-  const { userAddress } = useContext(ShippingContext);
-  const { quantity, setQuantity } = useContext(CartContext); // Accedeix a quantity des de CartContext
-  const navigate = useNavigate(); // Inicialitzem useNavigate
+  const {
+    userAddress,
+    getRecipientForPrintful,
+    setShippingCost,
+    shippingCost,
+  } = useContext(ShippingContext);
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
+  const { cartItems, updateCartItemQuantity, discount } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [shippingOptions, setShippingOptions] = useState([]);
+  const [selectedOptionId, setSelectedOptionId] = useState(null);
+
+  const handlePaymentNavigation = () => {
+    navigate('/completepayment');
   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  const fetchShippingRates = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      console.log('cartItems abans d’enviar:', cartItems);
+
+      // Obtenim el recipient des del context
+      const recipient = getRecipientForPrintful();
+      if (!recipient) {
+        throw new Error('Invalid recipient data. Please check the shipping address.');
+      }
+      console.log('Recipient generat:', recipient);
+
+      // Preparem els articles
+      const itemsPayload = cartItems.map((item) => ({
+        variant_id: item.variant_id, // Utilitzar variant_id
+        quantity: item.quantity,
+        value: item.price.toFixed(2), // Valor del preu com a string
+      }));
+
+      console.log('Payload enviat al backend:', { recipient, items: itemsPayload });
+
+      // Crida al backend per obtenir tarifes d'enviament
+      const response = await fetch('http://localhost:4000/api/printful/shipping-estimates', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipient,
+          items: itemsPayload,
+          currency: 'EUR',
+          locale: 'en_US',
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error al backend: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Resposta del backend:', data);
+
+      if (data.success && data.result) {
+        setShippingOptions(data.result);
+        if (!selectedOptionId) {
+          // No hi ha cap opció seleccionada encara, seleccionem per defecte
+          const standardOption = data.result.find(option => option.id === 'STANDARD');
+          if (standardOption) {
+            setSelectedOptionId(standardOption.id);
+            setShippingCost(parseFloat(standardOption.rate));
+          } else if (data.result.length > 0) {
+            setSelectedOptionId(data.result[0].id);
+            setShippingCost(parseFloat(data.result[0].rate));
+          } else {
+            throw new Error('No shipping options available.');
+          }
+        } else {
+          // Ja tenim una opció seleccionada, comprovem que encara existeix
+          const previouslySelected = data.result.find(o => o.id === selectedOptionId);
+          if (!previouslySelected) {
+            // L'opció anterior no existeix, seleccionem la primera
+            setSelectedOptionId(data.result[0].id);
+            setShippingCost(parseFloat(data.result[0].rate));
+          } else {
+            // Mantenim l'opció i actualitzem el cost si cal
+            setShippingCost(parseFloat(previouslySelected.rate));
+          }
+        }
+      } else {
+        throw new Error('No shipping options available.');
+      }
+    } catch (error) {
+      setError(error.message || 'Failed to fetch shipping rates. Please try again.');
+      console.error('Error a fetchShippingRates:', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handlePaymentNavigation = () => {
-    navigate("/completepayment"); // Redirigim a la pàgina de pagament
-  };
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      fetchShippingRates();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems]);
 
-  const cartItem = {
-    price: 800,
-    name: "Noise Field",
-    size: 'Medium 18 x 24 "standard"',
-    image: artworkImage || defaultImage,
-    quantity,
+  const handleOptionChange = (option) => {
+    setSelectedOptionId(option.id);
+    setShippingCost(parseFloat(option.rate));
   };
 
   return (
@@ -45,46 +135,62 @@ export const ShippingInfo = () => {
             <h2>Shipping Info</h2>
           </div>
           <hr className="divider" />
-          {userAddress && (
+          {userAddress && Object.keys(userAddress).length > 0 ? (
             <div className="userAddressSection">
               <p>
                 {userAddress.firstName} {userAddress.lastName}
               </p>
               <p>{userAddress.address}</p>
               <p>
-                {userAddress.city}, {userAddress.country} - {userAddress.postalCode}
+                {userAddress.city}, {userAddress.country} -{' '}
+                {userAddress.postalCode}
               </p>
               <p>{userAddress.phone}</p>
             </div>
+          ) : (
+            <p>
+              No shipping information available. Please fill in your details.
+            </p>
           )}
           <hr className="divider" />
           <div className="shippingMethod">
-            <div className="radioButton">
-              <input type="radio" id="standard" name="shipping" defaultChecked readOnly />
-            </div>
-            <div className="shippingLabel">
-              <label htmlFor="standard">Standard: Items typically deliver in 10-20 days</label>
-            </div>
-            <div className="shippingPrice">
-              <span>€6.12</span>
-            </div>
+            {loading ? (
+              <span>Calculating...</span>
+            ) : (
+              shippingOptions.length > 0 ? (
+                shippingOptions.map((option, index) => (
+                  <div key={index} className="shippingOption">
+                    <div className="radioButton">
+                      <input
+                        type="radio"
+                        id={`shippingOption-${index}`}
+                        name="shipping"
+                        checked={selectedOptionId === option.id}
+                        onChange={() => handleOptionChange(option)}
+                      />
+                    </div>
+                    <div className="shippingLabel">
+                      <label htmlFor={`shippingOption-${index}`}>
+                        {option.name.trim()} (Estimated delivery: {option.minDeliveryDate} – {option.maxDeliveryDate})
+                      </label>
+                    </div>
+                    <div className="shippingPrice">
+                      €{parseFloat(option.rate).toFixed(2)}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No shipping options available.</p>
+              )
+            )}
+            {error && <p className="errorMessage">{error}</p>}
           </div>
 
-          <div className="additionalInfo">
-            <h4>Additional Shipping Information</h4>
-            <p>
-              Please note that delivery times may vary due to global supply chain challenges. For
-              more details on potential delays, click here.
-            </p>
-            <h4>International Orders</h4>
-            <p>
-              Orders shipped internationally may be subject to additional duties or customs fees.
-              These charges are applied by the Customs Office of the destination country and are not
-              included in the total order cost. Please note that these fees are neither charged nor
-              collected by Aborrasdesign, but by the local authorities.
-            </p>
-          </div>
-          <button className="paymentButton" onClick={handlePaymentNavigation}>
+          <button
+            className="paymentButton"
+            onClick={handlePaymentNavigation}
+            disabled={loading || !!error || cartItems.length === 0}
+          >
             Next: Payment & Complete Order
           </button>
           <div className="secureInfo">
@@ -94,8 +200,27 @@ export const ShippingInfo = () => {
         </section>
 
         <section className="cartSummary">
-          <ProductCard {...cartItem} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-          <OrderSummary subtotal={cartItem.price * cartItem.quantity} shipping={6.12} />
+          <h2>
+            Items in your cart (
+            {cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+          </h2>
+
+          {cartItems.map((item, index) => (
+            <ProductCard
+              key={index}
+              {...item}
+              cartIndex={index}
+              onIncrement={(cartIndex, newQuantity) =>
+                updateCartItemQuantity(cartIndex, newQuantity)
+              }
+              onDecrement={(cartIndex, newQuantity) =>
+                updateCartItemQuantity(cartIndex, newQuantity)
+              }
+            />
+          ))}
+
+          <OrderSummary subtotal={subtotal} shipping={shippingCost || 0} discount={discount} />
+          {error && <p className="errorMessage">{error}</p>}
         </section>
       </div>
     </div>

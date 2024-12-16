@@ -6,21 +6,16 @@
   align-items: center;
   justify-content: center;
   padding: 0 1.25rem 1.25rem;
-  max-width: 31.25rem;
+  max-width: 20.25rem;
   margin: 2.5rem auto;
   background-color: #f7f7f7;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.cartContainer h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1.25rem;
-  color: #333;
-}
 
 .cartContainer h4 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 1.25rem;
   color: #333;
   background-color: #d7b46a;
@@ -29,11 +24,102 @@
   width: calc(100% - 2.5rem);
   text-align: center;
 }
+.cartContainer {
+  text-align: center;
+}
+
+.cartItem{
+  background-color:#ECECEC;
+  margin-top:2rem;
+  padding-bottom:2rem;
+  border-radius: 5px;
+}
+
+.cartItemImage{
+  padding-top:2rem;
+  width: 90%;
+  margin: 0 auto; /* Centra la imatge dins del contenidor */
+  display: block; /* Garanteix que es comporti com un bloc */
+  
+}
 
 .productContainer,
 .summarySection {
   width: 100%;
 }
+
+.quantityControls{
+  width:80%;
+  margin:auto;
+}
+
+.summaryTotal{
+  margin-top:1rem;
+  background-color:#ECECEC;
+  padding-top:0.1rem;
+  padding-bottom:1rem;
+  border-radius: 5px;
+}
+
+.emptyCart {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.emptyCartImage {
+  width: 320px; /* Ajusta el tamany segons necessiti */
+  height: auto;
+  
+}
+
+.goToGalleryButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  width:100%;
+}
+
+.goToGalleryButton:hover {
+  background-color:#d7b46a;
+  color: #333;
+}
+
+
+.cartNavigation {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap:0.5rem;
+  
+}
+
+.continueShoppingButton,
+.proceedToCheckoutButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:#d7b46a;
+  color: #333;
+  font-size:0.9rem;
+  
+  
+}
+
+.continueShoppingButton,.proceedToCheckoutButton {
+   width:100%;
+  
+}
+
+.continueShoppingButton:hover,.proceedToCheckoutButton:hover{
+  background-color:#333;
+  color: #d7b46a;
+}
+
 
 /* Responsivitat */
 @media (max-width: 768px) {

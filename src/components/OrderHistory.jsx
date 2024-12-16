@@ -1,36 +1,50 @@
+// OrderHistory.jsx
 import React, { useEffect, useState } from "react";
 import grandma5 from "../assets/grandma5.jpg";
 import { useAuth } from "./AuthContext";
+import { db } from "../firebase/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import "../styles/OrderHistory.css";
 
 const OrderHistory = () => {
-  const { user } = useAuth(); // Accedim a l'usuari autenticat
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [error, setError] = useState(null);
 
-  // Aquí simularem algunes comandes, això es temporal, s'haurà de configurar amb comandes reals
   useEffect(() => {
-    // Simulem dades d'una comanda
-    const mockOrders = [
-      {
-        id: "1234",
-        date: "October 15, 2024",
-        item: "Noise Field - Generative Art",
-        status: "Completed",
-        price: "€120.00",
-      },
-      {
-        id: "1235",
-        date: "October 20, 2024",
-        item: "Flowing Patterns - Generative Art",
-        status: "Completed",
-        price: "€150.00",
-      },
-    ];
+    const fetchUserOrders = async () => {
+      if (!user) return;
 
-    // Filtrar les comandes només per l'usuari actual (simulat)
-    if (user) {
-      setOrders(mockOrders);
-    }
+      try {
+        const q = query(
+          collection(db, "orders"),
+          where("userId", "==", user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const userOrders = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const firstItem = data.items[0]; // Agafem el primer item per mostrar la imatge
+          const totalItems = data.items.reduce((acc, it) => acc + it.quantity, 0);
+          userOrders.push({
+            id: doc.id,
+            date: data.created.toDate().toLocaleString(),
+            status: data.status,
+            price: `€${parseFloat(data.retail_costs.total).toFixed(2)}`,
+            // Podem mostrar només el primer article o tots
+            items: data.items.map(i => i.name).join(", "),
+            thumbnail: firstItem ? firstItem.thumbnail_url || firstItem.image : null,
+            totalItems: totalItems
+          });
+        });
+
+        setOrders(userOrders);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchUserOrders();
   }, [user]);
 
   return (
@@ -43,23 +57,47 @@ const OrderHistory = () => {
         <p>See your past purchases and order details</p>
 
         <div className="order-list">
-          {orders.length > 0 ? (
-            orders.map((order) => (
-              <div key={order.id} className="order-item">
-                <h3>Order #{order.id}</h3>
-                <p>Date: {order.date}</p>
-                <p>Item: {order.item}</p>
-                <p>Status: {order.status}</p>
-                <p>Price: {order.price}</p>
-                <button onClick={() => console.log(`Viewing details for order ${order.id}`)}>
-                  View Details
-                </button>
-              </div>
-            ))
-          ) : (
-            <p>No orders found.</p>
-          )}
-        </div>
+  {error && <p>Error: {error}</p>}
+  {orders.length > 0 ? (
+    <table className="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Art</th>
+          <th>Date</th>
+          <th>Items</th>
+          <th>Total Items</th>
+          <th>Status</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>
+              {order.thumbnail && (
+                <img
+                  src={order.thumbnail}
+                  alt="Order thumbnail"
+                  className="order-thumbnail-img"
+                />
+              )}
+            </td>
+            <td>{order.date}</td>
+            <td>{order.items}</td>
+            <td>{order.totalItems}</td>
+            <td>{order.status}</td>
+            <td>{order.price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p>No orders found.</p>
+  )}
+</div>
+
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* Overlay del modal */
 .this-was-added-overlay {
   position: fixed;
   top: 0;
@@ -8,25 +9,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1500;
 }
 
+/* finestra del modal */
 .this-was-added-window {
-  position: relative;
-  padding: 26px;
+  position: absolute;
+  top: 10vh; /* Ajusta aquesta alçada segons la distància des de la part superior (menú) */
+  bottom: 10vh; /* Aquesta restricció evita que el modal s'aproximi al footer */
+  max-height: 80vh; /* Controla l'alçada màxima per evitar que el modal sigui massa gran */
+  padding: 5px 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 320px;
+  max-width: 340px;
   width: 100%;
-  margin: auto;
-  z-index: 10;
+  margin: 0 auto;
+  z-index: 2000;
+  overflow-y: auto; /* Si el contingut és massa llarg, es podran desplaçar */
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 .this-was-added-window h2 {
@@ -35,7 +42,7 @@
 }
 
 .close-button {
-  background-color:#d7b46a;
+  background-color: #d7b46a;
   border: none;
   font-size: 1.2rem;
   color: #333;
@@ -47,22 +54,26 @@
 
 .close-button:hover {
   color: #d7b46a;
+  background-color:#333;
 }
 
 .artwork-preview {
   width: 100%;
   height: auto;
   margin-bottom: 5px;
+  margin-top:0;
 }
 
 .order-details {
-  margin-top: 10px;
+  margin-top: 0px;
+ 
 }
 
 .order-size,
 .order-quantity,
 .order-price {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+ 
 }
 
 label {
@@ -93,7 +104,7 @@ input {
 
 .buy-button:hover {
   background-color: #1f1f1f;
-  color:#d7b46a;
+  color: #d7b46a;
 }
 
 /* Adaptació per a tablets */

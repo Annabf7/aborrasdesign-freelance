@@ -1,6 +1,7 @@
 /* Resum de la comanda */
 .summarySection {
   padding-top: 20px;
+  
 }
 
 /* Títol del resum */
@@ -33,7 +34,7 @@
 
 /* Estil per a "Currency notice" */
 .currencyNotice {
-  margin-top: 100px;
+  padding-top:3rem;
   font-size: 0.875rem; /* 14px */
   color: #999;
   text-align: justify;
@@ -43,6 +44,8 @@
   color: #e63946;
   font-weight: bold;
 }
+
+
 
 /* Responsivitat */
 @media (max-width: 768px) {

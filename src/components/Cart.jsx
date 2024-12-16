@@ -1,55 +1,103 @@
 // Cart.jsx
-import React, { useContext } from "react";
-import ProductCard from "./ProductCard";
-import OrderSummary from "./OrderSummary";
-import "../styles/Cart.css";
-import { CartContext } from "./CartContext";
-import { ArtworkContext } from "./ArtworkContext";
-import defaultImage from "../assets/generative/style_1.png";
+import React, { useContext } from 'react';
+import '../styles/Cart.css';
+import { CartContext } from './CartContext';
+import { ShippingContext } from './ShippingContext';
+import emptyCartImage from '../assets/grandma8.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { quantity, setQuantity } = useContext(CartContext);
-  const { artworkImage } = useContext(ArtworkContext);
+  const { cartItems, removeFromCart, updateCartItemQuantity, cartTotal, discount } = useContext(CartContext);
+  const { shippingCost } = useContext(ShippingContext);
+  const navigate = useNavigate();
 
-  // Funcions per incrementar i decrementar la quantitat
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
+  const handleIncrement = (index) => {
+    updateCartItemQuantity(index, cartItems[index].quantity + 1);
   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const handleDecrement = (index) => {
+    const newQuantity = cartItems[index].quantity - 1;
+    if (newQuantity >= 1) {
+      updateCartItemQuantity(index, newQuantity);
     }
   };
 
-  // Comprovem si artworkImage està disponible
-  // Si no hi ha obra seleccionada, es mostra una versió per defecte
-  const cartItem = artworkImage
-    ? {
-        price: 800,
-        name: "Noise Field",
-        size: 'Medium 18 x 24 "standard"',
-        image: artworkImage,
-        quantity,
-      }
-    : {
-        price: 0,
-        name: "No artwork selected",
-        size: "N/A",
-        image: defaultImage,
-        quantity: 0,
-      };
+  const totalWithDiscount = cartTotal - discount + shippingCost;
 
   return (
     <div className="cartContainer">
-      <h4>Your Cart</h4>
-      {/* Mostrem sempre el cart amb la seva estructura */}
-      <ProductCard {...cartItem} onIncrement={handleIncrement} onDecrement={handleDecrement} />
-      <OrderSummary subtotal={cartItem.price * cartItem.quantity} shipping={6.12} />
-      {/* Si no hi ha obra seleccionada, mostrar missatge */}
-      {cartItem.quantity === 0 && (
+      <h4>Items in your cart ({cartItems.length})</h4>
+      {cartItems.length > 0 ? (
         <div>
-          <p>Your cart is empty. Please select an artwork to add to your cart.</p>
+          {cartItems.map((item, index) => (
+            <div key={index} className="cartItem">
+              <div className="cartItemDetails">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="cartItemImage"
+                />
+                <div className="cartItemText">
+                  <p className="cartItemVariant">{item.size}</p>
+                  <p className="cartItemPrice">€{item.price.toFixed(2)}</p>
+                </div>
+              </div>
+              <div className="cartItemActions">
+                <div className="quantityControls">
+                  <button onClick={() => handleDecrement(index)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => handleIncrement(index)}>+</button>
+                </div>
+                <button className="removeButton" onClick={() => removeFromCart(index)}>
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+          <div className="summaryTotal">
+            <div className="shippingCost">
+              <p>Shipping Cost: {shippingCost.toFixed(2)}€</p>
+            </div>
+            <hr />
+            <div className="summaryRow">
+              <span>Subtotal:</span>
+              <span>€{cartTotal.toFixed(2)}</span>
+            </div>
+            {discount > 0 && (
+              <div className="summaryRow">
+                <span>Discount:</span>
+                <span>- €{discount.toFixed(2)}</span>
+              </div>
+            )}
+            <hr />
+            <strong>Estimated Total: </strong>
+            <strong>€{totalWithDiscount.toFixed(2)}</strong>
+          </div>
+          <div className="cartNavigation">
+            <button
+              className="continueShoppingButton"
+              onClick={() => navigate('/generative-art')}
+            >
+              Continue Shopping
+            </button>
+            <button
+              className="proceedToCheckoutButton"
+              onClick={() => navigate('/checkout')}
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="emptyCart">
+          <img src={emptyCartImage} alt="Empty Cart" className="emptyCartImage" />
+          <p>Your cart is empty.</p>
+          <button
+            className="goToGalleryButton"
+            onClick={() => navigate('/generative-art')}
+          >
+            Go to Generative Art Gallery
+          </button>
         </div>
       )}
     </div>
