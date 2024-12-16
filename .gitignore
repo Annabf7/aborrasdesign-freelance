@@ -5,11 +5,19 @@
 
 # Firebase runtime config
 functions/.runtimeconfig.json
+src/firebase/firebase.js
+.runtimeconfig.json
 
 # Environment Variables
 .env
 .env.development
 .env.production
+backend/.env
+
+# Sensitive Files
+*.pem
+*.key
+serviceAccountKey.json
 
 # Logs
 logs/
@@ -21,10 +29,6 @@ yarn-error.log*
 # Operating System Files
 .DS_Store
 Thumbs.db
-
-# Sensitive Files
-*.pem
-*.key
 
 # Build output
 /build/
