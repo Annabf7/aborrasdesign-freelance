@@ -1,64 +1,156 @@
-// index.js a la carpeta functions
-const functions = require("firebase-functions");
+// index.js
+const dotenv = require('dotenv');
+const { onRequest } = require('firebase-functions/v2/https'); // Importa només onRequest
 const admin = require("firebase-admin");
+const { Timestamp } = require('firebase-admin/firestore');
 const express = require("express");
 const cors = require("cors");
-const fetch = require("node-fetch");
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const Stripe = require("stripe");
+const path = require('path'); 
+const nodemailer = require("nodemailer");
+const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
-// Inicialitza admin (ja no necessites serviceAccountKey.json a codi, les credencials venen de l'entorn):
+// Inicialitza admin
 admin.initializeApp();
+
 const db = admin.firestore();
 
-// Obtenim les variables d'entorn definides a Firebase
-// Les hauràs definit amb firebase functions:config:set ...
-const printfulApiKey = functions.config().printful.api_key;
-const stripeSecretKey = functions.config().stripe.secret_key;
+// Inicialitza Secret Manager client
+const client = new SecretManagerServiceClient();
 
-// Pots definir una lògica per triar FRONTEND_URL segons entorn (dev o prod):
-// Ex:
-// const FRONTEND_URL = (process.env.NODE_ENV === 'production') 
-//   ? functions.config().frontend.prod.url 
-//   : functions.config().frontend.dev.url;
+// Objecte per emmagatzemar les secrets carregades
+const secrets = {};
 
-const FRONTEND_URL = functions.config().frontend.prod.url || "https://www.aborrasdesign.com";
-// Si vols treballar en local, pots canviar FRONTEND_URL segons un paràmetre, o simplement
-// comentar i descomentar segons necessitis.
-// Per testejar localment (amb emuladors), pots posar: const FRONTEND_URL = functions.config().frontend.dev.url || "http://localhost:3000";
+// Variables globals per a Stripe i Nodemailer
+let stripe;
+let transporter;
 
-const stripe = new Stripe(stripeSecretKey);
+// Funció per accedir a una secret
+async function accessSecret(secretName) {
+  const [version] = await client.accessSecretVersion({
+    name: secretName,
+  });
+  return version.payload.data.toString('utf8');
+}
 
-// printfulApi.js integrat aquí mateix per simplicitat
+// Funció per carregar totes les secrets
+const loadSecrets = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    // En producció, accedeix a les secrets des de Secret Manager
+    secrets.FRONTEND_URL = await accessSecret('projects/aborrasdesign-b281d/secrets/FRONTEND_URL_PROD/versions/latest');
+    secrets.PRINTFUL_API_KEY = await accessSecret('projects/aborrasdesign-b281d/secrets/PRINTFUL_API_KEY/versions/latest');
+    secrets.STRIPE_SECRET_KEY_TEST = await accessSecret('projects/aborrasdesign-b281d/secrets/STRIPE_SECRET_KEY_TEST/versions/latest');
+    secrets.STRIPE_SECRET_KEY_LIVE = await accessSecret('projects/aborrasdesign-b281d/secrets/STRIPE_SECRET_KEY_LIVE/versions/latest');
+    secrets.EMAIL_USER = await accessSecret('projects/aborrasdesign-b281d/secrets/EMAIL_USER/versions/latest');
+    secrets.EMAIL_PASS = await accessSecret('projects/aborrasdesign-b281d/secrets/EMAIL_PASS/versions/latest');
+  } else {
+    // En desenvolupament, carrega les secrets des de les variables d'entorn
+    dotenv.config({ path: path.resolve(__dirname, '.env.development') });
+    
+    secrets.FRONTEND_URL = process.env.FRONTEND_URL || process.env.FRONTEND_URL_DEV;
+    secrets.PRINTFUL_API_KEY = process.env.PRINTFUL_API_KEY;
+    secrets.STRIPE_SECRET_KEY_TEST = process.env.STRIPE_SECRET_KEY_TEST;
+    secrets.STRIPE_SECRET_KEY_LIVE = process.env.STRIPE_SECRET_KEY_LIVE;
+    secrets.EMAIL_USER = process.env.EMAIL_USER;
+    secrets.EMAIL_PASS = process.env.EMAIL_PASS;
+  }
+
+  // Inicialitza Stripe només si stripeSecretKey està present
+  if (secrets.STRIPE_SECRET_KEY_LIVE || secrets.STRIPE_SECRET_KEY_TEST) {
+    const stripeKey = process.env.NODE_ENV === 'production' ? secrets.STRIPE_SECRET_KEY_LIVE : secrets.STRIPE_SECRET_KEY_TEST;
+    stripe = new Stripe(stripeKey);
+    console.log('Stripe inicialitzat correctament.');
+  } else {
+    console.error("Stripe secret key is missing! Verifica la configuració.");
+  }
+
+  // Configura Nodemailer transporter
+  if (secrets.EMAIL_USER && secrets.EMAIL_PASS) {
+    transporter = nodemailer.createTransport({
+      service: 'Gmail', // Pots utilitzar altres serveis com 'Yahoo', 'Outlook', etc.
+      auth: {
+        user: secrets.EMAIL_USER,
+        pass: secrets.EMAIL_PASS,
+      },
+    });
+
+    // Verificació del transporter
+    try {
+      await transporter.verify();
+      console.log('Servidor preparat per rebre missatges');
+    } catch (error) {
+      console.error('Error configurant el transporter:', error);
+    }
+  } else {
+    console.error("Email credentials are missing! Verifica la configuració.");
+  }
+};
+
+// Carrega les secrets en inici
+const secretsLoaded = loadSecrets();
+
+// Middleware per assegurar que les secrets estan carregades
+const asyncHandler = fn => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+// Inicialitza l'aplicació Express
+const app = express();
+
+// Configura CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? secrets.FRONTEND_URL : 'http://localhost:3000',
+  methods: ['GET', 'POST'],
+}));
+
+app.use(express.json());
+
+// Middleware per assegurar que les secrets estan carregades
+app.use(asyncHandler(async (req, res, next) => {
+  await secretsLoaded;
+  next();
+}));
+
+// Middleware d'error
+app.use((err, req, res, next) => {
+  const allowedOrigin = process.env.NODE_ENV === 'production' ? secrets.FRONTEND_URL : 'http://localhost:3000';
+  res.header("Access-Control-Allow-Origin", allowedOrigin);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  
+  console.error(err.stack);
+  res.status(500).json({ success: false, error: 'Internal server error.' });
+});
+
+// Endpoint base
+app.get('/', (req, res) => res.send('Backend està funcionant correctament!'));
+
+// Funcions centralitzades per a Printful
 async function printfulFetch(endpoint, method = 'GET', body = null) {
-  if (!printfulApiKey) {
-    throw new Error('PRINTFUL_API_KEY is missing from environment variables.');
+  if (!secrets.PRINTFUL_API_KEY) {
+    throw new Error('PRINTFUL_API_KEY is missing.');
   }
 
   const url = `https://api.printful.com/${endpoint}`;
   const headers = {
-    Authorization: `Bearer ${printfulApiKey}`,
+    Authorization: `Bearer ${secrets.PRINTFUL_API_KEY}`,
     'Content-Type': 'application/json',
   };
-
   const options = { method, headers };
   if (body) options.body = JSON.stringify(body);
 
   const response = await fetch(url, options);
-
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(
-      `Printful API Error: ${response.status} - ${response.statusText} - ${errorText}`
-    );
+    throw new Error(`Printful API Error: ${response.status} - ${response.statusText} - ${errorText}`);
   }
 
   let data;
   try {
     data = await response.json();
   } catch (jsonError) {
-    throw new Error(
-      `Error parsing JSON response from Printful API (${endpoint}): ${jsonError.message}`
-    );
+    throw new Error(`Error parsing JSON response from Printful API (${endpoint}): ${jsonError.message}`);
   }
 
   return data;
@@ -70,39 +162,11 @@ async function getProductsFromPrintful() {
 }
 
 async function getProductDetailsFromPrintful(productId) {
-  const endpoint = `https://api.printful.com/store/products/${productId}`;
-  const response = await fetch(endpoint, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${printfulApiKey}`,
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Printful API Error: ${response.statusText} - ${errorText}`);
-  }
-
-  const data = await response.json();
+  const endpoint = `store/products/${productId}`;
+  const data = await printfulFetch(endpoint);
   return data.result;
 }
 
-// Express app setup
-const app = express();
-app.use(cors({ origin: FRONTEND_URL, methods: ['GET', 'POST'] }));
-app.use(express.json());
-
-// Middleware d'error
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ success: false, error: 'Internal server error.' });
-});
-
-// Endpoint base
-app.get('/', (req, res) => res.send('Backend està funcionant correctament!'));
-
-// Validació shipping request
 function validateShippingRequest(req, res, next) {
   const { recipient, items } = req.body;
   if (
@@ -118,14 +182,8 @@ function validateShippingRequest(req, res, next) {
   next();
 }
 
-// Funció auxiliar per fer GET a Printful ja integrat a printfulFetch
-async function printfulGet(endpoint) {
-  const data = await printfulFetch(endpoint, 'GET');
-  return data;
-}
-
 // Routes Printful
-app.get('/api/printful/products', async (req, res) => {
+app.get('/printful/products', async (req, res) => {
   try {
     const products = await getProductsFromPrintful();
     res.json(products);
@@ -135,7 +193,7 @@ app.get('/api/printful/products', async (req, res) => {
   }
 });
 
-app.get('/api/printful/products/:productId', async (req, res) => {
+app.get('/printful/products/:productId', async (req, res) => {
   const { productId } = req.params;
   try {
     const productDetails = await getProductDetailsFromPrintful(productId);
@@ -146,9 +204,9 @@ app.get('/api/printful/products/:productId', async (req, res) => {
   }
 });
 
-app.get('/api/printful/orders', async (req, res) => {
+app.get('/printful/orders', async (req, res) => {
   try {
-    const data = await printfulGet('orders');
+    const data = await printfulFetch('orders');
     res.status(200).json({ success: true, orders: data.result });
   } catch (error) {
     console.error('Error obtenint les comandes:', error.message);
@@ -156,10 +214,10 @@ app.get('/api/printful/orders', async (req, res) => {
   }
 });
 
-app.get('/api/printful/orders/:orderId', async (req, res) => {
+app.get('/printful/orders/:orderId', async (req, res) => {
   const { orderId } = req.params;
   try {
-    const data = await printfulGet(`orders/${orderId}`);
+    const data = await printfulFetch(`orders/${orderId}`);
     res.status(200).json({ success: true, order: data.result });
   } catch (error) {
     console.error(`Error obtenint la comanda ${orderId}:`, error.message);
@@ -172,6 +230,7 @@ app.post('/create-checkout-session', async (req, res) => {
   try {
     const { items, shippingCost, orderId } = req.body;
 
+    // Validacions dels items
     if (!items || !items.length) {
       return res.status(400).json({ success: false, error: 'No items provided.' });
     }
@@ -180,19 +239,22 @@ app.post('/create-checkout-session', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Invalid items data.' });
     }
 
+    // Validació del cost d'enviament
     if (isNaN(shippingCost) || shippingCost <= 0) {
       return res.status(400).json({ success: false, error: 'Invalid shipping cost.' });
     }
 
+    // Construcció dels items per a Stripe (en cèntims)
     const lineItems = items.map(item => ({
       price_data: {
         currency: 'eur',
         product_data: { name: item.name },
-        unit_amount: item.price,
+        unit_amount: item.price, 
       },
       quantity: item.quantity,
     }));
 
+    // Afegim el cost d'enviament com a línia separada (en cèntims)
     lineItems.push({
       price_data: {
         currency: 'eur',
@@ -202,15 +264,16 @@ app.post('/create-checkout-session', async (req, res) => {
       quantity: 1,
     });
 
-    // FRONTEND_URL ja definit a dalt
+    // Crear sessió de Stripe
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: `${FRONTEND_URL}/#/success?order_id=${orderId}`,
-      cancel_url: `${FRONTEND_URL}/#/cancel`,
+      payment_method_types: ['card'], // Tipus de pagament acceptats
+      line_items: lineItems, // Items que es mostren a Stripe
+      mode: 'payment', // Mode de pagament únic
+      success_url: `${FRONTEND_URL}/#/success?order_id=${orderId}`, // URL de retorn quan el pagament té èxit
+      cancel_url: `${FRONTEND_URL}/#/cancel`, // URL de retorn quan es cancel·la el pagament
     });
 
+    // Retornem l'ID de la sessió creada
     res.status(200).json({ success: true, sessionId: session.id });
   } catch (error) {
     console.error('Error al crear la sessió de Stripe:', error.message);
@@ -218,7 +281,7 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.post('/api/printful/shipping-estimates', validateShippingRequest, async (req, res) => {
+app.post('/printful/shipping-estimates', validateShippingRequest, async (req, res) => {
   try {
     const { recipient, items, currency = 'EUR', locale = 'en_US' } = req.body;
 
@@ -241,7 +304,7 @@ app.post('/api/printful/shipping-estimates', validateShippingRequest, async (req
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${printfulApiKey}`,
+        Authorization: `Bearer ${secrets.PRINTFUL_API_KEY}`,
       },
       body: JSON.stringify(shippingInfo),
     });
@@ -260,7 +323,7 @@ app.post('/api/printful/shipping-estimates', validateShippingRequest, async (req
   }
 });
 
-app.post('/api/printful/create-order', async (req, res) => {
+app.post('/printful/create-order', async (req, res) => {
   try {
     const { recipient, items, userId, retail_costs } = req.body;
 
@@ -292,22 +355,9 @@ app.post('/api/printful/create-order', async (req, res) => {
       };
     }
 
-    const response = await fetch('https://api.printful.com/orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${printfulApiKey}`,
-      },
-      body: JSON.stringify(orderPayload),
-    });
+    const response = await printfulFetch('orders', 'POST', orderPayload);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error resposta Printful API:', errorText);
-      return res.status(500).json({ success: false, error: `Printful API Error: ${errorText}` });
-    }
-
-    const data = await response.json();
+    const data = response; // Ya has parsejat JSON en printfulFetch
     console.log('Comanda creada amb èxit:', data);
 
     const orderId = data.result.id;
@@ -315,7 +365,7 @@ app.post('/api/printful/create-order', async (req, res) => {
 
     await orderDocRef.set({
       userId: userId,
-      created: admin.firestore.Timestamp.now(),
+      created: Timestamp.now(),
       dashboard_url: data.result.dashboard_url,
       items: data.result.items.map(i => {
         let thumb = '';
@@ -360,27 +410,14 @@ app.post('/api/printful/create-order', async (req, res) => {
   }
 });
 
-app.post('/api/printful/estimate-costs', validateShippingRequest, async (req, res) => {
+app.post('/printful/estimate-costs', validateShippingRequest, async (req, res) => {
   try {
     const { recipient, items } = req.body;
     const orderPayload = { recipient, items };
 
-    const response = await fetch('https://api.printful.com/orders/estimate-costs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${printfulApiKey}`,
-      },
-      body: JSON.stringify(orderPayload),
-    });
+    const response = await printfulFetch('orders/estimate-costs', 'POST', orderPayload);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error resposta Printful API:', errorText);
-      return res.status(500).json({ success: false, error: `Printful API Error: ${errorText}` });
-    }
-
-    const data = await response.json();
+    const data = response; // Ya has parsejat JSON en printfulFetch
     res.status(200).json(data);
   } catch (error) {
     console.error('Error al obtenir els costos estimats:', error.message);
@@ -388,5 +425,41 @@ app.post('/api/printful/estimate-costs', validateShippingRequest, async (req, re
   }
 });
 
-// Finalment exportem la funció:
-exports.api = functions.https.onRequest(app);
+// Funció per enviar l'email de contacte
+app.post('/sendContactEmail', async (req, res) => {
+  const { name, email, project } = req.body;
+
+  // Validació dels camps necessaris
+  if (!name || !email || !project) {
+    return res.status(400).json({ success: false, error: 'Missing required fields.' });
+  }
+
+  // Configuració de les opcions del correu
+  const mailOptions = {
+    from: `"${name}" <${email}>`, // L'usuari que envia el correu
+    to: secrets.EMAIL_USER, // La teva adreça de correu per rebre els missatges
+    subject: 'New Contact Form Submission',
+    text: `Name: ${name}\nEmail: ${email}\nProject: ${project}`,
+    html: `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Project:</strong> ${project}</p>
+    `,
+  };
+
+  try {
+    if (!transporter) {
+      throw new Error('Email transporter not configured.');
+    }
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: true, message: 'Email sent successfully.' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ success: false, error: 'Failed to send email.' });
+  }
+});
+
+// Exportar l'aplicació Express com a Cloud Function amb GCF Gen 2
+exports.api = onRequest(app);

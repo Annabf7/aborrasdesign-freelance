@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// src/components/Gallery.jsx
+import React, { useState, useRef } from "react";
 import "../styles/AnimationProjects.css";
 
 // Importa els vídeos de la categoria "Motion"
@@ -18,6 +19,7 @@ import motion_12 from "../assets/motion/motion_12.mp4";
 // Component principal
 const Gallery = () => {
   const [category, setCategory] = useState("Motion"); // Categoria inicial
+  const videoRefs = useRef([]); // Ref per a múltiples vídeos
 
   // Vídeos de la categoria "Motion"
   const motionVideos = [
@@ -41,15 +43,22 @@ const Gallery = () => {
       return (
         <div className="grid-gallery">
           {motionVideos.map((videoSrc, index) => (
-            <video
+            <div
               key={index}
-              className="motion-video"
-              src={videoSrc}
-              loop // Reprodueix en bucle
-              autoPlay // Reprodueix automàticament
-              muted // Sense so
-              playsInline // Optimització per a dispositius mòbils
-            />
+              className="motion-item"
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave(index)}
+            >
+              <video
+                ref={(el) => (videoRefs.current[index] = el)}
+                className="motion-video"
+                src={videoSrc}
+                loop // Reprodueix en bucle
+                autoPlay // Reprodueix automàticament
+                muted // Sense so per defecte
+                playsInline // Optimització per a dispositius mòbils
+              />
+            </div>
           ))}
         </div>
       );
@@ -59,6 +68,36 @@ const Gallery = () => {
       return <p>Mostrant treballs de Web Frontend...</p>;
     } else if (category === "Photography") {
       return <p>Mostrant treballs de Fotografia...</p>;
+    }
+  };
+
+  // Funció per manejar l'entrada del ratolí
+  const handleMouseEnter = (index) => {
+    const video = videoRefs.current[index];
+    if (video) {
+      video.muted = false; // Activa el so
+      video.play().catch((error) => {
+        console.error("Error al reproduir el vídeo:", error);
+      });
+    }
+    // Afegeix una classe per ampliar l'obra
+    const motionItem = document.getElementsByClassName("motion-item")[index];
+    if (motionItem) {
+      motionItem.classList.add("enlarge");
+    }
+  };
+
+  // Funció per manejar la sortida del ratolí
+  const handleMouseLeave = (index) => {
+    const video = videoRefs.current[index];
+    if (video) {
+      video.muted = true; // Desactiva el so
+      // El vídeo continua reproduint-se en bucle
+    }
+    // Elimina la classe per reduir l'obra
+    const motionItem = document.getElementsByClassName("motion-item")[index];
+    if (motionItem) {
+      motionItem.classList.remove("enlarge");
     }
   };
 

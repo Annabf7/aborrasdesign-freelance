@@ -1,0 +1,27 @@
+#loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex:1;
+    width:100%;
+    background-color: #1f1f1f; /* Fons */
+  }
+  
+  #loader {
+    fill: #d7b46a; /* Color de l'animació */
+    animation: fadeIn 2s linear infinite;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.3;
+    }
+  }
+  

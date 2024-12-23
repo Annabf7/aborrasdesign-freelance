@@ -13,7 +13,21 @@
 .motion-video {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  display: block;
+  cursor: pointer; /* Canvia el cursor per indicar interacció */
+  transition: opacity 0.3s ease;
+}
+
+/* Contenidor de cada vídeo */
+.motion-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.motion-item.enlarge {
+  transform: scale(1.05); /* Escala l'element un 5% */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Opcional: afegeix una ombra */
 }
 
 .filter-container {

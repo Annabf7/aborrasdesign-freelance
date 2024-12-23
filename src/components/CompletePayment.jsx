@@ -1,3 +1,4 @@
+//CompletePayment.jsx
 import React, { useContext, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { ShippingContext } from './ShippingContext';
@@ -8,7 +9,18 @@ import OrderSummary from './OrderSummary';
 import secureIcon from '../assets/icons/candado.png';
 import '../styles/CompletePayment.css';
 
-const stripePromise = loadStripe('pk_test_51QFKM62KU97iEHk7wEnB6ebDp4H8u1pw2hOQNfRgtlsXGvnKo4nedhGYpAGVi3gYtVnBsFziPgLPFyhlC8rEh78800fljsYHQJ');
+// Assignació dinàmica de BASE_URL segons l'entorn
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_BASE_URL_PROD
+  : process.env.REACT_APP_BASE_URL_DEV;
+
+// Clau pública de Stripe segons l'entorn
+const stripePromise = loadStripe(
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_STRIPE_PUBLIC_KEY_LIVE
+    : process.env.REACT_APP_STRIPE_PUBLIC_KEY_TEST
+);
+
 
 export const CompletePayment = () => {
   const { userAddress, shippingCost } = useContext(ShippingContext);
@@ -18,10 +30,8 @@ export const CompletePayment = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Càlcul del subtotal original sense descompte
   const originalSubtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-  // Ajustar preus amb el descompte si cal
   let adjustedItems = [...cartItems];
   if (discount > 0 && discount < originalSubtotal) {
     const discountRatio = 1 - (discount / originalSubtotal);
@@ -36,10 +46,8 @@ export const CompletePayment = () => {
     });
   }
 
-  // Subtotal ajustat (després d'aplicar el descompte)
   const adjustedSubtotal = adjustedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   
-  // Verificació d'adreça i dades
   const handleConfirmPayment = async () => {
     if (!adjustedItems.length || !userAddress) {
       setErrorMessage('Your cart or shipping information is incomplete.');
@@ -77,7 +85,6 @@ export const CompletePayment = () => {
 
     const countryCode = countryMap[userAddress.country] || userAddress.country;
 
-    // Prepara payload per crear la comanda a Printful
     const printfulItems = adjustedItems.map(item => ({
       sync_variant_id: item.sync_variant_id,
       quantity: item.quantity
@@ -93,11 +100,9 @@ export const CompletePayment = () => {
       email: userAddress.email || user.email
     };
 
-    // Càlcul del total real amb descompte
     const shipping = shippingCost;
     const finalTotal = (adjustedSubtotal - discount + shipping).toFixed(2);
 
-    // Construïm l'objecte retail_costs per informar Printful del descompte
     const retail_costs = {
       currency: "EUR",
       discount: discount.toFixed(2),
@@ -110,15 +115,14 @@ export const CompletePayment = () => {
     try {
       setIsLoading(true);
 
-      // 1. Crear la comanda a Printful, ara amb retail_costs
-      const createOrderResponse = await fetch('http://localhost:4000/api/printful/create-order', {
+      const createOrderResponse = await fetch(`${BASE_URL}/printful/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           recipient,
           items: printfulItems,
           userId: user.uid,
-          retail_costs // Enviem el retail_costs amb el descompte a Printful
+          retail_costs
         }),
       });
 
@@ -130,7 +134,6 @@ export const CompletePayment = () => {
       const orderId = createOrderData.result.id;
       console.log('Printful order created with id:', orderId);
 
-      // 2. Crear sessió de Stripe
       const itemsPayload = adjustedItems.map((item) => {
         const priceInCents = Math.round(item.price * 100);
         return {
@@ -142,7 +145,7 @@ export const CompletePayment = () => {
 
       const shippingInCents = Math.round(shipping * 100);
 
-      const stripeResponse = await fetch('http://localhost:4000/create-checkout-session', {
+      const stripeResponse = await fetch(`${BASE_URL}/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -166,11 +169,6 @@ export const CompletePayment = () => {
         throw new Error(result.error.message);
       }
 
-     // Després del pagament exitós (Stripe redirigeix a success):
-      // Quan l'usuari torni del success page (on hagis configurat la teva ruta success), fes clearCart().
-      // NOTA: Pots fer clearCart() a la pàgina success després de la confirmació de Stripe:
-      // per exemple, a la success page, useEffect(() => { clearCart(); }, []);
-
     } catch (error) {
       console.error('Error al confirmar el pagament:', error.message);
       setErrorMessage(error.message);
@@ -178,7 +176,6 @@ export const CompletePayment = () => {
       setIsLoading(false);
     }
   };
-
 
   return (
     <div className="containerWrapper">
@@ -219,12 +216,12 @@ export const CompletePayment = () => {
           <div className="paymentDetails">
             <h4>What to expect after payment</h4>
             <ul className="paymentSteps">
-              <li><strong>Order Confirmation:</strong> Once the payment is completed, you will receive an order confirmation email.</li>
-              <li><strong>Fulfillment & Shipping:</strong> Your order will move into production and then shipped to your address.</li>
-              <li><strong>Tracking Info:</strong> When available, we’ll send you a tracking number to follow your package’s journey.</li>
+              <li><strong>Order Confirmation:</strong> Once payment is completed, you'll receive an order confirmation email.</li>
+              <li><strong>Fulfillment & Shipping:</strong> Your order goes into production and then ships to your address.</li>
+              <li><strong>Tracking Info:</strong> We’ll send a tracking number when available.</li>
             </ul><hr></hr>
             <p className="additionalNote">
-              Please review your order details carefully before confirming payment. If you have any questions, contact our support at <a href="mailto:aborrasdesign.com">aborrasdesign.com</a>.
+              Please review your order details before confirming payment. If you have any questions, contact support at <a href="mailto:aborrasdesign.com">aborrasdesign.com</a>.
             </p>
           </div>
 
@@ -238,7 +235,6 @@ export const CompletePayment = () => {
 
           <div className="secureInfo">
             <img src={secureIcon} alt="Secure Icon" />
-            
             <p className="secureDetails">
               Payments are encrypted and secured through Stripe. <br></br>
               Your personal and financial information remains confidential.
@@ -255,7 +251,6 @@ export const CompletePayment = () => {
               readOnly={true}
             />
           ))}
-          {/* Aquí mostrem el subtotal, shipping i discount actuals abans de redirigir a la passarel·la */}
           <OrderSummary
             subtotal={originalSubtotal}
             shipping={shippingCost || 0}

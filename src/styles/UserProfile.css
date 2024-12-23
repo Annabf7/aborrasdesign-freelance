@@ -1,6 +1,7 @@
 .user-profile-page {
   display: flex;
   min-height: 100vh;
+  max-height: 78rem;;
 }
 
 .profile-image-section {
@@ -29,26 +30,16 @@
   margin: 0 auto;
 }
 
-
-.profile-info-section h2,
-.order-details-section h1 {
+.profile-info-section h2 {
   font-family: "Bebas Neue", sans-serif;
   font-size: 3rem;
   font-weight: 300;
   color: #d7b46a;
   text-align: center;
-  margin-top: 2rem; /* Ajusta aquest valor per assegurar l'alineació */
+  margin-top: 2rem;
   margin-bottom: 1.5rem;
 }
 
-/* Asegura que els contenidors principals tinguin el mateix padding */
-.profile-info-section,
-.order-details-section {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-/* Estil per cada secció de detalls (Personal Information, Shipping Address, User Preferences) */
 .profile-details {
   width: 100%;
   max-width: 500px;
@@ -73,7 +64,7 @@
 
 .preferences-section {
   line-height: 1.5em;
-  margin-top:2rem;
+  margin-top: 2rem;
 }
 
 .info-section h3,
@@ -90,7 +81,6 @@
   margin-bottom: 0.4rem;
 }
 
-/* Icona d'usuari petita */
 .user-icon {
   width: 64px;
   height: 64px;
@@ -98,7 +88,6 @@
   margin-top: 0.4rem;
 }
 
-/* Contenidor per al text a la dreta de la icona */
 .info-item {
   display: flex;
   align-items: center;
@@ -117,80 +106,51 @@
   color: #d7b46a;
 }
 
-/* Estils per a cada camp de text */
-.profile-text {
-  font-size: 0.875rem;
-  color: #1b1b1b;
-  margin-bottom: 0.3rem;
-}
-/* Contenidor per a cada secció de preferències */
 .preferences-section label {
   font-size: 0.875rem;
-  color: #1b1b1b;
+  color: #d7b46a;
   margin-bottom: 0.5rem;
   display: block;
   margin-top: 0.3rem;
-  
+  font-weight: 300;
 }
 
 .preferences-section select {
   width: 100%;
   border: 1px solid #1b1b1b;
   border-radius: 5px;
-  background-color: #ffffff;
-  color: #1e1f1f;
+  background-color: #1b1b1b;
+  color: #d7b46a;
   font-size: 0.875rem;
   margin-bottom: 1rem;
   box-sizing: border-box;
   transition: border-color 0.3s ease;
-  padding-top:0.8rem;
-  
-  
+  padding-top: 0.8rem;
+  font-weight: 300;
 }
 
 .preferences-section select:focus {
   outline: none;
   border-color: #d7b46a;
-  
 }
 
-/* Espaiat entre cada bloc d'idioma i mètode de pagament */
 .preferences-section {
-  padding:0.6rem 1.5rem ;
-  background-color: #ececec;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(236, 236, 236, 0.5);
-  
-}
-
-.preferences-section h3 {
-  color: #1b1b1b;
-}
-
-/* Missatge de confirmació d'actualització */
-.update-status {
-  font-size: 0.875rem;
-  color: #1e1f1f;
-  text-align: center;
-}
-
-/* Activity History estil diferent */
-.activity-section {
-  margin-top: 2rem;
-  padding: 1.5rem;
+  padding: 0.6rem 1.5rem;
   background-color: #333;
   color: #d7b46a;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-.activity-section h3 {
-  text-decoration: underline;
 }
 
-/* Botó d'edició */
-.edit-button {
-  background-color: #1e1f1f;
+.update-status {
+  font-size: 0.875rem;
   color: #d7b46a;
+  text-align: center;
+}
+
+.edit-button {
+  background-color: #d7b46a;
+  color: #1e1f1f;
+  
   border: none;
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
@@ -203,15 +163,65 @@
 }
 
 .edit-button:hover {
-  background-color: #d7b46a;
-  color: #1e1f1f;
+  background-color: #1e1f1f;
+  color: #d7b46a;
 }
 
-.activity-section .details-button {
-  width: 100%;
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-/* Responsivitat */
+.address-form label {
+  margin-bottom: 5px;
+  padding-top: 8px;
+  font-weight: normal;
+}
+
+.address-form input {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.address-form button {
+  margin-top: 10px;
+}
+
+.address-form input {
+  background-color:#1e1f1f;
+  color:#d7b46a;
+  border: 1px solid #1e1f1f;
+  border-radius: 4px; 
+  padding: 0.5rem; 
+  margin-bottom: 1rem; 
+}
+/* Manté el color del text també quan el camp té focus */
+.address-form input:focus {
+  color: #d7b46a; /* Assegura el color del text */
+  outline: none; /* Elimina el contorn per defecte del navegador */
+  border-color: #d7b46a; /* Canvia el color del borde si cal */
+  background-color:#1e1f1f;
+}
+
+
+/* Estil per a l'autocompletat (navegadors WebKit) */
+.address-form input:-webkit-autofill {
+  background-color: #1e1f1f; /* Manté el fons */
+  color: #d7b46a; /* Manté el color del text */
+  border: 1px solid #1e1f1f; /* Manté el borde */
+  -webkit-text-fill-color: #d7b46a; /* Assegura el color del text */
+  transition: background-color 5000s ease-in-out 0s; /* Evita que canviï ràpidament el color */
+}
+
+/* Opcional: Per a navegadors no WebKit */
+.address-form input:autofill {
+  background-color: #1e1f1f;
+  color: #d7b46a;
+  border: 1px solid #1e1f1f;
+}
+
+
 @media (max-width: 768px) {
   .profile-info-section {
     max-width: 90%;
@@ -228,8 +238,7 @@
 
   .info-section h3,
   .address-section h3,
-  .preferences-section h3,
-  .activity-section h3 {
+  .preferences-section h3 {
     font-size: 1.1em;
   }
 }
@@ -250,8 +259,7 @@
 
   .info-section h3,
   .address-section h3,
-  .preferences-section h3,
-  .activity-section h3 {
+  .preferences-section h3 {
     font-size: 1em;
   }
 

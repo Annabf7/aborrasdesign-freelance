@@ -1,5 +1,6 @@
 import React from "react";
 import Carousel from "./Carousel";
+import '../styles/Carousel.css';
 
 const Experience = ({ title, images }) => {
   return (

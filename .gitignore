@@ -12,7 +12,13 @@ src/firebase/firebase.js
 .env
 .env.development
 .env.production
-backend/.env
+functions/.env
+frontend_url_prod.txt
+printful_api_key.txt
+stripe_secret_key_test.txt
+stripe_secret_key_live.txt
+email_user.txt
+email_pass.txt
 
 # Sensitive Files
 *.pem
@@ -38,3 +44,9 @@ build/static/media/*.mp4
 src/assets/*.mp4
 src/assets/motion/
 src/assets/generative/*.mp4
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

@@ -4,12 +4,18 @@ import PhotoCorporatePortraits from "./PhotoCorporatePortraits";
 import Experience from "./Experience";
 import womenOne from "../assets/womenOne.jpg";
 import womenTwo from "../assets/womenTwo.jpg";
-import womenThree from "../assets/womenThree.png";
+import womenThree from "../assets/womenThree.jpg";
+import womenFour from "../assets/womenFour.jpg";
+import menFive from "../assets/menFive.jpg";
+import menSix from "../assets/menSix.jpg";
+import Couple from "../assets/Couple.jpg";
+import womenBack from "../assets/womenBack.jpg";
 import ContactForm from "./ContactForm";
 import conceptIcon from "../assets/concept.png";
 import fotoIcon from "../assets/foto.png";
 import motionIcon from "../assets/motion.png";
 import playIcon from "../assets/play.png";
+
 
 const services = [
   {
@@ -39,7 +45,7 @@ const services = [
 ];
 
 const PhotographySection = () => {
-  const ImagesCarousel = [womenOne, womenTwo, womenThree];
+  const ImagesCarousel = [womenOne, womenTwo, womenThree,womenFour,menFive,menSix,Couple,womenBack];
 
   return (
     <>
@@ -51,9 +57,6 @@ const PhotographySection = () => {
             In a digital world, quality visuals are not just assets; they are essential tools for
             meaningful connection
           </p>
-          <div className="call-to-action">
-            <button>more info!</button>
-          </div>
         </div>
       </div>
       <ServicesSection />

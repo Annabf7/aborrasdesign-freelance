@@ -1,0 +1,66 @@
+.carousel-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    width: 100%; 
+    max-width: 900px; 
+    margin: 0 auto; 
+}
+
+.carousel-image {
+    display: block; 
+    margin: 0 auto; 
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 5px; 
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #d7b46a;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Canvi d'estil en hover */
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Efecte de clic */
+.carousel-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+
+/* Responsivitat per pantalles petites */
+@media (max-width: 768px) {
+    .carousel-button.left {
+        left: -5%; /* Ajusta la posició més a prop de la imatge */
+    }
+    
+    .carousel-button.right {
+        right: -5%;
+    }
+
+    .carousel-button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}

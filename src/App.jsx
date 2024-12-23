@@ -184,7 +184,12 @@ function App() {
 
               <Route
                 path="/choose-your-artwork-size/:productId"
-                element={<ChooseYourArtworkSize />}
+                element={
+                <div>
+                  <ChooseYourArtworkSize />
+                  <FooterBlack/>
+                  </div>
+                }
               />
 
               {/* Ruta per ThisWasAdded */}

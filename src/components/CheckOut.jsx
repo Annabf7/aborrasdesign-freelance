@@ -1,3 +1,4 @@
+//CheckOut.jsx
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import { ShippingContext } from './ShippingContext';
@@ -30,6 +31,12 @@ const countryMap = {
   Mexico: 'MX',
   Argentina: 'AR',
 };
+
+
+// Assignació dinàmica de BASE_URL segons l'entorn
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_BASE_URL_PROD
+  : process.env.REACT_APP_BASE_URL_DEV;
 
 const FormInput = ({
   id,
@@ -164,8 +171,6 @@ const CheckOut = () => {
     const vat = printfulCosts.vat; 
     const retailSubtotal = retailCosts.subtotal; 
 
-    // Eliminem la lògica de comprovar beneficis > 0.
-    // Sempre retornem els beneficis, si són negatius o zero, setDiscountValue ja ho clampa a 0.
     const benefits = retailSubtotal - (subtotalPrintful + vat);
     return benefits;
   };
@@ -195,7 +200,8 @@ const CheckOut = () => {
       quantity: item.quantity
     }));
 
-    const response = await fetch('http://localhost:4000/api/printful/estimate-costs', {
+    // Utilitzem BASE_URL
+    const response = await fetch(`${BASE_URL}/printful/estimate-costs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ recipient, items })

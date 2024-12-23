@@ -8,6 +8,12 @@ import secureIcon from '../assets/icons/candado.png';
 import ProductCard from './ProductCard';
 import OrderSummary from './OrderSummary';
 
+
+// Assignació dinàmica de BASE_URL segons l'entorn
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_BASE_URL_PROD
+  : process.env.REACT_APP_BASE_URL_DEV;
+
 export const ShippingInfo = () => {
   const {
     userAddress,
@@ -57,7 +63,7 @@ export const ShippingInfo = () => {
       console.log('Payload enviat al backend:', { recipient, items: itemsPayload });
 
       // Crida al backend per obtenir tarifes d'enviament
-      const response = await fetch('http://localhost:4000/api/printful/shipping-estimates', {
+      const response = await fetch(`${BASE_URL}/printful/shipping-estimates`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

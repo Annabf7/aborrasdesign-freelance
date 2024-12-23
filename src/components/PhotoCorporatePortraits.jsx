@@ -1,5 +1,6 @@
 import React from "react";
 
+
 function PhotoCorporatePortraits({ title, description, services }) {
   return (
     <section className="photo-explanation">
@@ -8,9 +9,6 @@ function PhotoCorporatePortraits({ title, description, services }) {
           <div className="photo-contentWrapper">
             <h1 className="photo-title">{title}</h1>
             <div className="photo-description">{description}</div>
-            <button className="photo-ctaButton">
-              <span className="photo-ctaText">more info!</span>
-            </button>
           </div>
         </div>
         <div className="photo-rightColumn">

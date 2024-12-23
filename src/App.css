@@ -163,6 +163,7 @@ button:hover {
   padding-bottom: 2.4rem;
   display: flex;
   justify-content: space-between;
+  margin-bottom:2rem;
 }
 
 .photo-flexContainer {

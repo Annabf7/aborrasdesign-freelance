@@ -1,5 +1,4 @@
 import React from "react";
-
 import helloIcon from "../assets/hello.png";
 import "../styles/ProfileSection.css";
 

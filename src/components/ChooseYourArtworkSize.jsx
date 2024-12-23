@@ -4,6 +4,11 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/ChooseYourArtworkSize.css';
 import { CartContext } from './CartContext';
 
+// Assignació dinàmica de BASE_URL segons l'entorn
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_BASE_URL_PROD
+  : process.env.REACT_APP_BASE_URL_DEV;
+
 const ChooseYourArtworkSize = () => {
   const { productId } = useParams();
   const location = useLocation();
@@ -20,6 +25,8 @@ const ChooseYourArtworkSize = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    console.log('BASE_URL:', process.env.REACT_APP_BASE_URL_DEV);
+    console.log('Stripe Public Key Test:', process.env.REACT_APP_STRIPE_PUBLIC_KEY_TEST);
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
@@ -31,7 +38,7 @@ const ChooseYourArtworkSize = () => {
         }
 
         const response = await fetch(
-          `http://localhost:4000/api/printful/products/${idToFetch}`
+          `${BASE_URL}/printful/products/${idToFetch}`
         );
         const data = await response.json();
 

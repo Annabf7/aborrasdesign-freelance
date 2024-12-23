@@ -6,6 +6,11 @@ import grandma6 from '../assets/grandma6.jpg';
 import grandma7 from '../assets/grandma7.jpg';
 import { CartContext } from './CartContext'; // Importa el CartContext
 
+// Assignació dinàmica de BASE_URL segons l'entorn
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? process.env.REACT_APP_BASE_URL_PROD
+  : process.env.REACT_APP_BASE_URL_DEV;
+
 const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,7 +47,7 @@ const Success = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/api/printful/orders/${orderId}`);
+        const response = await fetch(`${BASE_URL}/printful/orders/${orderId}`);
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`Failed to fetch order: ${errorText}`);
