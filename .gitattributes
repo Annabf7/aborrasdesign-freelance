@@ -1,3 +1,8 @@
-src/assets/showreel.mp4 filter=lfs diff=lfs merge=lfs -text
+# Gestionar finals de línia per a tots els fitxers de text
 * text=auto
+
+# Gestionar fitxers MP4 amb Git LFS
 *.mp4 filter=lfs diff=lfs merge=lfs -text
+
+# Fitxer específic per a Git LFS (si cal)
+src/assets/showreel.mp4 filter=lfs diff=lfs merge=lfs -text
