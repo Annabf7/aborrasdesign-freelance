@@ -51,3 +51,8 @@ src/assets/generative/*.mp4
 *.sublime-project
 *.sublime-workspace
 aborrasdesign-backup/
+
+src/firebase/firebase.js
+serviceAccountKey.json
+.runtimeconfig.json
+
