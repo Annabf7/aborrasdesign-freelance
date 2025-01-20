@@ -1,5 +1,6 @@
 // src/components/Gallery.jsx
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/AnimationProjects.css";
 
 // Importa els vídeos de la categoria "Motion"
@@ -20,6 +21,7 @@ import motion_12 from "../assets/motion/motion_12.mp4";
 const Gallery = () => {
   const [category, setCategory] = useState("Motion"); // Categoria inicial
   const videoRefs = useRef([]); // Ref per a múltiples vídeos
+  const navigate = useNavigate(); 
 
   // Vídeos de la categoria "Motion"
   const motionVideos = [
@@ -62,12 +64,8 @@ const Gallery = () => {
           ))}
         </div>
       );
-    }
-    // Placeholder per a altres categories com "Web Frontend" i "Photography"
-    else if (category === "Web Frontend") {
-      return <p>Mostrant treballs de Web Frontend...</p>;
-    } else if (category === "Photography") {
-      return <p>Mostrant treballs de Fotografia...</p>;
+    } else {
+      return <p>Selecciona una categoria per veure el contingut...</p>;
     }
   };
 
@@ -80,7 +78,6 @@ const Gallery = () => {
         console.error("Error al reproduir el vídeo:", error);
       });
     }
-    // Afegeix una classe per ampliar l'obra
     const motionItem = document.getElementsByClassName("motion-item")[index];
     if (motionItem) {
       motionItem.classList.add("enlarge");
@@ -91,10 +88,8 @@ const Gallery = () => {
   const handleMouseLeave = (index) => {
     const video = videoRefs.current[index];
     if (video) {
-      video.muted = true; // Desactiva el so
-      // El vídeo continua reproduint-se en bucle
+      video.muted = true; 
     }
-    // Elimina la classe per reduir l'obra
     const motionItem = document.getElementsByClassName("motion-item")[index];
     if (motionItem) {
       motionItem.classList.remove("enlarge");
@@ -106,8 +101,11 @@ const Gallery = () => {
       {/* Filtratge de categories */}
       <div className="filter-container">
         <button onClick={() => setCategory("Motion")}>Motion</button>
-        <button onClick={() => setCategory("Web Frontend")}>Web Frontend</button>
-        <button onClick={() => setCategory("Photography")}>Photography</button>
+        <button onClick={() => navigate("/webfrontend")}>Web Frontend</button>
+        <button onClick={() => navigate("/photography")}>Photography</button>
+        <button onClick={() => navigate("/automationdesign")}>
+          Automation Design
+        </button>
       </div>
 
       {/* Contingut de la galeria segons la categoria */}

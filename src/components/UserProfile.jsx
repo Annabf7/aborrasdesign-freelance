@@ -1,4 +1,4 @@
-// src/components/UserProfile.jsx
+// UserProfile.jsx
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -126,7 +126,7 @@ function UserProfile() {
                   : getAvatarUrl("User", "")
               }
                 alt="User Avatar"
-                className="user-icon" // Manté el nom de la classe per l'estilització
+                className="user-icon" 
               />
            <div className="info-text">
               <p>{userData ? `${userData.firstName} ${userData.lastName}` : "User Name"}</p>
@@ -180,8 +180,6 @@ function UserProfile() {
 
           <div className="preferences-section">
             <h3>User Preferences</h3>
-
-            {/* Preferències d'idioma */}
             <label htmlFor="language-select">Preferred Language</label>
             <select
               id="language-select"
@@ -196,8 +194,7 @@ function UserProfile() {
               <option value="Catalan">Catalan</option>
               <option value="Spanish">Spanish</option>
             </select>
-
-            {/* Preferències de mètode de pagament */}
+            
             <label htmlFor="payment-select">Preferred Payment Method</label>
             <select
               id="payment-select"

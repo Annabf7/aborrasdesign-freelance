@@ -15,9 +15,9 @@
 /* finestra del modal */
 .this-was-added-window {
   position: absolute;
-  top: 10vh; /* Ajusta aquesta alçada segons la distància des de la part superior (menú) */
-  bottom: 10vh; /* Aquesta restricció evita que el modal s'aproximi al footer */
-  max-height: 80vh; /* Controla l'alçada màxima per evitar que el modal sigui massa gran */
+  top: 10vh; 
+  bottom: 10vh; 
+  max-height: 80vh; 
   padding: 5px 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -26,7 +26,7 @@
   width: 100%;
   margin: 0 auto;
   z-index: 2000;
-  overflow-y: auto; /* Si el contingut és massa llarg, es podran desplaçar */
+  overflow-y: auto; 
 }
 
 .header-container {

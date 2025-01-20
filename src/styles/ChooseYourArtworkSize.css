@@ -7,8 +7,8 @@
   background-color: #ececec;
   min-height: calc(
     100vh - 10rem
-  ); /* Ajustat per tenir en compte el menú i el footer */
-  flex-grow: 1; /* Fa que el contingut creixi per empènyer el footer cap avall */
+  ); 
+  flex-grow: 1; 
 }
 
 .choose-your-artwork-container h2 {
@@ -23,8 +23,8 @@
 /* Contenidor principal per a la imatge i les opcions */
 .artwork-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* La imatge ocupa 2/3 i les opcions 1/3 */
-  gap: 3rem; /* Espai entre la imatge i les opcions */
+  grid-template-columns: 2fr 1fr; 
+  gap: 3rem; 
   max-width: 1200px;
   margin: 0 auto;
   align-items: start;
@@ -99,8 +99,8 @@
 
 .variant-thumbnail-preview {
   display: flex;
-  justify-content: center; /* Centra la imatge horitzontalment */
-  align-items: center; /* Centra la imatge verticalment */
+  justify-content: center; 
+  align-items: center; 
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -209,8 +209,6 @@
   padding-top: 10px;
 }
 
-
-
 .checkout-button {
   display: block;
   margin: 2rem auto;
@@ -266,11 +264,773 @@
 /* Responsivitat */
 @media (max-width: 768px) {
   .artwork-layout {
-    grid-template-columns: 1fr; /* Passa a una sola columna */
+    grid-template-columns: 1fr; 
     gap: 1rem;
   }
 
   .artwork-details {
     text-align: center;
+  }
+}
+
+
+/* Responsivitat per a 320px */
+@media (max-width: 320px) {
+  .choose-your-artwork-container {
+    padding: 1rem;
+    text-align: center;
+    padding-top:0;
+  }
+  
+    .choose-your-artwork-container h2 {
+    font-size: 1.5rem;
+    margin-top:0;
+    margin-bottom: 1rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+
+  .artwork-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .artwork-details img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .artwork-options {
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .artwork-options label {
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top:0.8rem;
+  }
+
+  .artwork-options select,
+  .artwork-options input {
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 0.72rem;
+    text-align: center;
+  }
+
+
+  .variant-thumbnail-preview img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+  }
+
+  .total-price h3 {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .add-to-cart-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .modal-content h2 {
+    font-size: 1rem;
+    margin-top:1.5rem;
+    margin-bottom: 0;
+  }
+
+  .artwork-preview {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .modal-content .close-button{
+    font-size: 1rem;
+    padding:0rem;
+  }
+
+ 
+  .checkout-button {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Responsivitat per a 375px */
+@media (max-width: 375px) {
+  .choose-your-artwork-container {
+    padding: 1.5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+  }
+
+  .choose-your-artwork-container h2 {
+    font-size: 1.75rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .artwork-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .artwork-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; 
+  }
+
+  .artwork-options {
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .artwork-options label {
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .artwork-options select,
+  .artwork-options input {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .variant-thumbnail-preview img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+  }
+
+  .total-price h3 {
+    font-size: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .add-to-cart-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .modal-content h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .artwork-preview {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-content .close-button {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .checkout-button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Responsivitat per a 480px */
+@media (max-width: 480px) {
+  .choose-your-artwork-container {
+    padding: 1.5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+  }
+
+  .choose-your-artwork-container h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .artwork-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .artwork-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px; 
+    margin-top: 1rem;
+  }
+
+  .artwork-options {
+    text-align: center;
+    padding: 0 1.25rem;
+  }
+
+  .artwork-options label {
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .artwork-options select,
+  .artwork-options input {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .variant-thumbnail-preview img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+  }
+
+  .total-price h3 {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .add-to-cart-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 85%;
+    text-align: center;
+  }
+
+  .modal-content h2 {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .artwork-preview {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-content .close-button {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .checkout-button {
+    width: 100%;
+    padding: 0.85rem;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .choose-your-artwork-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: #ececec;
+    min-height: calc(100vh - 10rem);
+    flex-grow: 1;
+  }
+
+  .choose-your-artwork-container h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0; 
+  }
+
+  .artwork-layout {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 1.5rem;
+    max-width: 90%; 
+    margin: 0 auto;
+    align-items: center; 
+  }
+
+  .artwork-details {
+    text-align: center;
+  }
+
+  .artwork-image {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid #d7b46a;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .artwork-options {
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  .artwork-options label {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+   
+  }
+
+  .artwork-options select,
+  .artwork-options input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+
+  .add-to-cart-button {
+    background-color: #d7b46a;
+    color: #1f1f1f;
+    font-size: 1.125rem;
+    font-weight: bold;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-to-cart-button:hover {
+    background-color: #b6953c;
+  }
+
+  .variant-thumbnail-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .variant-thumbnail {
+    width: 12rem;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .variant-thumbnail:hover {
+    border-color: #d7b46a;
+    transform: scale(1.1);
+  }
+
+  .modal-content {
+    max-width: 320px; 
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .modal-content h2 {
+    font-size: 1.25rem;
+    margin-top:1rem;
+    margin-bottom:0;
+  }
+
+  .modal-content .close-button {
+    margin-top: 8px;
+    margin-right: -22px;
+    
+  }
+
+  .checkout-button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .choose-your-artwork-container {
+    padding: 2rem;
+    background-color: #ececec;
+    min-height: calc(100vh - 12rem); 
+    flex-grow: 1;
+  }
+
+  .choose-your-artwork-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: left;
+    padding-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 10rem; 
+  }
+
+  .artwork-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 2rem;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .artwork-details {
+    text-align: center;
+  }
+
+  .artwork-image {
+    max-width: 100%;
+    height: auto;
+    border: 4px solid #d7b46a;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .artwork-options {
+    background-color: white;
+    padding: 1.5rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+  }
+
+  .artwork-options label {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .artwork-options select,
+  .artwork-options input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: left;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1.5rem 0;
+  }
+
+  .add-to-cart-button {
+    background-color: #d7b46a;
+    color: #1f1f1f;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-to-cart-button:hover {
+    background-color: #b6953c;
+  }
+
+  .variant-thumbnail-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .variant-thumbnail {
+    width: 14rem;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .variant-thumbnail:hover {
+    border-color: #d7b46a;
+    transform: scale(1.1);
+  }
+
+  .modal-content {
+    max-width: 380px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-left:0;
+    font-size:1.3rem;
+  }
+
+  .modal-content .close-button {
+    margin-top: 8px;
+    margin-right: -18px;
+  }
+
+  .checkout-button {
+    padding: 0.75rem;
+    font-size: 1.125rem;
+    margin-top: 2rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .choose-your-artwork-container {
+    padding-top: 0;
+    padding-bottom: 3rem;
+      }
+
+  .choose-your-artwork-container h2 {
+    font-size: 2.5rem;
+    margin-left: 30rem;
+  }
+
+  .artwork-details {
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+  }
+
+  .artwork-image {
+    width: 100%; 
+    max-width: 1200px;
+    height: auto;
+    border: 8px solid #d7b46a; 
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .artwork-layout {
+    max-width: 1600px;
+    gap: 2rem;
+  }
+
+  .artwork-options select {
+    font-size: 0.9rem; 
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    height: 2.5rem;
+    box-sizing: border-box;
+  }
+  
+  .artwork-options option {
+    font-size: 0.7rem; 
+  }
+  
+
+  .add-to-cart-button {
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+  }
+
+  .variant-thumbnail {
+    width: 18rem;
+  }
+
+  .modal-content {
+    max-width: 650px;
+    padding: 2.5rem;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-left:0;
+    font-size:1.3rem;
+  }
+
+  .checkout-button {
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+    width:60%;
+  }
+
+  .modal-content .close-button {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+}
+
+
+@media (min-width: 2561px) {
+  .choose-your-artwork-container {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .choose-your-artwork-container h2 {
+    font-size: 3rem;
+    margin-left: 30rem;
+  }
+
+  .artwork-details {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .artwork-image {
+    width: 100%;
+    max-width: 1300px;
+    height: auto;
+    border: 10px solid #d7b46a;
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .artwork-layout {
+    max-width: 2200px;
+    gap: 1rem;
+  }
+
+  .artwork-options select {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+    max-width: 100%;
+    height: 2.5rem;
+    box-sizing: border-box;
+  }
+  .artwork-options {
+    padding: 2.5rem 3rem;
+    font-size: 0.6rem;
+    width: 100%; 
+    max-width: 650px; 
+  }
+
+  .add-to-cart-button {
+    font-size: 1.5rem;
+    padding: 1.25rem 2.5rem;
+  }
+
+  .variant-thumbnail {
+    width: 22rem;
+  }
+
+  .modal-content {
+    max-width: 1060px;
+    padding: 3.5rem;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 1rem;
+    margin-left:0;
+    font-size:2rem;
+  }
+
+  .modal-content p{
+    font-size: 1.5rem;
+  }
+
+  .checkout-button {
+    font-size: 1.5rem;
+    padding: 1.25rem 2.75rem;
+    width: 70%;
   }
 }

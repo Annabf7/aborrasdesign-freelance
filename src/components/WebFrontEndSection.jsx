@@ -51,9 +51,6 @@ const WebFrontEndSection = () => {
             Front-end development is crucial for delivering visually appealing, responsive, and
             user-friendly websites
           </p>
-          <div className="call-to-action">
-            <button>more info!</button>
-          </div>
         </div>
       </div>
 

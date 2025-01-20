@@ -58,9 +58,20 @@ export const ShippingProvider = ({ children }) => {
     // Mapeig de codis de país
     const countryMap = {
       España: 'ES',
+      Spain: 'ES',
       France: 'FR',
       Germany: 'DE',
-      // Afegeix altres països segons sigui necessari
+      Italia: 'IT',
+      Italy: 'IT',
+      'United States': 'US',
+      USA: 'US',
+      'Regne Unit': 'GB',
+      UK: 'GB',
+      Portugal: 'PT',
+      Andorra: 'AD',
+      México: 'MX',
+      Mexico: 'MX',
+      Argentina: 'AR',
     };
     const countryCode = countryMap[country] || country;
 
@@ -82,7 +93,7 @@ export const ShippingProvider = ({ children }) => {
       }
     }
 
-    console.log('Recipient generat:', recipient);
+    //console.log('Recipient generat:', recipient);
     return recipient;
   };
 

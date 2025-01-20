@@ -17,14 +17,14 @@ const OrderSummary = ({ subtotal = 0, shipping = 0, showShipping = true }) => {
       <h2 className="summaryTitle">Summary</h2>
       <hr className="divider" />
       <div className="summaryRow">
-        <span>Your cart items</span>
-        <span>€{sanitizedSubtotal.toFixed(2)}</span>
+        <span>Your cart items:</span>
+        <span>{sanitizedSubtotal.toFixed(2)}€</span>
       </div>
       {sanitizedDiscount > 0 && (
         <>
           <hr className="divider" />
           <div className="summaryRow">
-            <span>Discount</span>
+            <span>Discount:</span>
             <span>- €{sanitizedDiscount.toFixed(2)}</span>
           </div>
         </>
@@ -33,9 +33,9 @@ const OrderSummary = ({ subtotal = 0, shipping = 0, showShipping = true }) => {
         <>
           <hr className="divider" />
           <div className="summaryRow">
-            <span>Shipping</span>
+            <span>Shipping:</span>
             <span>
-              {sanitizedShipping > 0 ? sanitizedShipping.toFixed(2) : ' *** €'}
+              {sanitizedShipping > 0 ? sanitizedShipping.toFixed(2) : ' *** €'}€
             </span>
           </div>
         </>
@@ -43,7 +43,7 @@ const OrderSummary = ({ subtotal = 0, shipping = 0, showShipping = true }) => {
       <hr className="divider" />
       <div className="totalRow" aria-label="Estimated total">
         <span>Estimated Total</span>
-        <span>€{total.toFixed(2)}</span>
+        <span>{total.toFixed(2)}€</span>
       </div>
       <div className="currencyNotice">
         <hr className="divider" />

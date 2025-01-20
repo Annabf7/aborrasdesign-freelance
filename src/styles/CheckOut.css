@@ -39,7 +39,6 @@
   font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 0.8rem;
   margin-left: auto; 
   text-decoration: underline;
 }
@@ -123,17 +122,13 @@
   width: 100%;
 }
 
-.formRowLarge .formInput {
-  width: 100%;
-}
-
 .formLabel {
   font-size: 0.75rem;
   color: #1e1f1f;
 }
 
 .backToGallery{
-  margin-top:2em;
+  margin-top: 2em;
   color: #1e1f1f;
   margin-left: auto; 
   text-decoration: underline; 
@@ -161,6 +156,8 @@ button[type="submit"]:hover {
   background-color: #d7b46a;
   color: #1e1f1f;
 }
+
+/* Secció de codi promocional */
 .promoCodeHeader {
   margin-bottom: 1rem;
   font-size: 0.9rem;
@@ -170,36 +167,31 @@ button[type="submit"]:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0px;
 }
 
 .promoCodeSection input {
   flex: 6;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
-  margin-top: 0px;
-  margin-bottom:0px;
   box-sizing: border-box;
 }
 
 .promoCodeSection button {
   flex: 4; 
+  margin-bottom: 0;
   padding: 0.68rem;
   font-size: 0.8rem;
   cursor: pointer;
-  margin-bottom:0px;
   box-sizing: border-box;
 }
-
 
 .promoError {
   color: red;
   font-size: 0.8rem;
   text-align: left; 
-  margin-top:4px;
+  margin-top: 4px;
   margin-left: 2px;
 }
-
 
 /* Estil per a 'Your information is secure' */
 .secureInfo {
@@ -214,54 +206,19 @@ button[type="submit"]:hover {
 .secureInfo img {
   width: 1.25rem;
   height: auto;
-  margin-left:0.3rem;
+  margin-left: 0.3rem;
 }
 
-.removeButton{
-  width:80%;
-  margin:auto;
+.removeButton {
+  width: 80%;
+  margin: auto;
 }
 
-.signInButton {
-  color: #1e1f1f;
-  border: none;
-  font-size: 0.875rem;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  margin-left: auto; 
-  text-decoration: underline; 
+.shippingNotice {
+  font-size: 0.9rem;
 }
 
-.signInButton:hover{
-  color:#d7b46a;
-}
-
-.shippingNotice{
-  font-size:0.9rem;
-}
-
-/* Responsivitat */
-@media (max-width: 768px) {
-  .checkoutContainer {
-    flex-direction: column;
-    width: 90%;
-  }
-
-  .checkoutForm,
-  .cartSummary {
-    width: 100%;
-  }
-
-  .promoCheckbox,
-  .paymentOptions,
-  button[type="submit"] {
-    width: 100%;
-  }
-}
-
-/*--------------- cartSummary----------------------*/
-
+/* Cart Summary */
 .cartSummary {
   width: 45%;
   padding: 1.5625rem;
@@ -270,4 +227,252 @@ button[type="submit"]:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* -------------------------- Responsive -------------------------- */
+
+@media (max-width: 480px) {
+  .containerWrapper {
+    flex-direction: column;
+    padding: 1rem;
+    margin-top:0;
+  }
+
+  .checkoutContainer {
+    width: 100%;
+    flex-direction: column;
+    padding-top:1rem;
+    padding-bottom:0rem;
+    padding-right:1rem;
+    padding-left:1rem;
+  }
+
+  .checkoutForm,
+  .cartSummary {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .formRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .formLabel {
+    white-space: nowrap;
+  }
+
+  .promoCodeSection button {
+    flex: 4; 
+    margin-bottom: 0;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .containerWrapper {
+    padding: 1rem 2rem;
+  }
+
+  .checkoutContainer {
+    width: 100%;
+    gap: 1rem;
+    padding-top:1rem;
+    padding-bottom:1rem;
+  }
+
+  .checkoutForm {
+    width: 90%;
+  }
+
+  .cartSummary {
+    width: 30%;
+  }
+  .promoCodeSection button {
+    flex: 4; 
+    margin-bottom: 0;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .checkoutContainer {
+    width: 90%;
+    margin:auto;
+    gap: 0;
+  }
+
+  .checkoutForm {
+    width: 55%;
+  }
+
+  .cartSummary {
+    width: 35%;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .checkoutContainer {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1921px) {
+  .containerWrapper {
+    padding: 2rem 5rem;
+    gap: 2rem;
+  }
+
+  .checkoutContainer {
+    width: 80%;
+    padding: 3rem 0;
+    gap: 3rem;
+  }
+
+  .checkoutForm {
+    width: 60%;
+    padding: 2.5rem;
+    font-size: 1rem;
+  }
+
+
+    .checkoutForm label {
+      font-size: 1.2rem;
+    }
+  
+    .checkoutForm h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+  
+    .checkoutForm .signInButton {
+      font-size: 1.2rem;
+    }
+  
+    .formInput {
+      font-size: 1.2rem;
+    }
+
+  .cartSummary {
+    width: 35%;
+    padding: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .formRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .formRow .formInput {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .formRowLarge .formInput {
+    grid-column: span 2; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .promoCodeSection input {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .promoCodeSection button {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  button[type="submit"] {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 2561px) {
+  .containerWrapper {
+    padding: 3rem 6rem;
+    gap: 3rem;
+   
+  }
+
+  .checkoutContainer {
+    width: 75%;
+    padding: 4rem 0;
+    gap: 4rem;
+  }
+
+  .checkoutForm {
+    width: 65%;
+    padding: 3rem;
+    font-size: 1.6rem;
+   
+  }
+
+    .checkoutForm label {
+      font-size: 1.5rem;
+    }
+  
+    .checkoutForm h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  
+    .checkoutForm .signInButton {
+      font-size: 1.5rem;
+    }
+  
+    .formInput {
+      font-size: 1.4rem;
+    }
+
+  .cartSummary {
+    width: 30%;
+    padding: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .formRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 3rem;
+    width: 100%;
+  }
+
+  .formRow .formInput {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.4rem;
+  }
+
+  .formRowLarge .formInput {
+    grid-column: span 2; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .promoCodeSection input {
+    padding: 1rem 1.75rem;
+    font-size: 1.4rem;
+  }
+
+  .promoCodeSection button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  button[type="submit"] {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.3rem;
+  }
 }

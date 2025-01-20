@@ -1,10 +1,10 @@
 /* Canvas del p5.js */
 canvas {
-  position: fixed; /* Fixat a tota la finestra */
+  position: fixed; 
   top: 0;
   left: 0;
-  width: 100vw; /* Amplada total de la finestra */
-  height: 100vh; /* Alçada total de la finestra */
+  width: 100vw; 
+  height: 100vh; 
   display: block;
 }
 

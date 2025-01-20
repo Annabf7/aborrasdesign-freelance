@@ -1,12 +1,12 @@
-// Success.jsx 
-import React, { useEffect, useState, useContext } from 'react';
+// Success.jsx
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Success.css';
 import grandma6 from '../assets/grandma6.jpg';
 import grandma7 from '../assets/grandma7.jpg';
-import { CartContext } from './CartContext'; // Importa el CartContext
+import { CartContext } from './CartContext';
 
-// Assignació dinàmica de BASE_URL segons l'entorn
+// BASE_URL segons l'entorn
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? process.env.REACT_APP_BASE_URL_PROD
   : process.env.REACT_APP_BASE_URL_DEV;
@@ -14,30 +14,32 @@ const BASE_URL = process.env.NODE_ENV === 'production'
 const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems, clearCart } = useContext(CartContext); // Accedeix a clearCart del context del carret
+  const { cartItems, clearCart } = useContext(CartContext);
 
+  // Comprovar si la pàgina és de tipus success
   const isSuccess =
     location.pathname.includes('/success') &&
     !location.search.includes('cancel');
 
+  // Obtenir l'order_id dels query parameters
   const queryParams = new URLSearchParams(location.search);
-  const orderId = queryParams.get('order_id'); // Obtenim el result.id de la comanda
+  const orderId = queryParams.get('order_id');
 
   const [orderData, setOrderData] = useState(null);
   const [loadingOrder, setLoadingOrder] = useState(true);
   const [error, setError] = useState(null);
 
-  // Quan entrem a la pàgina d'èxit, buidem el carret.
-  useEffect(() => {
-    if (isSuccess) {
-      // Només neteja el carret si no està ja buit
-      if (cartItems.length > 0) {
-        clearCart();
-      }
-    }
-  }, [isSuccess, clearCart, cartItems.length]);
-  
+  // Per evitar un bucle infinit de confirmacions
+  const confirmingRef = useRef(false);
 
+  // Buidar el carret si la comanda és success
+  useEffect(() => {
+    if (isSuccess && cartItems.length > 0) {
+      clearCart();
+    }
+  }, [isSuccess, cartItems.length, clearCart]);
+
+  // Carregar les dades de la comanda
   useEffect(() => {
     const fetchOrderData = async () => {
       if (!orderId) {
@@ -45,28 +47,64 @@ const Success = () => {
         setLoadingOrder(false);
         return;
       }
-
       try {
         const response = await fetch(`${BASE_URL}/printful/orders/${orderId}`);
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`Failed to fetch order: ${errorText}`);
         }
-
         const data = await response.json();
-        setOrderData(data.order);
+        setOrderData(data.order); // data.order ha d'incloure "status": "draft"
       } catch (err) {
         setError(err.message);
       } finally {
         setLoadingOrder(false);
       }
     };
-
     if (isSuccess) {
       fetchOrderData();
     }
   }, [isSuccess, orderId]);
 
+  // Confirmar automàticament comandes en estat "draft"
+  useEffect(() => {
+    const confirmDraftOrder = async () => {
+      if (!orderId || !orderData) return;
+      if (orderData.status !== 'draft') return;
+
+      try {
+        confirmingRef.current = true; 
+        const confirmResponse = await fetch(`${BASE_URL}/printful/confirm-order`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId }),
+        });
+        const confirmData = await confirmResponse.json();
+        if (!confirmResponse.ok || !confirmData.success) {
+          throw new Error(confirmData.error || 'Failed to confirm order');
+        }
+        //console.log('Comanda confirmada automàticament:', confirmData);
+
+        // Torno a carregar la comanda ja confirmada
+        const updated = await fetch(`${BASE_URL}/printful/orders/${orderId}`);
+        const updatedData = await updated.json();
+        setOrderData(updatedData.order); 
+      } catch (err) {
+        setError(`Error confirmant la comanda: ${err.message}`);
+      } 
+    };
+
+    if (
+      isSuccess &&
+      orderData &&
+      orderData.status === 'draft' &&
+      !confirmingRef.current
+    ) {
+      confirmDraftOrder();
+    }
+  }, [isSuccess, orderData, orderId]);
+
+  // Si no és success, mostrar missatge de cancel·lació
   if (!isSuccess) {
     return (
       <div className="success-page">
@@ -86,10 +124,12 @@ const Success = () => {
     );
   }
 
+  // Mostrar missatge de càrrega si les dades encara no estan disponibles
   if (loadingOrder) {
     return <p>Loading order details...</p>;
   }
 
+  // Mostrar missatge d'error si hi ha algun problema
   if (error) {
     return (
       <div className="success-page">
@@ -107,11 +147,16 @@ const Success = () => {
     );
   }
 
-  const { retail_costs, recipient, items, shipping_service_name } = orderData; 
-  const retailSubtotal = parseFloat(retail_costs.subtotal);
-  const retailDiscount = parseFloat(retail_costs.discount);
-  const retailShipping = parseFloat(retail_costs.shipping);
-  const retailTotal = parseFloat(retail_costs.total);
+  if (!orderData) {
+    return <p>No order data found.</p>;
+  }
+
+   // Mostrar resum final de la comanda
+  const { retail_costs, recipient, items, shipping_service_name, status } = orderData;
+  const retailSubtotal = parseFloat(retail_costs.subtotal) || 0;
+  const retailDiscount = parseFloat(retail_costs.discount) || 0;
+  const retailShipping = parseFloat(retail_costs.shipping) || 0;
+  const retailTotal = parseFloat(retail_costs.total) || 0;
 
   return (
     <div className="success-page">
@@ -121,18 +166,18 @@ const Success = () => {
       <div className="success-details-section">
         <h1>Payment Successful!</h1>
         <p>
-          Thank you for your purchase. You will soon receive an email with your order details.
+          Thank you for your purchase. You will receive an email with your order details.
         </p>
 
         <div className="order-summary">
           <div className="info-items">
-            <h2>Order Summary</h2>
+            <h2>Order Summary (status: {status})</h2>
             <ul className="order-items">
               {items.map((item) => (
                 <li key={item.id} className="order-item">
                   <div className="order-item-details">
                     <img
-                      src={item.product.image}
+                      src={item.product?.image}
                       alt={item.name}
                       className="order-item-image"
                     />
@@ -144,9 +189,7 @@ const Success = () => {
                 </li>
               ))}
             </ul>
-
             <hr />
-
             <div className="order-totals">
               <p>Subtotal: €{retailSubtotal.toFixed(2)}</p>
               {retailDiscount > 0 && (
@@ -177,7 +220,6 @@ const Success = () => {
             ) : (
               <p>No shipping information available.</p>
             )}
-
             <hr />
             <h2>Shipping Method</h2>
             <hr />

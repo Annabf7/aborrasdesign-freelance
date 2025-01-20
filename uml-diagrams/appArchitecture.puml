@@ -1,0 +1,86 @@
+@startuml
+
+!define RECTANGLE_COLOR #333
+!define CONTEXT_COLOR #d7b46a
+
+skinparam rectangle {
+  BackgroundColor RECTANGLE_COLOR
+  BorderColor #d7b46a
+  FontColor #d7b46a
+}
+skinparam cloud {
+  BackgroundColor CONTEXT_COLOR
+  BorderColor #d7b46a
+  FontColor #333
+}
+skinparam Arrow {
+  Color #000000
+}
+
+' Frontend components
+rectangle "Frontend" {
+  rectangle "AuthPage" as AuthPage
+  rectangle "CheckOut" as CheckOut
+  rectangle "CompletePayment" as CompletePayment
+  rectangle "OrderHistory" as OrderHistory
+  rectangle "Cart" as Cart
+  rectangle "ShippingInfo" as ShippingInfo
+  rectangle "GenerativeGallery" as GenerativeGallery
+}
+
+' React Contexts
+cloud "React Contexts" {
+  rectangle "AuthContext" as AuthContext
+  rectangle "CartContext" as CartContext
+  rectangle "ShippingContext" as ShippingContext
+}
+
+' Backend
+rectangle "Backend (Firebase Functions)" as Backend {
+  rectangle "Create Order (Printful)" as CreateOrder
+  rectangle "Confirm Order (Printful)" as ConfirmOrder
+  rectangle "Create Checkout Session (Stripe)" as CheckoutSession
+  rectangle "Fetch Shipping Estimates" as ShippingEstimates
+  rectangle "Update Order Tracking" as UpdateTracking
+}
+
+' External services
+cloud "External Services" {
+  rectangle "Stripe API" as StripeAPI
+  rectangle "Printful API" as PrintfulAPI
+  rectangle "Firebase Firestore" as Firestore
+  rectangle "Firebase Authentication" as FirebaseAuth
+}
+
+' Frontend to Contexts
+AuthPage --> AuthContext
+CheckOut --> CartContext
+CompletePayment --> CartContext
+CompletePayment --> ShippingContext
+ShippingInfo --> ShippingContext
+OrderHistory --> AuthContext
+Cart --> CartContext
+GenerativeGallery --> CartContext
+
+' Contexts to Backend
+CartContext --> CheckoutSession
+CartContext --> CreateOrder
+CartContext --> ConfirmOrder
+ShippingContext --> ShippingEstimates
+AuthContext --> Firestore
+
+' Backend to External Services
+CheckoutSession --> StripeAPI
+CreateOrder --> PrintfulAPI
+ConfirmOrder --> PrintfulAPI
+UpdateTracking --> PrintfulAPI
+ShippingEstimates --> PrintfulAPI
+AuthContext --> FirebaseAuth
+
+' Firestore interactions
+CreateOrder --> Firestore
+ConfirmOrder --> Firestore
+UpdateTracking --> Firestore
+OrderHistory --> Firestore
+
+@enduml

@@ -43,12 +43,13 @@ function AuthPage() {
         {isRegister ? (
           <>
             <Register />
-            <p>
-              Already have an account?{" "}
-              <span onClick={handleLoginClick} className="auth-toggle">
-                Log in
+            <p className="already-account">
+                 Already have an account?{" "}
+                 <span onClick={handleLoginClick} className="auth-toggle">
+                  Log in
               </span>
             </p>
+
           </>
         ) : (
           <>
@@ -61,7 +62,10 @@ function AuthPage() {
             </p>
           </>
         )}
-        <button onClick={handleGoogleLogin}>Inicia sessió amb Google</button>
+            <button className="google-login-button" onClick={handleGoogleLogin}>
+                Sign in with Google
+            </button>
+
       </div>
     </div>
   );

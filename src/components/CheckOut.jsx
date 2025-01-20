@@ -6,13 +6,12 @@ import { CartContext } from './CartContext';
 import { auth, db } from '../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import '../styles/CheckOut.css';
-import paypalIcon from '../assets/icons/paypal.svg';
-import amazonIcon from '../assets/icons/amazon.svg';
 import secureIcon from '../assets/icons/candado.png';
 import frameIcon from '../assets/icons/frame.png';
 import OrderSummary from './OrderSummary';
 import ProductCard from './ProductCard';
 import { useAuth } from './AuthContext';
+import GenerativeLoader from './GenerativeLoader';
 
 const countryMap = {
   España: 'ES',
@@ -222,14 +221,14 @@ const CheckOut = () => {
     setLocalPromoError('');
     const code = promoCode.trim().toUpperCase();
     if (code !== 'ABORRASGIFT') {
-      setLocalPromoError('Codi de descompte no vàlid.');
+      setLocalPromoError('Invalid discount code.');
       setDiscount(0);
       setIsDiscountApplied(false);
       return;
     }
 
     if (cartItems.length === 0) {
-      setLocalPromoError('No pots aplicar el descompte amb el carret buit.');
+      setLocalPromoError('You cannot apply a discount with an empty cart.');
       setDiscount(0);
       setIsDiscountApplied(false);
       return;
@@ -239,13 +238,11 @@ const CheckOut = () => {
       // Codi correcte i hi ha obres, apliquem el descompte sempre.
       setIsDiscountApplied(true);
       const discountAmount = await fetchDiscount();
-      // No cal comprovar si hi ha beneficis > 0, sempre apliquem el descompte resultant.
       setDiscount(discountAmount);
-      // No mostrem cap missatge d'error de beneficis.
       setLocalPromoError('');
     } catch (error) {
-      console.error('Error calculant el descompte:', error);
-      setLocalPromoError('Error calculant el descompte.');
+      console.error('Error calculating discount:', error);
+      setLocalPromoError('Error calculating the discount.');
       setIsDiscountApplied(false);
       setDiscount(0);
     }
@@ -268,8 +265,13 @@ const CheckOut = () => {
   }, [cartItems, fetchDiscount, promoCode, setDiscount, setPromoCode, isDiscountApplied, setIsDiscountApplied]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <GenerativeLoader />
+      </div>
+    );
   }
+  
 
   return (
     <div className="containerWrapper">
@@ -295,15 +297,6 @@ const CheckOut = () => {
             <button onClick={applyPromoCode}>Apply promo code</button>
           </div>
           {localPromoError && <p className="promoError">{localPromoError}</p>}
-
-          <div className="paymentOptions">
-            <button className="paypalButton">
-              <img src={paypalIcon} alt="Pay with PayPal" />
-            </button>
-            <button className="amazonButton">
-              <img src={amazonIcon} alt="Pay with Amazon" />
-            </button>
-          </div>
 
           <h3>Shipping Information</h3>
           <div className="formRowLarge">
@@ -425,7 +418,7 @@ const CheckOut = () => {
 
           <OrderSummary
             subtotal={subtotal}
-            shipping={shippingCost || 0}
+            shipping={0}
             discount={discount}
           />
           {!shippingCost && (

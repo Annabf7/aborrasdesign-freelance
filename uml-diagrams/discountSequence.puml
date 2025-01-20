@@ -1,0 +1,34 @@
+@startuml
+actor User
+participant "CheckOut.jsx" as Checkout
+participant "CartContext" as Cart
+participant Backend
+
+== Aplicació del codi de descompte ==
+User -> Checkout: Introdueix el codi 'ABORRASGIFT'
+Checkout -> Cart: Valida codi amb setPromoCode()
+alt Codi vàlid
+  Cart -> Checkout: setIsDiscountApplied(true)
+  Checkout -> Backend: Crida a /printful/estimate-costs
+  Backend --> Checkout: Retorna descompte calculat
+  Checkout -> Cart: setDiscount(discountAmount)
+  Cart --> User: Mostra nou total amb descompte
+else Codi invàlid
+  Cart -> Checkout: setIsDiscountApplied(false)
+  Checkout --> User: Mostra missatge d'error
+end
+
+== Modificació del carret ==
+User -> Cart: Afegeix o elimina obres
+alt Carret no buit
+  Cart -> Checkout: Recalcula descompte amb fetchDiscount()
+  Checkout -> Backend: Crida a /printful/estimate-costs
+  Backend --> Checkout: Retorna nou descompte
+  Checkout -> Cart: setDiscount(discountAmount)
+  Cart --> User: Actualitza total amb descompte
+else Carret buit
+  Cart -> Checkout: setDiscount(0), setIsDiscountApplied(false)
+  Checkout --> User: Mostra carret buit
+end
+
+@enduml

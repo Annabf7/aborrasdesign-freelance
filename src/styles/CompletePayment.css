@@ -124,21 +124,33 @@
 
 .paymentSteps{
   margin-bottom:2rem;
+  text-align: justify;
+  font-size: 0.7rem;
 } 
 
+.paymentSteps li{
+  margin-top:0.5rem;
+}
+
 .paymentDetails{
-  font-size:0.8rem;
+  font-size:0.78rem;
 }
 
 .additionalNote{
-  font-size:0.9rem;
+  font-size:0.8rem;
   margin-top:2rem;
+}
+
+.secureDetails{
+  font-size: 0.7rem;
 }
 /* Responsivitat */
 @media (max-width: 768px) {
   .paymentContainer {
     flex-direction: column;
     width: 90%;
+    padding-top:1rem;
+    padding-bottom:0rem;
   }
 
   .paymentInfo,
@@ -149,5 +161,197 @@
   .containerWrapper {
     padding-top: 1rem;
     padding-bottom: 2.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .paymentContainer {
+    width: 100%;
+    padding-left:3rem;
+    padding-right:3rem;
+    padding-top:2rem;
+    padding-bottom:0;
+  }
+
+  .shippingInfoSection,
+  .cartSummary {
+    width: 50%;
+    padding-right:2rem;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .paymentContainer {
+    width: 100%;
+    padding-left:3rem;
+    padding-right:3rem;
+    padding-top:2rem;
+    padding-bottom:0;
+  }
+
+  .paymentInfo,
+  .cartSummary {
+    width: 50%;
+    padding-right:2rem;
+  }
+}
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) {
+  .paymentContainer {
+    width: 85%;
+    padding: 4rem;
+    gap: 3rem;
+  }
+
+  .paymentInfo,
+  .cartSummary {
+    width: 45%;
+    padding: 3rem;
+    font-size: 1.4rem;
+  }
+
+  .paymentHeader h4 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .signInLink {
+    font-size: 1.5rem;
+  }
+
+  .shippingInfo {
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .paymentMethod h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .paymentMethod label {
+    font-size: 1.4rem;
+    gap: 1rem;
+  }
+
+  .paymentButton {
+    font-size: 1.2rem;
+    padding: 1.5rem 2.5rem;
+  }
+
+  .secureInfo {
+    font-size: 1.2rem;
+  }
+
+  .secureInfo img {
+    width: 2rem;
+  }
+
+  .errorMessage {
+    font-size: 1.2rem;
+  }
+
+  .paymentDescription {
+    font-size: 1rem;
+  }
+
+  .paymentSteps {
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .paymentDetails {
+    font-size: 1.2rem;
+  }
+
+  .additionalNote {
+    font-size: 1.05rem;
+    margin-top: 3rem;
+  }
+
+  .secureDetails{
+    font-size: 0.86rem;
+  }
+}
+
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+  .paymentContainer {
+    width: 80%;
+    padding: 5rem;
+    gap: 4rem;
+  }
+
+  .paymentInfo,
+  .cartSummary {
+    width: 50%;
+    padding: 3.5rem;
+    font-size: 1.6rem;
+  }
+
+  .paymentHeader h4 {
+    font-size: 2.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .signInLink {
+    font-size: 1.7rem;
+  }
+
+  .shippingInfo {
+    font-size: 1.4rem;
+    margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .paymentMethod h4 {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .paymentMethod label {
+    font-size: 1.6rem;
+    gap: 1.2rem;
+  }
+
+  .paymentButton {
+    font-size: 1.4rem;
+    padding: 1.75rem 3rem;
+  }
+
+  .secureInfo {
+    font-size: 1.4rem;
+  }
+
+  .secureInfo img {
+    width: 2.5rem;
+  }
+
+  .errorMessage {
+    font-size: 1.4rem;
+  }
+
+  .paymentDescription {
+    font-size: 1.3rem;
+  }
+
+  .paymentSteps {
+    margin-bottom: 3rem;
+    font-size: 1.2rem;
+    text-align: justify;
+  }
+
+  .paymentDetails {
+    font-size: 1.4rem;
+  }
+
+  .additionalNote {
+    font-size: 1.2rem;
+    margin-top: 4rem;
+    text-align: justify;
+  }
+  .secureDetails{
+    font-size: 1.1rem;
   }
 }

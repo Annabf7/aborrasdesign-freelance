@@ -1,0 +1,25 @@
+@startuml aborrasdesign
+skinparam dpi 300
+skinparam pageSize A4 landscape
+
+actor Usuari
+actor Visitant
+actor "Administrador del Sistema" as Admin
+
+rectangle Sistema {
+  Usuari --> (Registrar-se)
+  Usuari --> (Iniciar sessió)
+  Usuari --> (Afegir producte al carret)
+  Usuari --> (Finalitzar compra)
+  Usuari --> (Rebre confirmació de compra)
+  Usuari --> (Gestionar perfil d'usuari)
+  Usuari --> (Gestionar comandes)
+  Usuari --> (Contactar amb suport)
+  
+  Visitant --> (Veure portfoli)
+  Visitant --> (Veure detalls de producte)
+
+  Admin --> (Actualitzar estat de comanda)
+}
+
+@enduml

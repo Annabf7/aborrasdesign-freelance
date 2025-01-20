@@ -1,0 +1,78 @@
+
+@startuml Aborrasdesign
+skinparam class {
+    BackgroundColor #f9f9f9
+    ArrowColor #333
+    BorderColor #d7b46a
+}
+
+class User {
+    - userId: String
+    - email: String
+    - password: String
+    + register()
+    + logIn()
+    + logOut()
+}
+
+class Product {
+    - productId: String
+    - name: String
+    - price: Float
+    - imageUrl: String
+    + getProductDetails()
+}
+
+class CartItem {
+    - product: Product
+    - quantity: Int
+    + getSubtotal(): Float
+}
+
+class CartContext {
+    - cartItems: List<CartItem>
+    - discount: Float
+    - promoCode: String
+    + addToCart()
+    + removeFromCart()
+    + updateCartItemQuantity()
+    + clearCart()
+}
+
+class Order {
+    - orderId: String
+    - user: User
+    - items: List<CartItem>
+    - totalAmount: Float
+    + placeOrder()
+    + cancelOrder()
+}
+
+class AuthContext {
+    - user: User
+    - loading: Boolean
+    + logIn()
+    + logOut()
+}
+
+class GenerativeArtGallery {
+    - artStyles: List<String>
+    + selectArtStyle()
+}
+
+class Notification {
+    - recipient: String
+    - message: String
+    - status: String
+    + sendNotification()
+}
+
+User "1" -- "0..*" Order
+User "1" -- "0..1" AuthContext
+Order "1" -- "1..*" CartItem
+CartItem "1" -- "1" Product
+CartContext "1" -- "0..*" CartItem
+CartContext "1" -- "0..1" User
+AuthContext "1" -- "0..1" User
+
+@enduml

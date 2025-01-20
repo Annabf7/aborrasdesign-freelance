@@ -68,6 +68,86 @@
   color: #222;
 }
 
+/* Responsivitat per a 320px */
+@media (max-width: 320px) {
+  .registration-successful-container {
+    flex-direction: column;
+  }
+
+  .brand-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+  }
+
+  .reg-symbol {
+    font-size: 0.7em;
+  }
+}
+
+@media (max-width: 375px) {
+  .registration-successful-container {
+    flex-direction: column;
+  }
+
+  .brand-title {
+    font-size: 2rem; 
+    margin-bottom: 1rem;
+    text-align: center;
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+  }
+
+  .reg-symbol {
+    font-size: 0.8em;
+  }
+
+  .message-section h2 {
+    font-size: 1.2rem; 
+    margin-top: 1rem;
+  }
+
+  .message-section p {
+    font-size: 0.85rem; 
+    margin: 1rem 0;
+  }
+
+  .message-section button {
+    font-size: 0.85rem; 
+    padding: 0.6rem 1.2rem; 
+  }
+}
+
+
+/* Adaptació per a dispositius mòbils */
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 2.5rem;
+    top: 5%;
+  }
+
+  .message-section h2 {
+    font-size: 1rem;
+  }
+
+  .message-section p {
+    font-size: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  .message-section button {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+
 /* Adaptació per a dispositius tablets */
 @media (max-width: 768px) {
   .brand-title {
@@ -89,24 +169,24 @@
   }
 }
 
-/* Adaptació per a dispositius mòbils */
-@media (max-width: 480px) {
-  .brand-title {
-    font-size: 2.5rem;
-    top: 5%;
-  }
+/* Estils per a pantalles grans */
 
-  .message-section h2 {
-    font-size: 1rem;
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) {
+  .login-button {
+    font-size: 1rem !important;
+    padding: 1.2rem 3rem !important;
+    border-radius: 10px;
+    width: auto;
   }
+}
 
-  .message-section p {
-    font-size: 0.8rem;
-    margin: 1rem 0;
-  }
-
-  .message-section button {
-    font-size: 0.75rem;
-    padding: 0.5rem 1rem;
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+  .login-button {
+    font-size: 1.3rem !important;
+    padding: 1.4rem 3rem !important;
+    border-radius: 10px;
+    width: auto;
   }
 }

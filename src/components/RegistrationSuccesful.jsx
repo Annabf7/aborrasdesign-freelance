@@ -18,7 +18,10 @@ const RegistrationSuccesful = () => {
 
         <h2>Registration successful!</h2>
         <p>You can now log in with your new account</p>
-        <button onClick={() => navigate("/login")}>Go to Log In</button>
+        <button className="login-button" onClick={() => navigate("/login")}>
+          Go to Log In
+        </button>
+
       </div>
     </div>
   );

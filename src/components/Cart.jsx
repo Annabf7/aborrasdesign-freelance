@@ -11,6 +11,8 @@ const Cart = () => {
   const { shippingCost } = useContext(ShippingContext);
   const navigate = useNavigate();
 
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   const handleIncrement = (index) => {
     updateCartItemQuantity(index, cartItems[index].quantity + 1);
   };
@@ -26,7 +28,7 @@ const Cart = () => {
 
   return (
     <div className="cartContainer">
-      <h4>Items in your cart ({cartItems.length})</h4>
+      <h4>Items in your cart ({totalItems})</h4>
       {cartItems.length > 0 ? (
         <div>
           {cartItems.map((item, index) => (
@@ -56,22 +58,23 @@ const Cart = () => {
           ))}
           <div className="summaryTotal">
             <div className="shippingCost">
-              <p>Shipping Cost: {shippingCost.toFixed(2)}€</p>
+              <span>Shipping Cost:</span>
+                <span>{shippingCost.toFixed(2)}€</span> 
             </div>
             <hr />
             <div className="summaryRow">
               <span>Subtotal:</span>
-              <span>€{cartTotal.toFixed(2)}</span>
+              <span>{cartTotal.toFixed(2)}€</span>
             </div>
             {discount > 0 && (
               <div className="summaryRow">
                 <span>Discount:</span>
-                <span>- €{discount.toFixed(2)}</span>
+                <span>- {discount.toFixed(2)}€</span>
               </div>
             )}
             <hr />
             <strong>Estimated Total: </strong>
-            <strong>€{totalWithDiscount.toFixed(2)}</strong>
+            <strong>{totalWithDiscount.toFixed(2)}€</strong>
           </div>
           <div className="cartNavigation">
             <button

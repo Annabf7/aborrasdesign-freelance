@@ -68,11 +68,45 @@
   color: #222;
 }
 
+
+@media (max-width: 320px) {
+  .message-section h2{
+    margin-top:5rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .message-section h2 {
+    margin-top: 6rem; 
+  }
+}
+
+
+/* Adaptació per a mòbils */
+@media (max-width: 480px) {
+  .signin-container {
+    padding: 0px;
+  }
+
+  .brand-title {
+    font-size: 2.5em;
+  }
+
+  .message-section h2 {
+    font-size: 16px;
+    margin-top: 6rem;
+  }
+
+  .message-section p {
+    font-size: 13px;
+  }
+}
+
 /* Adaptació per a tablets */
 @media (max-width: 768px) {
   .signin-container {
     flex-direction: column;
-    padding: 20px;
+ 
   }
 
   .brand-title {
@@ -82,6 +116,7 @@
 
   .message-section h2 {
     font-size: 18px;
+    margin-top: 6rem;
   }
 
   .message-section p {
@@ -89,21 +124,43 @@
   }
 }
 
-/* Adaptació per a mòbils */
-@media (max-width: 480px) {
-  .signin-container {
-    padding: 15px;
-  }
-
-  .brand-title {
-    font-size: 2.5em;
-  }
-
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) {
   .message-section h2 {
-    font-size: 16px;
+    font-size: 42px;
   }
 
   .message-section p {
-    font-size: 13px;
+    font-size: 28px;
+  }
+}
+
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+  .message-section h2 {
+    font-size: 52px;
+  }
+
+  .message-section p {
+    font-size: 32px;
+  }
+
+  .message-section form input {
+    font-size: 1.6rem;
+    padding: 1rem 1.5rem;
+    width: 60%;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .message-section form button {
+    font-size: 1.8rem;
+    padding: 1rem 2rem;
+    width:60%;
+  }
+
+  .error-message,
+  .success-message {
+    font-size: 1.5rem;
   }
 }

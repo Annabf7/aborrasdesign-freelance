@@ -1,0 +1,122 @@
+@startuml Aborrasdesign
+
+skinparam rectangle {
+  BackgroundColor #333
+  BorderColor #d7b46a
+  FontColor #FFFFFF
+}
+
+rectangle "App" as App
+rectangle "AboutSection" as AboutSection
+rectangle "AnimationProjects" as AnimationProjects
+rectangle "ArtworkContext" as ArtworkContext
+rectangle "AuthContext" as AuthContext
+rectangle "AuthPage" as AuthPage
+rectangle "AutomationDesignSection" as AutomationDesignSection
+rectangle "Carousel" as Carousel
+rectangle "Cart" as Cart
+rectangle "CartContext" as CartContext
+rectangle "CheckOut" as CheckOut
+rectangle "ChooseYourArtworkSize" as ChooseYourArtworkSize
+rectangle "CompletePayment" as CompletePayment
+rectangle "ContactForm" as ContactForm
+rectangle "ContactPage" as ContactPage
+rectangle "Experience" as Experience
+rectangle "Footer" as Footer
+rectangle "GenerativeArtGallery" as GenerativeArtGallery
+rectangle "GenerativeLoader" as GenerativeLoader
+rectangle "MotionGraphicSection" as MotionGraphicSection
+rectangle "NavigationMenu" as NavigationMenu
+rectangle "OrderHistory" as OrderHistory
+rectangle "OrderSummary" as OrderSummary
+rectangle "PhotoCorporatePortraits" as PhotoCorporatePortraits
+rectangle "PhotographySection" as PhotographySection
+rectangle "PortraitSection" as PortraitSection
+rectangle "ProductCard" as ProductCard
+rectangle "ProfileSection" as ProfileSection
+rectangle "Register" as Register
+rectangle "RegistrationSuccesful" as RegistrationSuccesful
+rectangle "ServicesSection" as ServicesSection
+rectangle "ShippingContext" as ShippingContext
+rectangle "ShippingInfo" as ShippingInfo
+rectangle "ShowreelImage" as ShowreelImage
+rectangle "SignIn" as SignIn
+rectangle "Success" as Success
+rectangle "ThisWasAdded" as ThisWasAdded
+rectangle "UserProfile" as UserProfile
+rectangle "WebFrontEndSection" as WebFrontEndSection
+rectangle "index" as index
+
+App --> NavigationMenu
+App --> Cart
+App --> AuthPage
+App --> AuthContext
+App --> RegistrationSuccesful
+App --> SignIn
+App --> UserProfile
+App --> OrderHistory
+App --> ShowreelImage
+App --> AnimationProjects
+App --> PortraitSection
+App --> ProfileSection
+App --> Footer
+App --> AboutSection
+App --> GenerativeArtGallery
+App --> ArtworkContext
+App --> ChooseYourArtworkSize
+App --> ThisWasAdded
+App --> CheckOut
+App --> ShippingInfo
+App --> ShippingContext
+App --> CompletePayment
+App --> Success
+App --> CartContext
+App --> PhotographySection
+App --> WebFrontEndSection
+App --> MotionGraphicSection
+App --> AutomationDesignSection
+AuthPage --> Register
+AutomationDesignSection --> ServicesSection
+AutomationDesignSection --> PhotoCorporatePortraits
+AutomationDesignSection --> ContactForm
+Cart --> CartContext
+Cart --> ShippingContext
+CartContext --> AuthContext
+CheckOut --> ShippingContext
+CheckOut --> CartContext
+CheckOut --> OrderSummary
+CheckOut --> ProductCard
+CheckOut --> AuthContext
+CheckOut --> GenerativeLoader
+ChooseYourArtworkSize --> CartContext
+ChooseYourArtworkSize --> GenerativeLoader
+CompletePayment --> ShippingContext
+CompletePayment --> CartContext
+CompletePayment --> AuthContext
+CompletePayment --> ProductCard
+CompletePayment --> OrderSummary
+Experience --> Carousel
+MotionGraphicSection --> ServicesSection
+MotionGraphicSection --> PhotoCorporatePortraits
+MotionGraphicSection --> Experience
+MotionGraphicSection --> ContactForm
+NavigationMenu --> AuthContext
+OrderHistory --> AuthContext
+OrderSummary --> CartContext
+PhotographySection --> ServicesSection
+PhotographySection --> PhotoCorporatePortraits
+PhotographySection --> Experience
+PhotographySection --> ContactForm
+ProductCard --> CartContext
+ShippingInfo --> ShippingContext
+ShippingInfo --> CartContext
+ShippingInfo --> ProductCard
+ShippingInfo --> OrderSummary
+Success --> CartContext
+WebFrontEndSection --> ServicesSection
+WebFrontEndSection --> PhotoCorporatePortraits
+WebFrontEndSection --> Experience
+WebFrontEndSection --> ContactForm
+index --> App
+
+@enduml

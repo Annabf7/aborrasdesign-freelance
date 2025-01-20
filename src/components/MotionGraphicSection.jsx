@@ -23,9 +23,6 @@ const MotionGraphicsSection = () => {
           <p className="description">
             Blending design and motion to bring stories alive and inspire audiences
           </p>
-          <div className="call-to-action">
-            <button>more info!</button>
-          </div>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import NavigationMenu from './components/NavigationMenu';
 import Cart from './components/Cart';
 import AuthPage from './components/AuthPage';
+import PrivacyPolicy from "./components/PrivacyPolicy";
 import { AuthProvider } from './components/AuthContext';
 import RegistrationSuccesful from './components/RegistrationSuccesful';
 import SignIn from './components/SignIn';
@@ -16,7 +17,7 @@ import { FooterBlack, FooterWhite } from './components/Footer';
 import AboutSection from './components/AboutSection';
 import GenerativeArtGallery from './components/GenerativeArtGallery';
 import GenerativeArtCustomization from './components/GenerativeArtCustomization';
-import GenerativeArtSelection from './components/GenerativeArtSelection'; // Afegeix l'import del GenerativeArtSelection
+import GenerativeArtSelection from './components/GenerativeArtSelection'; 
 import GenerativeSketch1 from './components/GenerativeSketch1';
 import GenerativeSketch2 from './components/GenerativeSketch2';
 import GenerativeSketch3 from './components/GenerativeSketch3';
@@ -28,7 +29,6 @@ import GenerativeSketch8 from './components/GenerativeSketch8';
 import { ArtworkProvider } from './components/ArtworkContext';
 import ChooseYourArtworkSize from './components/ChooseYourArtworkSize';
 import ThisWasAdded from './components/ThisWasAdded';
-import ViewInSpace from './components/ViewInSpace';
 import CheckOut from './components/CheckOut';
 import ShippingInfo from './components/ShippingInfo';
 import { ShippingProvider } from './components/ShippingContext';
@@ -38,6 +38,7 @@ import { CartProvider } from './components/CartContext';
 import PhotographySection from './components/PhotographySection';
 import WebFrontEndSection from './components/WebFrontEndSection';
 import MotionGraphicSection from './components/MotionGraphicSection';
+import AutomationDesignSection from "./components/AutomationDesignSection"; 
 import './App.css';
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
                 }
               />
               <Route
-                path="/profile" // Ruta per a la pàgina de perfil
+                path="/profile" 
                 element={
                   <div>
                     <UserProfile />
@@ -73,7 +74,7 @@ function App() {
                 }
               />
               <Route
-                path="/order-history" // Ruta per a la pàgina d'historial de comandes
+                path="/order-history" 
                 element={
                   <div>
                     <OrderHistory />
@@ -99,6 +100,7 @@ function App() {
                   </div>
                 }
               />
+
               <Route
                 path="/registration-successful"
                 element={
@@ -107,6 +109,10 @@ function App() {
                     <FooterWhite />
                   </div>
                 }
+              />
+              <Route 
+                path="/privacy-policy" 
+                element={<PrivacyPolicy />} 
               />
 
               <Route
@@ -132,8 +138,7 @@ function App() {
                 path="/generative-art/selection"
                 element={
                   <div>
-                    <GenerativeArtSelection />{' '}
-                    {/* Afegeix la nova pàgina de selecció */}
+                    <GenerativeArtSelection />
                     <FooterBlack />
                   </div>
                 }
@@ -192,22 +197,11 @@ function App() {
                 }
               />
 
-              {/* Ruta per ThisWasAdded */}
               <Route
                 path="/this-was-added"
                 element={
                   <div>
                     <ThisWasAdded />
-                    <FooterBlack />
-                  </div>
-                }
-              />
-
-              <Route
-                path="/view-in-space"
-                element={
-                  <div>
-                    <ViewInSpace />
                     <FooterBlack />
                   </div>
                 }
@@ -279,6 +273,14 @@ function App() {
                     <FooterWhite />
                   </div>
                 }
+              />
+               <Route path="/automationdesign" 
+               element={
+                  <div>
+                     <AutomationDesignSection />
+                     <FooterBlack />
+                  </div>
+                } 
               />
               <Route
                 path="/cart"

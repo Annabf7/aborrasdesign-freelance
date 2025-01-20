@@ -1,3 +1,4 @@
+/* General styles */
 .order-history-page {
   display: flex;
   min-height: 100vh;
@@ -37,10 +38,9 @@
   font-weight: 300;
   color: #d7b46a;
   text-align: center;
-  margin-top: 1.5rem; /* Ajusta aquest valor segons l'alineació desitjada */
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 
 .order-list {
   width: 100%;
@@ -53,14 +53,14 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-  color:black;
+  color: black;
 }
 
 .order-item h3 {
   margin: 0;
 }
 
-/* table */
+/* Table styles */
 .order-table {
   width: 100%;
   border-collapse: collapse;
@@ -77,9 +77,9 @@
   border: 1px solid #ddd;
 }
 
-
-.order-table tr, .order-table th{
-  color:black;
+.order-table tr,
+.order-table th {
+  color: black;
 }
 
 .order-table th {
@@ -111,27 +111,178 @@
   background-color: #e68900;
 }
 
+/*---------------------------- Responsive----------------------------- */
 
-
-/* Responsivitat */
+/*  max width of 768px */
 @media (max-width: 768px) {
+  .order-history-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .order-details-section {
-    max-width: 90%;
-    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    text-align: center;
   }
 
   .order-details-section h1 {
     font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .order-details-section p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .order-list {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+
+  .order-table {
+    width: 100%;
+    min-width: 600px; 
+    font-size: 0.85rem;
+    border-collapse: collapse;
+  }
+
+  .order-table th,
+  .order-table td {
+    padding: 10px 12px;
+  }
+
+  .order-thumbnail-img {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .order-table button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .errorMessage {
+    font-size: 0.75rem;
+    margin-left: 0;
+  }
+
+  .no-orders-message {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
   }
 }
 
+/* max width of 480px */
 @media (max-width: 480px) {
-  .order-details-section {
-    max-width: 95%;
-    padding: 1.5rem 1rem;
+  .order-table,
+  .order-table thead,
+  .order-table tbody,
+  .order-table th,
+  .order-table td,
+  .order-table tr {
+    display: block;
+  }
+
+  .order-table thead {
+    display: none;
+    
+  }
+
+  .order-table tr {
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 10px;
+  }
+
+  .order-table td {
+    padding-left: 20%;
+    position: relative;
+    text-align: left;
+    
+  }
+
+  .order-table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+
+  .order-thumbnail-img {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .order-table button {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* max width of 375px */
+@media (max-width: 375px) {
+  .order-table th,
+  .order-table td {
+    padding: 6px;
+    font-size: 0.7rem;
+  }
+
+  .order-thumbnail-img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .order-table button {
+    padding: 4px 6px;
+    font-size: 0.7rem;
   }
 
   .order-details-section h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .order-details-section p {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* max width of 320px */
+@media (max-width: 320px) {
+  .order-table th,
+  .order-table td {
+    padding: 4px;
+    font-size: 0.65rem;
+  }
+
+  .order-thumbnail-img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .order-table button {
+    padding: 4px 6px;
+    font-size: 0.65rem;
+  }
+
+  .order-details-section h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .order-details-section p {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
   }
 }

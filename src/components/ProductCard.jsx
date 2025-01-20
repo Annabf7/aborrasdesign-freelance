@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import '../styles/ProductCard.css';
-import { CartContext } from './CartContext'; // Importa el context
+import { CartContext } from './CartContext'; 
 
 const ProductCard = ({
   price = 0,
@@ -18,15 +18,13 @@ const ProductCard = ({
   return (
     <div className="productContainer">
       <article className="productGrid">
-        {/* Imatge del producte */}
         <img
           loading="lazy"
-          src={image || 'default-placeholder.png'} // Afegim un marcador de lloc si no hi ha imatge
+          src={image} 
           alt={name}
           className="productImage"
         />
 
-        {/* Detalls del producte */}
         <div className="productDetails">
           <div className="productInfo">
             <p className="productPrice">€{Number(price).toFixed(2)}</p>

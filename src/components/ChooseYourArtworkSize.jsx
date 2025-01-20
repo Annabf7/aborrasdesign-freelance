@@ -3,11 +3,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/ChooseYourArtworkSize.css';
 import { CartContext } from './CartContext';
+import GenerativeLoader from './GenerativeLoader';
 
 // Assignació dinàmica de BASE_URL segons l'entorn
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? process.env.REACT_APP_BASE_URL_PROD
   : process.env.REACT_APP_BASE_URL_DEV;
+   //console.log("BASE_URL:", BASE_URL);
 
 const ChooseYourArtworkSize = () => {
   const { productId } = useParams();
@@ -25,8 +27,8 @@ const ChooseYourArtworkSize = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log('BASE_URL:', process.env.REACT_APP_BASE_URL_DEV);
-    console.log('Stripe Public Key Test:', process.env.REACT_APP_STRIPE_PUBLIC_KEY_TEST);
+    //console.log('BASE_URL:', process.env.REACT_APP_BASE_URL_DEV);
+    //console.log('Stripe Public Key Test:', process.env.REACT_APP_STRIPE_PUBLIC_KEY_TEST);
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
@@ -46,7 +48,7 @@ const ChooseYourArtworkSize = () => {
           throw new Error('Product data not found.');
         }
 
-        console.log('Fetched Product Data:', data);
+        //console.log('Fetched Product Data:', data);
 
         setProduct({
           ...data.sync_product,
@@ -117,8 +119,8 @@ const ChooseYourArtworkSize = () => {
       totalPrice,
     };
 
-    // Log per depuració
-    console.log('Adding to cart:', cartItem);
+    
+    //console.log('Adding to cart:', cartItem);
 
     // Afegir al context del carret
     addToCart(cartItem);
@@ -137,8 +139,8 @@ const ChooseYourArtworkSize = () => {
       return;
     }
 
-    // Log de totes les dades abans de la navegació
-    console.log('Proceeding to checkout with cart items:', cartItems);
+   
+     // Log de totes les dades abans de la navegació - console.log('Proceeding to checkout with cart items:', cartItems);
 
     navigate('/checkout', {
       state: {
@@ -148,7 +150,7 @@ const ChooseYourArtworkSize = () => {
   };
 
   if (isLoading) {
-    return <div className="loading-message">Loading artwork details...</div>;
+    return <GenerativeLoader />;
   }
 
   if (error) {
@@ -162,90 +164,97 @@ const ChooseYourArtworkSize = () => {
   }
 
   return (
-    <div className="choose-your-artwork-container">
-      <h2>{product.name}</h2>
-      <div className="artwork-layout">
-        <div className="artwork-details">
-          <img
-            src={product.thumbnail_url || 'https://via.placeholder.com/300'}
-            alt={product.name}
-            className="artwork-image"
-          />
-        </div>
-
-        <div className="artwork-options">
-          <label htmlFor="variant-select">Select Size:</label>
-          <select
-            id="variant-select"
-            value={selectedVariant?.id || ''}
-            onChange={handleVariantChange}
-          >
-            {product.sync_variants.map((variant) => (
-              <option key={variant.id} value={variant.id}>
-                {variant.name} - €{parseFloat(variant.retail_price).toFixed(2)}
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="quantity-input">Quantity:</label>
-          <input
-            type="number"
-            id="quantity-input"
-            min="1"
-            value={quantity}
-            onChange={handleQuantityChange}
-          />
-
-          <div className="variant-thumbnail-preview">
+    <div className="main-content">
+      <div className="choose-your-artwork-container">
+        <h2>{product.name}</h2>
+        <div className="artwork-layout">
+          <div className="artwork-details">
             <img
-              src={
-                selectedVariant.product.image ||
-                selectedVariant.files.find((file) => file.type === 'preview')
-                  ?.preview_url ||
-                'https://via.placeholder.com/150'
-              }
-              alt={`Selected Variant: ${selectedVariant.name}`}
-              className="variant-thumbnail"
+              src={product.thumbnail_url || 'https://via.placeholder.com/300'}
+              alt={product.name}
+              className="artwork-image"
             />
           </div>
 
-          <div className="total-price">
-            <h3>Total Price: €{totalPrice.toFixed(2)}</h3>
-          </div>
+          <div className="artwork-options">
+            <label htmlFor="variant-select">Select Size:</label>
+            <select
+              id="variant-select"
+              value={selectedVariant?.id || ''}
+              onChange={handleVariantChange}
+            >
+              {product.sync_variants.map((variant) => (
+                <option key={variant.id} value={variant.id}>
+                  {variant.name} - €{parseFloat(variant.retail_price).toFixed(2)}
+                </option>
+              ))}
+            </select>
 
-          <button className="add-to-cart-button" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
+            <label htmlFor="quantity-input">Quantity:</label>
+            <input
+              type="number"
+              id="quantity-input"
+              min="1"
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
+
+            <div className="variant-thumbnail-preview">
+              <img
+                src={
+                  selectedVariant.product.image ||
+                  selectedVariant.files.find((file) => file.type === 'preview')
+                    ?.preview_url ||
+                  'https://via.placeholder.com/150'
+                }
+                alt={`Selected Variant: ${selectedVariant.name}`}
+                className="variant-thumbnail"
+              />
+            </div>
+
+            <div className="total-price">
+              <h3>Total Price: €{totalPrice.toFixed(2)}</h3>
+            </div>
+
+            <button className="add-to-cart-button" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+          </div>
         </div>
+
+        {showModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>This was added to your cart!</h2>
+              <hr />
+              <img
+                src={
+                  selectedVariant.product.image ||
+                  selectedVariant.files.find((file) => file.type === 'preview')
+                    ?.preview_url ||
+                  'https://via.placeholder.com/300'
+                }
+                alt={selectedVariant.name}
+                className="artwork-preview"
+              />
+              <h3>{product.name}</h3>
+              <hr />
+              <p>Size: {selectedVariant.name}</p>
+              <hr />
+              <p>Quantity: {quantity}</p>
+              <hr />
+              <p>Total Price: €{totalPrice.toFixed(2)}</p>
+              <hr />
+              <button className="close-button" onClick={closeModal}>
+                x
+              </button>
+              <button className="checkout-button" onClick={handleCheckout}>
+                Go to Checkout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>This was added to your cart!</h2><hr></hr>
-            <img
-              src={
-                selectedVariant.product.image ||
-                selectedVariant.files.find((file) => file.type === 'preview')
-                  ?.preview_url ||
-                'https://via.placeholder.com/300'
-              }
-              alt={selectedVariant.name}
-              className="artwork-preview"
-            />
-            <h3>{product.name}</h3><hr></hr>
-            <p>Size: {selectedVariant.name}</p><hr></hr>
-            <p>Quantity: {quantity}</p><hr></hr>
-            <p>Total Price: €{totalPrice.toFixed(2)}</p><hr></hr>
-            <button className="close-button" onClick={closeModal}>
-              x
-            </button>
-            <button className="checkout-button" onClick={handleCheckout}>
-              Go to Checkout
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

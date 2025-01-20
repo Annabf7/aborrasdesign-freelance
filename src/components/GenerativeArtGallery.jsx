@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/GenerativeArtGallery.css';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ import style7 from '../assets/generative/style_7.png';
 import style8 from '../assets/generative/style_8.png';
 
 const GenerativeArtGallery = () => {
+  const [showModal, setShowModal] = useState(false);
+
   // Dades dels estils d'art generatiu
   const artStyles = [
     { id: 368460597, img: style1, name: 'Expressionism' },
@@ -27,7 +29,6 @@ const GenerativeArtGallery = () => {
 
   // Precarrega d'imatges per optimitzar l'experiència de l'usuari
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     artStyles.forEach((style) => {
       const img = new Image();
       img.src = style.img;
@@ -41,12 +42,17 @@ const GenerativeArtGallery = () => {
 
   return (
     <div className="generative-gallery-container">
-      <h1 className="gallery-title">
-        Interactive Generative Art: <span>Create Your Own Masterpiece</span>
-      </h1>
+      <div className="gallery-header">
+        <h1 className="gallery-title">Generative Art Gallery: Art movements</h1>
+        <button
+          className="video-presentation-button"
+          onClick={() => setShowModal(true)}
+        >
+          Video Presentation
+        </button>
+      </div>
       <div className="gallery-grid">
         {artStyles.map((style) => {
-          // Comprovació de dades essencials abans de renderitzar
           if (!style.id || !style.img || !style.name) {
             console.warn('Estil incomplet detectat:', style);
             return null;
@@ -68,6 +74,28 @@ const GenerativeArtGallery = () => {
           );
         })}
       </div>
+
+      {showModal && (
+        <div className="generative-modal-overlay">
+          <div className="generative-modal-content">
+            <button
+              className="generative-modal-close"
+              onClick={() => setShowModal(false)}
+            >
+              &times;
+            </button>
+            <video
+              className="generative-modal-video"
+              controls
+              autoPlay
+              controlsList="nodownload nofullscreen"
+              disablePictureInPicture
+              src="https://firebasestorage.googleapis.com/v0/b/aborrasdesign-b281d.firebasestorage.app/o/presentationArtGen.mp4?alt=media&token=13ed28e5-ec19-40d1-ba19-8fcc2ae290e8"
+            />
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };

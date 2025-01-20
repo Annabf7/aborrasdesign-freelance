@@ -27,7 +27,7 @@ function AboutSection() {
           </p>
 
           <blockquote className="quote">
-            «Choose a job you love, and you will never have to work a day in your life»
+            « Choose a job you love, and you will never have to work a day in your life »
           </blockquote>
           <p className="about-secondarytext">
             As a freelancer, I understand the importance of meeting deadlines and delivering
@@ -45,16 +45,16 @@ function AboutSection() {
             <li>UX design</li>
             <li>Motion graphic</li>
             <li>Video: Pro & postproduction</li>
-            <li>Branding</li>
+            <li>Automation Design</li>
           </ul>
           <h3>Software</h3>
           <ul className="software-list">
             <li>Adobe After Effects</li>
             <li>Adobe Photoshop</li>
             <li>Adobe Illustrator</li>
-            <li>Adobe Premiere</li>
-            <li>Adobe Indesign</li>
             <li>Figma</li>
+            <li>Processing</li>
+            <li>Visual Studio Code</li>
           </ul>
           <h3>Social Media</h3>
           <ul className="social-list">

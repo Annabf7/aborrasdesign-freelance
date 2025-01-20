@@ -7,20 +7,34 @@
   color: #d7b46a;
 }
 
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .gallery-title {
   font-family: "Bebas Neue", sans-serif;
   font-weight: 300;
   font-size: 2rem;
   margin-bottom: 1.875rem;
   text-align: left;
+  color: #d7b46a;
 }
 
-.gallery-title2 {
-  font-size: 1.5rem;
-  font-weight: 400;
+.video-presentation-button {
+  padding: 10px 20px;
+  background-color: #333;
   color: #d7b46a;
-  display: inline-block;
-  margin-left: 0.625rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.video-presentation-button:hover {
+  background-color: #555;
 }
 
 .gallery-grid {
@@ -44,10 +58,77 @@
   transform: scale(1.05);
 }
 
-/* Responsivitat */
+/* -------------------------- Modal Section -------------------------- */
+
+.generative-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.generative-modal-content {
+  width: 70%;
+  max-width: 900px;
+  background-color: #d7b46a;
+  padding: 0.8rem;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.video-presentation-button:hover{
+  background-color: #d7b46a;
+  color:#1f1f1f;
+}
+
+
+.generative-modal-video {
+  width: 100%;
+  max-height: 70vh;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.generative-modal-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px; 
+  height: 40px; 
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color:#d7b46a;
+  background-color: black;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 1.5rem;
+}
+
+.generative-modal-close:hover {
+  color: #333;
+  background-color: #ECECEC;
+}
+
+
+/* -------------------------- Responsivitat -------------------------- */
+
+/* Pantalles petites (màxim 768px d'amplada) */
 @media (max-width: 768px) {
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr); /* Redueix a 2 columnes en pantalles petites */
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .gallery-title {
@@ -55,7 +136,94 @@
     text-align: center;
   }
 
-  .gallery-title2 {
-    font-size: 1.2rem;
+  .video-presentation-button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  .generative-modal-content {
+    width: 90%;
+    padding: 0.4rem;
+  }
+
+  .generative-gallery-image {
+    height: 10rem;
+  }
+
+  .generative-modal-close {
+    width: 35px;
+    height: 35px;
+    padding: 1rem;
+    font-size: 18px;
+  }
+}
+
+/* Pantalles grans (més de 1921px d'amplada) */
+@media (min-width: 1921px) {
+  .gallery-title {
+    padding-top: 6rem;
+    width: 90%;
+    margin: auto;
+    font-size: 4rem;
+    padding-bottom: 0;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 2fr);
+    gap: 8rem;
+    padding: 4rem 8rem;
+    font-size: 2rem;
+  }
+
+  .generative-gallery-image {
+    height: 30rem;
+  }
+
+  .generative-modal-content {
+    width: 50%;
+    max-width: 1200px;
+    padding: 1rem;
+  }
+
+  .generative-modal-close {
+    width: 50px;
+    height: 50px;
+    padding: 1.5rem;
+    font-size: 24px;
+  }
+}
+
+/* Pantalles molt grans (més de 2561px d'amplada) */
+@media (min-width: 2561px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 2fr);
+    gap: 2rem;
+  }
+
+  .generative-gallery-image {
+    height: 30rem;
+  }
+
+  .gallery-title {
+    font-size: 3rem;
+    padding-left: 1.2rem;
+  }
+
+  .generative-modal-content {
+    width: 40%;
+    max-width: 1500px;
+    padding: 1.5rem;
+  }
+
+  .video-presentation-button {
+    font-size: 18px;
+    padding: 12px 25px;
+  }
+
+  .generative-modal-close {
+    width: 60px;
+    height: 60px;
+    padding: 1.8rem;
+    font-size: 28px;
   }
 }

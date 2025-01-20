@@ -1,0 +1,34 @@
+@startuml Aborrasdesign
+actor User
+participant "GenerativeArtGallery" as Gallery
+participant "CartContext" as Cart
+participant "CheckOut" as Checkout
+participant "ShippingInfo" as Shipping
+participant "CompletePayment" as Payment
+participant "Stripe API" as Stripe
+participant "Printful API" as Printful
+participant "Success" as SuccessPage
+
+User -> Gallery: Select product
+Gallery -> Cart: Add product to cart
+User -> Checkout: Proceed to checkout
+Checkout -> Cart: Retrieve cart items
+User -> Checkout: Apply promo code (optional)
+Checkout -> Printful: Fetch discount (if promo code)
+Printful --> Checkout: Return discount details
+User -> Shipping: Continue to shipping
+Shipping -> Printful: Fetch shipping rates
+Printful --> Shipping: Return shipping options
+User -> Payment: Proceed to payment
+Payment -> Stripe: Create checkout session
+Stripe --> Payment: Return session ID
+Payment -> User: Redirect to Stripe for payment
+User -> Stripe: Complete payment
+Stripe --> Payment: Confirm payment success
+Payment -> Printful: Create draft order
+Printful --> Payment: Return draft order ID
+Payment -> Printful: Confirm order
+Printful --> Payment: Return confirmed order details
+Payment -> SuccessPage: Redirect to success page
+User -> SuccessPage: View order confirmation
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "Frontend (AuthPage.jsx)" as Frontend
+participant "Firebase Authentication" as FirebaseAuth
+participant "Firestore Database" as Firestore
+
+User -> Frontend: Introduir correu i contrasenya
+Frontend -> FirebaseAuth: Enviar credencials (signInWithEmailAndPassword)
+FirebaseAuth -> Frontend: Retornar token d'usuari
+Frontend -> Firestore: Consultar dades addicionals de l'usuari
+Firestore -> Frontend: Retornar dades de l'usuari (nom, adreça, etc.)
+Frontend -> User: Mostrar inici de sessió correcte
+
+alt Error d'autenticació
+    FirebaseAuth -> Frontend: Retornar error (usuari no registrat o contrasenya incorrecta)
+    Frontend -> User: Mostrar missatge d'error
+end
+
+alt Usuari nou (registre)
+    User -> Frontend: Introduir correu, contrasenya i altres dades
+    Frontend -> FirebaseAuth: Enviar dades (createUserWithEmailAndPassword)
+    FirebaseAuth -> Frontend: Retornar token d'usuari
+    Frontend -> Firestore: Emmagatzemar dades addicionals de l'usuari
+    Firestore -> Frontend: Confirmar registre
+    Frontend -> User: Mostrar registre correcte
+end
+@enduml

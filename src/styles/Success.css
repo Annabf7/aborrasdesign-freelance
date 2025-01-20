@@ -64,10 +64,10 @@
 
 .order-summary {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dues columnes de la mateixa amplada */
-  gap: 3rem; /* Espai entre les columnes */
-  width: 100%; /* Assegura que ocupi tot l'ample disponible */
-  max-width: 80%; /* Ajustem per a espais grans */
+  grid-template-columns: 1fr 1fr; 
+  gap: 3rem;
+  width: 100%;
+  max-width: 80%; 
 }
 
 .order-summary h2{
@@ -77,10 +77,10 @@
 .info-items,
 .info-shipping {
   background-color: #ececec;
-  padding: 1.5rem; /* Ajustem el padding per més harmonia */
+  padding: 1.5rem; 
   border-radius: 5px;
   color: black;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Lleugera ombra */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .order-items {
@@ -130,29 +130,152 @@
   padding-top:1rem;
 }
 
-/* Responsivitat per pantalles petites */
-@media (max-width: 768px) {
-  .order-summary {
-    grid-template-columns: 1fr; /* Una sola columna */
+/* Responsivitat per a pantalles petites */
+@media (max-width: 320px) {
+  .success-page {
+    flex-direction: column;
+    display: block;
+  }
+
+  .success-image-section {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .success-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   .success-details-section {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 0.5rem;
+  }
+
+  .success-details-section h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .success-details-section p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .success-home-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .order-summary {
+    display: block;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .info-items,
+  .info-shipping {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .order-item {
+    padding: 0.5rem;
+  }
+
+  .order-item-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .order-item-text span {
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsivitat per a pantalles de 375px */
+@media (max-width: 375px) {
+  .success-details-section {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .success-details-section h1 {
+    font-size: 1.8rem;
+  }
+
+  .order-summary {
+    gap: 1.5rem;
+  }
+
+  .info-items,
+  .info-shipping {
+    padding: 1rem 0.8rem;
+  }
+}
+
+/* Responsivitat per a pantalles de 480px */
+@media (max-width: 480px) {
+  .success-details-section {
     max-width: 90%;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .success-details-section h1 {
+    font-size: 1.8rem;
+  }
+
+  .order-summary {
+    gap: 2rem;
+  }
+
+  .info-items,
+  .info-shipping {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Responsivitat per a pantalles de 768px */
+@media (max-width: 768px) {
+  .success-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .success-details-section {
+    max-width: 100%;
+    padding: 2rem;
   }
 
   .success-details-section h1 {
     font-size: 2rem;
   }
-}
 
-@media (max-width: 480px) {
-  .success-details-section {
-    max-width: 95%;
-    padding: 1.5rem 1rem;
+  .order-summary {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .success-details-section h1 {
-    font-size: 1.6rem;
+  .info-items,
+  .info-shipping {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .order-item {
+    padding: 1rem;
+  }
+
+  .order-item-text span {
+    font-size: 1rem;
   }
 }
+
+
+

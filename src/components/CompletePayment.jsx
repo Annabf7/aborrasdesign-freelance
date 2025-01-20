@@ -1,4 +1,5 @@
 //CompletePayment.jsx
+
 import React, { useContext, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { ShippingContext } from './ShippingContext';
@@ -9,18 +10,17 @@ import OrderSummary from './OrderSummary';
 import secureIcon from '../assets/icons/candado.png';
 import '../styles/CompletePayment.css';
 
-// Assignació dinàmica de BASE_URL segons l'entorn
+// BASE_URL segons l'entorn
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? process.env.REACT_APP_BASE_URL_PROD
   : process.env.REACT_APP_BASE_URL_DEV;
 
-// Clau pública de Stripe segons l'entorn
+// Clau pública Stripe
 const stripePromise = loadStripe(
   process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_STRIPE_PUBLIC_KEY_LIVE
     : process.env.REACT_APP_STRIPE_PUBLIC_KEY_TEST
 );
-
 
 export const CompletePayment = () => {
   const { userAddress, shippingCost } = useContext(ShippingContext);
@@ -30,6 +30,7 @@ export const CompletePayment = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Calculem subtotals
   const originalSubtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   let adjustedItems = [...cartItems];
@@ -39,21 +40,17 @@ export const CompletePayment = () => {
       const originalItemTotal = item.price * item.quantity;
       const newItemTotal = originalItemTotal * discountRatio;
       const newUnitPrice = newItemTotal / item.quantity;
-      return {
-        ...item,
-        price: parseFloat(newUnitPrice.toFixed(2))
-      };
+      return { ...item, price: parseFloat(newUnitPrice.toFixed(2)) };
     });
   }
 
   const adjustedSubtotal = adjustedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  
+
   const handleConfirmPayment = async () => {
     if (!adjustedItems.length || !userAddress) {
       setErrorMessage('Your cart or shipping information is incomplete.');
       return;
     }
-
     if (
       !userAddress.firstName ||
       !userAddress.address ||
@@ -65,6 +62,7 @@ export const CompletePayment = () => {
       return;
     }
 
+    // Prepara dades per a Printful
     const countryMap = {
       España: 'ES',
       Spain: 'ES',
@@ -82,14 +80,12 @@ export const CompletePayment = () => {
       Mexico: 'MX',
       Argentina: 'AR',
     };
-
     const countryCode = countryMap[userAddress.country] || userAddress.country;
 
     const printfulItems = adjustedItems.map(item => ({
       sync_variant_id: item.sync_variant_id,
       quantity: item.quantity
     }));
-
     const recipient = {
       name: `${userAddress.firstName} ${userAddress.lastName}`,
       address1: userAddress.address,
@@ -101,20 +97,29 @@ export const CompletePayment = () => {
     };
 
     const shipping = shippingCost;
-    const finalTotal = (adjustedSubtotal - discount + shipping).toFixed(2);
+    const finalTotal = (adjustedSubtotal + shipping).toFixed(2);
 
     const retail_costs = {
-      currency: "EUR",
+      currency: 'EUR',
       discount: discount.toFixed(2),
       subtotal: originalSubtotal.toFixed(2),
       shipping: shipping.toFixed(2),
-      tax: "0.00",
+      tax: '0.00',
       total: finalTotal
     };
 
     try {
       setIsLoading(true);
 
+      /*console.log('Payload per a create-order:', {
+        recipient,
+        items: printfulItems,
+        userId: user.uid,
+        retail_costs,
+      });*/
+      
+
+      // 1) Crea l'ordre a Printful en estat draft
       const createOrderResponse = await fetch(`${BASE_URL}/printful/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,24 +130,22 @@ export const CompletePayment = () => {
           retail_costs
         }),
       });
-
       const createOrderData = await createOrderResponse.json();
-      if (!createOrderResponse.ok) {
+      if (!createOrderResponse.ok || !createOrderData.success) {
         throw new Error(`Error creating order: ${createOrderData.error || 'Unknown error'}`);
       }
 
+      // El backend retorna: { success: true, result: { id, status } }
       const orderId = createOrderData.result.id;
-      console.log('Printful order created with id:', orderId);
+      //console.log('Printful order (draft) created with id:', orderId);
 
-      const itemsPayload = adjustedItems.map((item) => {
-        const priceInCents = Math.round(item.price * 100);
-        return {
-          name: discount > 0 ? `${item.name} (*discount applied)` : item.name,
-          price: priceInCents,
-          quantity: item.quantity,
-        };
-      });
-
+      // 2) Creem la sessió de Stripe
+      // Construïm itemsPayload en cèntims
+      const itemsPayload = adjustedItems.map(item => ({
+        name: discount > 0 ? `${item.name} (*discount applied)` : item.name,
+        price: Math.round(item.price * 100),
+        quantity: item.quantity,
+      }));
       const shippingInCents = Math.round(shipping * 100);
 
       const stripeResponse = await fetch(`${BASE_URL}/create-checkout-session`, {
@@ -154,23 +157,25 @@ export const CompletePayment = () => {
           orderId: orderId
         }),
       });
-
       const session = await stripeResponse.json();
       if (!stripeResponse.ok || !session.sessionId) {
         throw new Error(`Failed to create checkout session: ${session.error || 'Unknown error'}`);
       }
 
+      // 3) Redirigim l'usuari a la passarel·la de Stripe
       const stripe = await stripePromise;
-      console.log('Sessió de Stripe creada amb èxit:', session.sessionId);
+      //console.log('Sessió de Stripe creada correctament. ID:', session.sessionId);
       const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-
       if (result.error) {
-        console.error('Error a Stripe redirectToCheckout:', result.error);
+        console.error('Error a redirectToCheckout:', result.error);
         throw new Error(result.error.message);
       }
 
+      // Nota: Si tot va bé, Stripe redirigeix a success_url,
+      // on en amb "Success.jsx"  confirmem la comanda a Printful!
+
     } catch (error) {
-      console.error('Error al confirmar el pagament:', error.message);
+      console.error('Error al confirmar el pagament:', error);
       setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
@@ -184,24 +189,23 @@ export const CompletePayment = () => {
           <div className="paymentHeader">
             <h2>Payment</h2>
           </div>
-
           {errorMessage && (
             <div className="errorMessage">
               <p>{errorMessage}</p>
             </div>
           )}
-          <hr></hr>
+          <hr />
           <div className="shippingInfo">
             <h4>Shipping Info</h4>
             {userAddress && (
               <p>
-                {userAddress.firstName} {userAddress.lastName},{' '}
-                {userAddress.address}, {userAddress.city}, {userAddress.country},{' '}
+                {userAddress.firstName} {userAddress.lastName},
+                {userAddress.address}, {userAddress.city}, {userAddress.country},
                 {userAddress.postalCode}
               </p>
             )}
-          </div><hr></hr>
-
+          </div>
+          <hr />
           <div className="paymentMethod">
             <h4>Payment Method</h4>
             <label className="paymentOption">
@@ -209,22 +213,30 @@ export const CompletePayment = () => {
               Pay with Credit Card
             </label>
             <p className="paymentDescription">
-              We securely process your payment through Stripe. <br></br>Your credit card details are never stored on our servers.
+              We securely process your payment through Stripe.<br />
+              Your card details are never stored on our servers.
             </p>
-          </div><hr></hr>
-
+          </div>
+          <hr />
           <div className="paymentDetails">
             <h4>What to expect after payment</h4>
             <ul className="paymentSteps">
-              <li><strong>Order Confirmation:</strong> Once payment is completed, you'll receive an order confirmation email.</li>
-              <li><strong>Fulfillment & Shipping:</strong> Your order goes into production and then ships to your address.</li>
-              <li><strong>Tracking Info:</strong> We’ll send a tracking number when available.</li>
-            </ul><hr></hr>
+              <li>
+                <strong>Order Confirmation:</strong> Once payment is completed, you'll receive an order confirmation email (Stripe).
+              </li>
+              <li>
+                <strong>Fulfillment & Shipping:</strong> Your order remains in &quot;draft&quot; until we confirm it after successful payment.
+              </li>
+              <li>
+                <strong>Tracking Info:</strong> We'll send tracking info when available.
+              </li>
+            </ul>
+            <hr />
             <p className="additionalNote">
-              Please review your order details before confirming payment. If you have any questions, contact support at <a href="mailto:aborrasdesign.com">aborrasdesign.com</a>.
+              Review your order details before confirming. If you have any questions, contact support at{' '}
+              <a href="mailto:aborrasdesign.com">aborrasdesign.com</a>.
             </p>
           </div>
-
           <button
             className="paymentButton"
             onClick={handleConfirmPayment}
@@ -232,11 +244,10 @@ export const CompletePayment = () => {
           >
             {isLoading ? 'Processing...' : 'Confirm Payment'}
           </button>
-
           <div className="secureInfo">
             <img src={secureIcon} alt="Secure Icon" />
             <p className="secureDetails">
-              Payments are encrypted and secured through Stripe. <br></br>
+              Payments are encrypted and secured through Stripe.<br />
               Your personal and financial information remains confidential.
             </p>
           </div>
@@ -245,11 +256,7 @@ export const CompletePayment = () => {
         <section className="cartSummary">
           <h2>Items in your cart ({cartItems.length})</h2>
           {cartItems.map((item, index) => (
-            <ProductCard
-              key={index}
-              {...item}
-              readOnly={true}
-            />
+            <ProductCard key={index} {...item} readOnly />
           ))}
           <OrderSummary
             subtotal={originalSubtotal}

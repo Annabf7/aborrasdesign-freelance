@@ -36,6 +36,71 @@
 }
 
 
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+
+/* Responsivitat per pantalles petites */
+@media (max-width: 768px) {
+    .carousel-button.left {
+        left: -5%;
+    }
+    
+    .carousel-button.right {
+        right: -5%;
+    }
+
+    .carousel-button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    width: 100%; 
+    max-width: 900px; 
+    margin: 0 auto; 
+}
+
+.carousel-image {
+    display: block; 
+    margin: 0 auto; 
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 5px; 
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #d7b46a;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 /* Canvi d'estil en hover */
 .carousel-button:hover {
     background-color: rgba(0, 0, 0, 0.8);
@@ -51,7 +116,7 @@
 /* Responsivitat per pantalles petites */
 @media (max-width: 768px) {
     .carousel-button.left {
-        left: -5%; /* Ajusta la posició més a prop de la imatge */
+        left: -5%; 
     }
     
     .carousel-button.right {
@@ -62,5 +127,41 @@
         width: 30px;
         height: 30px;
         font-size: 16px;
+    }
+}
+
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) {
+    .carousel-container {
+        max-width: 1200px;
+    }
+
+    .carousel-image {
+        border-radius: 10px;
+    }
+
+    .carousel-button {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        padding: 12px;
+    }
+}
+
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+    .carousel-container {
+        max-width: 1600px;
+    }
+
+    .carousel-image {
+        border-radius: 12px;
+    }
+
+    .carousel-button {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        padding: 15px;
     }
 }

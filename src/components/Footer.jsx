@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Importa Link si estàs utilitzant React Router
 import logoFooterBlack from "../assets/icons/logo_footer_gold.svg"; // Logo daurat per a fons fosc
 import logoFooterWhite from "../assets/icons/logo_footer.svg"; // Logo negre per a fons clar
 import instagramIcon from "../assets/icons/instagram.png";
@@ -51,11 +52,14 @@ const FooterContent = ({ isBlack }) => {
       </div>
 
       <div className="footer-center">
-        <img
-          className="footer-logo"
-          src={isBlack ? logoFooterBlack : logoFooterWhite}
-          alt="Footer Logo"
-        />
+        {/* Utilitzem Link per redirigir a la pàgina d'inici */}
+        <Link to="/">
+          <img
+            className="footer-logo"
+            src={isBlack ? logoFooterBlack : logoFooterWhite}
+            alt="Footer Logo"
+          />
+        </Link>
       </div>
 
       <div className="footer-right">

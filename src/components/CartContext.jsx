@@ -15,7 +15,7 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const { user } = useAuth(); // Obtenim el user des del AuthContext
   const userId = user ? user.uid : null; // userId depèn del user
-  console.log("[CartContext] Current userId:", userId);
+  //console.log("[CartContext] Current userId:", userId);
 
   const [cartItems, setCartItems] = useState([]);
   const [discount, setDiscount] = useState(0);
@@ -23,13 +23,13 @@ export const CartProvider = ({ children }) => {
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
 
   useEffect(() => {
-    console.log("[CartContext] userId changed:", userId);
+    //console.log("[CartContext] userId changed:", userId);
     if (userId) {
       const savedCart = localStorage.getItem(`cartItems_${userId}`);
-      console.log(`[CartContext] Loading cartItems for userId ${userId}:`, savedCart);
+      //console.log(`[CartContext] Loading cartItems for userId ${userId}:`, savedCart);
       setCartItems(savedCart ? JSON.parse(savedCart) : []);
     } else {
-      console.log("[CartContext] No userId, resetting cart");
+      //console.log("[CartContext] No userId, resetting cart");
       setCartItems([]);
       setDiscount(0);
       setPromoCode('');
@@ -39,21 +39,19 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (userId) {
-      console.log(`[CartContext] Saving cartItems for userId ${userId}`, cartItems);
+      //console.log(`[CartContext] Saving cartItems for userId ${userId}`, cartItems);
       localStorage.setItem(`cartItems_${userId}`, JSON.stringify(cartItems));
     }
   }, [cartItems, userId]);
 
   useEffect(() => {
     if (cartItems.length === 0) {
-      console.log("[CartContext] cartItems is empty, resetting discount, promoCode, isDiscountApplied");
       setDiscount(0);
       setPromoCode('');
       setIsDiscountApplied(false);
-    } else {
-      console.log("[CartContext] cartItems updated, length:", cartItems.length);
     }
   }, [cartItems]);
+  
 
   const artStyleImages = {
     Expressionism: style1,
@@ -67,7 +65,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = (newItem) => {
-    console.log("[CartContext] addToCart called with:", newItem);
+    //console.log("[CartContext] addToCart called with:", newItem);
     const { sync_variant_id, variant_id, quantity, name, price, styleName } = newItem;
 
     if (!sync_variant_id || !variant_id || !quantity || !name || !price) {
@@ -100,13 +98,13 @@ export const CartProvider = ({ children }) => {
         updatedItems = [...prevItems, itemToCart];
       }
 
-      console.log("[CartContext] Updated cartItems after addToCart:", updatedItems);
+      //console.log("[CartContext] Updated cartItems after addToCart:", updatedItems);
       return updatedItems;
     });
   };
 
   const updateCartItemQuantity = (index, newQuantity) => {
-    console.log("[CartContext] updateCartItemQuantity called. index:", index, "newQuantity:", newQuantity);
+    //console.log("[CartContext] updateCartItemQuantity called. index:", index, "newQuantity:", newQuantity);
     if (newQuantity < 1 || newQuantity > 99) {
       console.warn('La quantitat ha de ser entre 1 i 99.');
       return;
@@ -114,28 +112,26 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => {
       const updatedCartItems = [...prevItems];
       updatedCartItems[index].quantity = newQuantity;
-      console.log("[CartContext] Updated cartItems after updateCartItemQuantity:", updatedCartItems);
+      //console.log("[CartContext] Updated cartItems after updateCartItemQuantity:", updatedCartItems);
       return updatedCartItems;
     });
   };
 
   const removeFromCart = (index) => {
-    console.log("[CartContext] removeFromCart called. index:", index);
     setCartItems((prevItems) => {
       const updatedCartItems = prevItems.filter((_, i) => i !== index);
-      console.log("[CartContext] Updated cartItems after removeFromCart:", updatedCartItems);
+      //console.log("[CartContext] Updated cartItems after removeFromCart:", updatedCartItems);
       return updatedCartItems;
     });
   };
 
   const clearCart = () => {
-    console.log("[CartContext] clearCart called.");
     setCartItems([]);
     setDiscount(0);
     setPromoCode('');
     setIsDiscountApplied(false);
     if (userId) {
-      console.log(`[CartContext] Removing cartItems_${userId} from localStorage`);
+      //console.log(`[CartContext] Removing cartItems_${userId} from localStorage`);
       localStorage.removeItem(`cartItems_${userId}`);
     }
   };
@@ -146,20 +142,18 @@ export const CartProvider = ({ children }) => {
   );
 
   const setDiscountValue = (value) => {
-    console.log("[CartContext] setDiscountValue called with:", value);
+    //console.log("[CartContext] setDiscountValue called with:", value);
     const sanitizedValue = value < 0 ? 0 : value;
     const finalValue = sanitizedValue > cartTotal ? cartTotal : sanitizedValue;
-    console.log("[CartContext] finalValue of discount:", finalValue, "cartTotal:", cartTotal);
+    //console.log("[CartContext] finalValue of discount:", finalValue, "cartTotal:", cartTotal);
     setDiscount(finalValue);
   };
 
   const setPromoCodeValue = (code) => {
-    console.log("[CartContext] setPromoCodeValue called with:", code);
     setPromoCode(code);
   };
 
   const setIsDiscountAppliedValue = (val) => {
-    console.log("[CartContext] setIsDiscountAppliedValue called with:", val);
     setIsDiscountApplied(val);
   };
 

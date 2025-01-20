@@ -12,7 +12,7 @@ const ThisWasAdded = () => {
     size,
     quantity,
     totalPrice,
-    variant_id, // Asegura que tenim el variant_id
+    variant_id, 
   } = location.state || {};
 
   // Verifica que tots els camps són vàlids

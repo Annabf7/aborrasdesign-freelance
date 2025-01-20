@@ -1,0 +1,39 @@
+@startuml Aborrasdesign
+|Usuari|
+start
+:Seleccionar productes;
+:Afegir al carret;
+:Anar a la pàgina de checkout;
+
+|Sistema|
+if (Carret buit?) then (Sí)
+  :Mostrar missatge d'error;
+  stop
+else (No)
+  :Mostrar informació del carret;
+endif
+
+|Usuari|
+:Verificar informació d'enviament;
+:Confirmar informació d'enviament;
+
+|Sistema|
+:Iniciar sessió de pagament amb Stripe;
+
+|Stripe|
+:Processar pagament;
+if (Pagament aprovat?) then (Sí)
+  :Retornar confirmació de pagament;
+else (No)
+  :Mostrar error de pagament;
+  stop
+endif
+
+|Sistema|
+:Crear comanda a Printful en estat "draft";
+:Confirmar comanda a Printful;
+
+|Usuari|
+:Rebre confirmació de la comanda;
+stop
+@enduml

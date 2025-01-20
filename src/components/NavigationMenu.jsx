@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import logIn from "../assets/icons/log in.svg";
@@ -6,26 +6,54 @@ import logo from "../assets/logo.png";
 import shoppingCart from "../assets/icons/shopping-cart.png";
 
 function NavigationMenu() {
-  const { user, logOut } = useAuth(); // Utilitza useAuth per obtenir user i logOut
-  console.log("[NavigationMenu] user from useAuth:", user);
+  const { user, logOut, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const userDropdownRef = useRef(null);
 
-  useEffect(() => {  
-    console.log("User authentication status:", user); // Verifica l'estat de l'usuari
-    console.log("[NavigationMenu] Mounted, user:", user);
-  }, [user]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (
+        servicesOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setServicesOpen(false);
+      }
+      if (
+        isDropdownOpen &&
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(e.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [servicesOpen, isDropdownOpen]);
 
   const handleLogOut = () => {
     logOut();
-    setIsDropdownOpen(false); // Tanca el menú desplegable en tancar la sessió
-    navigate("/"); // Redirigeix a la pàgina principal després de tancar sessió
+    setIsDropdownOpen(false);
+    navigate("/");
   };
 
   const handleAuthClick = () => {
-    if (!user) {
-      navigate("/auth"); // Si no hi ha usuari, redirigeix a la pàgina d'autenticació
+    if (!isLoggedIn) {
+      navigate("/auth"); // Redirigeix al login si no està loguejat
+    } else {
+      setIsDropdownOpen(!isDropdownOpen); // Alterna el menú desplegable
     }
+  };
+
+  const handleServicesClick = () => {
+    setServicesOpen(!servicesOpen);
   };
 
   return (
@@ -33,33 +61,33 @@ function NavigationMenu() {
       <Link to="/">
         <img className="logo" src={logo} alt="Logo" />
       </Link>
+
       <nav className="menu-items">
         <Link className="menu-item" to="/">
           Home
         </Link>
 
-        <div className="dropdown">
-          <span className="menu-item">Services</span>
-          <div className="dropdown-content">
-            <Link to="/photography">Photography</Link>
-            <Link to="/webfrontend">WebFrontend</Link>
-            <Link to="/motiongraphic">Motion Graphic</Link>
-          </div>
+        <div className="dropdown" ref={dropdownRef}>
+          <span className="menu-item" onClick={handleServicesClick}>
+            Services
+          </span>
+          {servicesOpen && (
+            <div className="dropdown-content">
+              <Link to="/photography">Photography</Link>
+              <Link to="/webfrontend">WebFrontend</Link>
+              <Link to="/motiongraphic">Motion Graphic</Link>
+              <Link to="/automationdesign">Automation Design</Link>
+            </div>
+          )}
         </div>
 
         <Link className="menu-item" to="/about">
           About
         </Link>
 
-        {/* Mostra la icona de registre o el menú desplegable segons l'estat de l'usuari */}
-        <div
-          className="user-menu"
-          onMouseEnter={() => user && setIsDropdownOpen(true)}
-          onMouseLeave={() => setIsDropdownOpen(false)}
-          onClick={handleAuthClick} // Redirigeix a la pàgina d'autenticació si no hi ha usuari
-        >
+        <div className="user-menu" onClick={handleAuthClick} ref={userDropdownRef}>
           <img className="logIn" src={logIn} alt="User Profile" />
-          {user && isDropdownOpen && (
+          {isLoggedIn && isDropdownOpen && ( // Només es mostra si està loguejat
             <div className="user-dropdown">
               <span className="dropdown-item" onClick={() => navigate("/profile")}>
                 Profile

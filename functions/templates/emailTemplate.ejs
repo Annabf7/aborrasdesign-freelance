@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Confirmation / Tracking</title>
+  <style>
+    /* Estils inline per assegurar compatibilitat a la majoria de clients de correu */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ececec; /* color de fons de tot el document */
+      font-family: Arial, sans-serif;
+      color: #1e1f1f; /* color de text principal */
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+    .header {
+      background-color: #252423; /* fons fosc */
+      color: #d7b46a; /* color principal */
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .header img {
+      max-width: 140px; /* Ajusta la mida del logo al teu gust */
+    }
+    .content {
+      padding: 1.5rem 2rem;
+    }
+    .content h1 {
+      color: #1e1f1f;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+    }
+    .content p {
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+      color: #1e1f1f; /* text color */
+    }
+    .order-info {
+      background-color: #d7b46a; /* color principal */
+      padding: 1rem;
+      border-radius: 6px;
+      color: #1e1f1f; /* text sobre fons principal */
+      margin-bottom: 1.2rem;
+    }
+    .order-info strong {
+      color: #1e1f1f;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #888;
+      padding: 1rem 2rem;
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Capçalera amb logo i títol -->
+    <div class="header">
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/aborrasdesign-b281d.firebasestorage.app/o/logo_email_gold.png?alt=media&token=960b9369-51e8-4112-918d-5fd22f159bfb"
+        alt="AborrasDesign Logo"
+      />
+      <h2>Thank you for your purchase!</h2>
+    </div>
+
+    <div class="content">
+      <h1>Order <%= orderId %> - Shipping Update</h1>
+
+      <p>Hello <strong><%= recipientName %></strong>,</p>
+
+      <p>
+        We are pleased to inform you that your order
+        <strong>#<%= orderId %></strong> is now being processed for shipment.
+      </p>
+
+      <!-- Mostrem la data actual en format dd/mm/yyyy -->
+      <p><strong>Date:</strong> <%= new Date().toLocaleDateString('en-GB') %></p>
+
+      <!-- Bloc destacat amb info d'enviament -->
+      <div class="order-info">
+        <p><strong>Carrier:</strong> <%= carrier %></p>
+        <p>
+          <strong>Tracking:</strong>
+          <a href="<%= trackingUrl %>"
+             target="_blank"
+             style="color:#1e1f1f; text-decoration:underline">
+            <%= trackingNumber %>
+          </a>
+        </p>
+
+        <!-- Secció per mostrar els items i imatges -->
+        <h2>Order Items:</h2>
+        <ul>
+          <% items.forEach(item => { %>
+            <li style="margin-bottom:1rem;">
+              <strong><%= item.name %></strong> (x<%= item.quantity %>)
+              <br/>
+              <!-- Intentar agafar la primera imatge 'preview_url' si existeix -->
+              <% if(item.files && item.files.length > 0) { %>
+                <% const preview = item.files.find(f => f.type === 'preview') || item.files[0]; %>
+                <% if(preview && preview.preview_url) { %>
+                  <img src="<%= preview.preview_url %>"
+                       alt="<%= item.name %>"
+                       style="max-width: 200px; display:block; margin-top:0.5rem;" />
+                <% } %>
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+
+      <p>
+        You can click on the tracking link above to see the latest updates on your shipment status.
+      </p>
+
+      <p>
+        If you have any questions or concerns, feel free to contact me at:
+        <a href="mailto:aborrasdesign@gmail.com"
+           style="color:#1e1f1f; text-decoration:underline">
+          aborrasdesign@gmail.com
+        </a>.
+      </p>
+
+      <p>We hope you enjoy your purchase!</p>
+    </div>
+
+    <!-- Peu de pàgina -->
+    <div class="footer">
+      <p>© <%= new Date().getFullYear() %> AborrasDesign. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

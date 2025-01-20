@@ -54,6 +54,7 @@
   text-decoration: underline;
 }
 
+
 /* Adaptació per a tablets */
 @media (max-width: 768px) {
   .showreel-container {
@@ -74,7 +75,7 @@
   }
 
   .text-container h1 {
-    font-size: 48px;
+    font-size: 30px;
   }
 
   .text-container p {
@@ -82,21 +83,24 @@
   }
 }
 
-/* Adaptació per a mòbils */
-@media (max-width: 480px) {
-  .showreel-container {
-    padding: 15px;
-  }
-
-  .showreel-image {
-    width: 100%;
-  }
-
-  .text-container h1 {
-    font-size: 36px;
-  }
-
+@media (min-width: 1921px) {
   .text-container p {
-    font-size: 13px;
+    font-size: 26px;
+  }
+
+  .text-container a {
+    font-size: 26px;
   }
 }
+
+
+@media (min-width: 2561px) {
+  .text-container p {
+    font-size: 30px;
+  }
+
+  .text-container a {
+    font-size: 30px;
+  }
+}
+

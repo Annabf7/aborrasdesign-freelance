@@ -1,0 +1,38 @@
+@startuml
+title Procés de compra amb confirmació de comanda
+
+actor Usuari
+participant "Frontend (CompletePayment.jsx)" as Frontend
+participant "Backend (Express API)" as Backend
+participant "Stripe API" as Stripe
+participant "Printful API" as Printful
+participant "Firestore (Firebase DB)" as Firestore
+
+Usuari -> Frontend: Inicia el procés de compra
+Frontend -> Backend: POST /printful/create-order (crea comanda draft)
+Backend -> Printful: POST /orders (crea comanda draft)
+Printful --> Backend: Comanda creada (status=draft)
+Backend -> Firestore: Desa comanda amb status "draft"
+Backend --> Frontend: Retorna ID de la comanda (draft)
+
+Frontend -> Backend: POST /create-checkout-session (crea sessió Stripe)
+Backend -> Stripe: Crea sessió de pagament
+Stripe --> Backend: Retorna sessionId
+Backend --> Frontend: sessionId per Stripe
+
+Frontend -> Stripe: Redirigeix a passarel·la de pagament
+Stripe -> Usuari: Sol·licita informació de pagament
+Usuari -> Stripe: Proporciona dades de pagament
+Stripe --> Backend: Webhook: Pagament confirmat
+Backend -> Printful: POST /orders/{orderId}/confirm (confirma comanda)
+Printful --> Backend: Comanda confirmada (status=pending)
+Backend -> Firestore: Actualitza status a "confirmed"
+
+Backend --> Frontend: Redirigeix a /success?order_id={id}
+Frontend -> Backend: GET /printful/orders/{orderId} (consulta comanda)
+Backend -> Printful: GET /orders/{orderId}
+Printful --> Backend: Retorna dades de la comanda (status=confirmed)
+Backend --> Frontend: Dades de la comanda (confirmed)
+
+Frontend -> Usuari: Mostra resum final de la comanda
+@enduml

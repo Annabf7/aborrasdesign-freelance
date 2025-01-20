@@ -1,41 +1,38 @@
-/* Resum de la comanda */
+/* OrderSummary.css */
+
+
 .summarySection {
   padding-top: 20px;
-  
+  width: 100%; 
 }
 
-/* Títol del resum */
 .summaryTitle {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem; 
   margin-bottom: 20px;
 }
 
-/* Fila del resum */
 .summaryRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
 }
 
-/* Divisor entre seccions */
 .divider {
   margin-top: 15px;
   border-top: 2px solid #ccc;
 }
 
-/* Fila del total estimat */
 .totalRow {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem; 
   color: #000;
 }
 
-/* Estil per a "Currency notice" */
 .currencyNotice {
-  padding-top:3rem;
-  font-size: 0.875rem; /* 14px */
+  padding-top: 3rem;
+  font-size: 0.875rem; 
   color: #999;
   text-align: justify;
 }
@@ -45,20 +42,42 @@
   font-weight: bold;
 }
 
-
-
-/* Responsivitat */
-@media (max-width: 768px) {
+/* Responsivitat per a 769px a 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
   .summaryTitle {
-    font-size: 1.25rem; /* Redueix una mica la mida del títol */
+    font-size: 1.75rem;
+  }
+
+  .summaryRow {
+    font-size: 1rem;
   }
 
   .totalRow {
-    font-size: 1rem; /* Ajusta la mida del text per a pantalles petites */
+    font-size: 1.25rem;
   }
 
   .currencyNotice {
-    font-size: 0.75rem; /* Redueix la mida del text */
-    margin-top: 20px; /* Redueix l'espai superior per a una visualització més compacta */
+    font-size: 0.9rem; 
+    padding-top: 2rem;
+  }
+}
+
+/* Responsivitat per a pantalles més petites */
+@media (max-width: 768px) {
+  .summaryTitle {
+    font-size: 1.25rem; 
+  }
+
+  .summaryRow {
+    font-size: 0.95rem;
+  }
+
+  .totalRow {
+    font-size: 1rem;
+  }
+
+  .currencyNotice {
+    font-size: 0.8rem;
+    padding-top: 2rem;
   }
 }

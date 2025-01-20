@@ -15,10 +15,7 @@ const GenerativeSketch4 = () => {
 
       p.preload = function () {
         font = p.loadFont(
-          "/fonts/comicbd.ttf",
-          () => console.log("Font carregada correctament"),
-          () => console.error("Error carregant la font")
-        );
+          "/fonts/comicbd.ttf");
       };
 
       p.setup = function () {

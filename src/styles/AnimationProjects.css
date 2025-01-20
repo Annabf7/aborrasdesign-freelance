@@ -2,7 +2,7 @@
 
 .grid-gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnes */
+  grid-template-columns: repeat(4, 1fr); 
   grid-gap: 1.25rem;
   padding: 1.25rem;
   margin-bottom: 3rem;
@@ -14,7 +14,7 @@
   width: 100%;
   height: auto;
   display: block;
-  cursor: pointer; /* Canvia el cursor per indicar interacció */
+  cursor: pointer; 
   transition: opacity 0.3s ease;
 }
 
@@ -26,8 +26,8 @@
 }
 
 .motion-item.enlarge {
-  transform: scale(1.05); /* Escala l'element un 5% */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Opcional: afegeix una ombra */
+  transform: scale(1.05); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); 
 }
 
 .filter-container {
@@ -51,18 +51,117 @@
   color: #252423;
 }
 
-/* Responsivitat */
-@media (max-width: 768px) {
+/* Dispositius molt petits (320px a 374px) */
+@media (min-width: 320px) and (max-width: 374px) {
+  .filter-container {
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 0.5rem; 
+    padding: 1rem 0.5rem;
+  }
+
+  .filter-container button {
+    width: 100%; 
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .grid-gallery {
+    grid-template-columns: 1fr; /* 1 columna per a pantalles molt petites */
+    padding: 0.5rem;
+  }
+}
+
+/* Mòbils comuns (375px a 479px) */
+@media (min-width: 375px) and (max-width: 479px) {
+  .filter-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .filter-container button {
+    width: 100%; 
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .grid-gallery {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna */
+    grid-gap: 1rem;
+  }
+}
+
+/* Mòbils grans (480px a 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
+  .filter-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .filter-container button {
+    width: 40%;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
   .grid-gallery {
     grid-template-columns: repeat(2, 1fr); /* 2 columnes per a pantalles més petites */
   }
+}
 
+/* Responsivitat per tablets (768px a 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
   .filter-container {
     padding-left: 1rem;
   }
 
   .filter-container button {
-    margin: 0 0.5rem;
+    margin: 0 1.1rem;
     padding: 0.5rem 1rem;
+    font-size: 1.2rem;
   }
 }
+
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) and (max-width: 2560px) {
+  .filter-container button {
+    font-size: 1rem;
+  }
+}
+
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+  .filter-container button {
+    font-size: 1.1rem;
+  }
+}
+
+/* Pantalles 4K (3840px o més) */
+@media (min-width: 3840px) {
+  .filter-container {
+    gap: 2rem; 
+    padding: 2rem;
+  }
+
+  .filter-container button {
+    font-size: 1.5rem; 
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    width:30%;
+  }
+
+  .motion-video {
+    border-radius: 10px;
+  }
+
+  .motion-item.enlarge {
+    transform: scale(1.1); 
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+  }
+}
+

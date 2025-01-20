@@ -1,6 +1,4 @@
-
 /* -------------------- Register Page Styles -------------------- */
-
 .register-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +7,6 @@
   padding-bottom: 5rem;
   width: 100%;
   margin: 0 auto;
- 
 }
 
 .registerForm {
@@ -26,7 +23,7 @@
 
 .register-title {
   font-size: 1.5rem;
-  color:#b5974f;
+  color: #b5974f;
   margin-bottom: 1.25rem;
   text-align: center;
   width: 100%;
@@ -39,7 +36,7 @@
   border: 1px solid #1b1b1b;
   width: 100%;
   font-size: 0.875rem;
-  color:#b5974f;
+  color: #b5974f;
   background-color: #ffffff;
   box-sizing: border-box;
 }
@@ -51,7 +48,7 @@
 
 .registerLabel {
   font-size: 0.75rem;
-  color:#b5974f;
+  color: #b5974f;
   margin-bottom: 0.25rem;
 }
 
@@ -83,9 +80,102 @@
   width: 100%;
 }
 
+.consent-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  gap: 8px;
+  white-space: nowrap; 
+}
+
+.consent-label {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  white-space: nowrap; 
+}
+
+.privacy-link {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Responsivitat per dispositius petits */
+@media (max-width: 375px) {
+  .register-container {
+    padding-top: 8rem; 
+  }
+
+  .registerForm {
+    width: 90%; /* Assegura que el formulari ocupa la majoria de l'ampla */
+  }
+
+  .consent-section {
+    flex-direction: column; /* Canvia la disposició a columna */
+    align-items: center;    /* Centra els elements */
+    justify-content: center;
+    gap: 4px;                /* Redueix l'espai entre elements */
+    white-space: normal;    /* Permet que el text es repliqui */
+    width: 100%;            /* Ocupa tot l'ampla del contenidor */
+  }
+
+  .consent-label {
+    font-size: 0.7rem;      /* Manté la mida de la font */
+    text-align: center;     /* Centra el text */
+    margin-top: 4px;        /* Ajusta el marge superior */
+  }
+
+  /* Opcional: Ajusta la mida de la font del checkbox si és necessari */
+  .consent-section input {
+    width: auto;            /* Assegura que la casella de selecció no sigui massa gran */
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding-top: 8rem;
+  }
+
+  .registerForm {
+    width: 90%;
+  }
+
+  .consent-label {
+    font-size: 0.7rem;
+  }
+}
+
 /* Responsivitat */
 @media (max-width: 768px) {
   .registerForm {
     width: 90%;
+  }
+  .register-container {
+    padding-top: 8rem;
+  }
+}
+
+/* Pantalles més grans de 1921px */
+@media (min-width: 1921px) {
+  .registerForm {
+    width: 70%;
+  }
+
+  .register-container {
+    padding-top: 22rem;
+  }
+}
+
+/* Pantalles més grans de 2561px */
+@media (min-width: 2561px) {
+  .registerForm {
+    width: 70%;
+    padding: 3rem;
+  }
+
+  .register-title {
+    font-size: 3rem;
   }
 }

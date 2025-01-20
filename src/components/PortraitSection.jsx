@@ -21,7 +21,7 @@ const ImageGallery = () => {
           key={index}
           className="gallery-image"
           src={image}
-          alt={imageDescriptions[index]} // Descriptive alt text
+          alt={imageDescriptions[index]} 
         />
       ))}
     </div>

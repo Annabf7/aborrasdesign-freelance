@@ -1,16 +1,21 @@
 /* -------------------------------------- Image gallery --------------------------------------------*/
 
+/* Assegura que tots els elements utilitzin box-sizing: border-box */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 .image-gallery {
   display: flex;
   justify-content: center;
   gap: 20px;
-  padding-top: 5rem; /* 80px */
-  padding-bottom: 1.5rem; /* 25px */
+  padding-top: 5rem; 
+  padding-bottom: 1.5rem;
   background-color: #1f1f1f;
 }
 
 .gallery-image {
-  width: 25%; /* Ajusta l'amplada per mantenir l’espai entre les imatges */
+  width: 25%; 
   height: auto;
   object-fit: cover;
   border-radius: 5px;
@@ -24,47 +29,268 @@
   transform: scale(1.05);
 }
 
+
+
 .description-section {
-  text-align: right;
-  padding-right: 15rem;
-  margin-top: -1.5rem;
-  padding-bottom: 2rem;
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  text-align: center;      
+  padding-top: 0;
+  padding-bottom:2rem;          
+  margin-top: 0;        
   background-color: #1f1f1f;
+  width: 100%;            
 }
 
 .description-text {
   color: #d7b46a;
-  padding-top:1rem;
-  padding-bottom: 2rem;
+  font-size: 1rem;         
+  display: flex;
+  align-items: center;    
+  justify-content: center; 
 }
 
-.feather-smile {
-  margin-bottom: -4px;
-  width: 25px;
+.description-text svg {
+  margin-left: 0.5rem;     
+  width: 25px;           
   height: 25px;
   stroke: #d7b46a;
   transition: stroke 0.3s ease;
 }
 
-.feather-smile:hover {
+.description-text svg:hover {
   stroke: beige;
 }
 
-/* Responsivitat */
-@media (max-width: 768px) {
+
+
+/* Responsivitat per a 320px */
+@media (max-width: 320px) {
+  
   .image-gallery {
-    flex-direction: column; /* Apila les imatges en columnes */
-    padding-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 2rem; 
+    padding-bottom: 1rem; 
+    gap: 10px; 
+  }
+
+  .gallery-image {
+    width: 90%; 
+    margin: 0 auto; 
+    margin-bottom: 1rem; 
+  }
+
+  /* Ajustaments de la Description Section */
+  .description-section {
+    text-align: center; 
+    margin-top: 0; 
+    padding-top:0rem;
+    background-color: #1f1f1f;
+  }
+
+  .description-text {
+    color: #d7b46a;
+    text-align: center; 
+  }
+
+  .feather-smile {
+    margin-bottom: -4px;
+    width: 20px; 
+    height: 20px;
+    stroke: #d7b46a;
+    transition: stroke 0.3s ease;
+    margin-left: 0.5rem; 
+  }
+
+  .feather-smile:hover {
+    stroke: beige;
+  }
+}
+
+
+/* Responsivitat per a 375px */
+@media (max-width: 375px) {
+  .image-gallery {
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 2rem; 
+    padding-bottom: 1.5rem; 
+    gap: 15px; 
+  }
+
+  .gallery-image {
+    width: 85%; 
+    margin: 0 auto; 
+    margin-bottom: 1rem; 
+  }
+
+  /* Ajustaments de la Description Section */
+  .description-section {
+    padding: 0 1rem; 
+    text-align: center;
+    margin-top: 0; 
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    background-color: #1f1f1f;
+    font-size: 0.875rem; 
+  }
+
+  .description-text {
+    color: #d7b46a;
+    padding-bottom: 1rem;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .feather-smile {
+    margin-bottom: -4px;
+    width: 22px; 
+    height: 22px;
+    stroke: #d7b46a;
+    transition: stroke 0.3s ease;
+    margin-left: 0.5rem;
+  }
+
+  .feather-smile:hover {
+    stroke: beige;
+  }
+}
+
+/* Responsivitat per a 480px */
+@media (max-width: 480px) {
+  .image-gallery {
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 2rem; 
+    padding-bottom: 1.5rem; 
+    gap: 15px; 
+  }
+
+  .gallery-image {
+    width: 80%; 
+    margin: 0 auto; 
+    margin-bottom: 0.2rem; 
+    border-radius: 10px; 
+  }
+
+  .description-section {
+    padding: 0 1.5rem; 
+    text-align: center; 
+    padding-top: 0rem; 
+    padding-bottom: 2.5rem; 
+    background-color: #1f1f1f; 
+    font-size: 0.9rem;
+  }
+
+  .description-text {
+    color: #d7b46a;
+    text-align: center; 
+  }
+
+  .feather-smile {
+    margin-bottom: -4px;
+    width: 22px; 
+    height: 22px;
+    stroke: #d7b46a;
+    transition: stroke 0.3s ease;
+    margin-left: 0.5rem; 
+  }
+
+  .feather-smile:hover {
+    stroke: beige; 
+  }
+}
+
+
+/* Responsivitat per a 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .image-gallery {
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 20px; 
+    padding-top: 2rem; 
+    padding-bottom: 2rem; 
+  }
+
+  .gallery-image {
+    width: 45%; 
+    margin-bottom: 1rem; 
+    height: auto; 
+  }
+
+  .description-section {
+    padding: 1rem 2rem; 
+    text-align: center;
+    margin-top: 1rem; 
+    padding-bottom: 1.5rem; 
+    font-size: 1rem; 
+    margin:0;
+  }
+
+  .description-text {
+    color: #d7b46a;
+    padding-bottom: 1rem; 
+    text-align: center; 
+    padding-top:1rem;
+    margin:0;
+  }
+
+  .feather-smile {
+    margin-bottom: -4px;
+    width: 24px; 
+    height: 24px;
+    stroke: #d7b46a;
+    transition: stroke 0.3s ease;
+    margin-left: 0.5rem;
+  }
+
+  .feather-smile:hover {
+    stroke: beige; 
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .description-text {
+    font-size: 14.5px;
+    text-align: right;
+    padding-left:2rem;
+    margin:0;
+  }
+}
+
+@media (min-width: 1921px) {
+  .image-gallery {
+    gap: 30px;
+    padding-top: 6rem;
     padding-bottom: 2rem;
   }
 
   .gallery-image {
-    width: 100%; /* Les imatges ocupen el 100% d’amplada */
-    margin-bottom: 1rem; /* Espai entre imatges */
+    width: 22%;
+    border-radius: 8px;
   }
 
   .description-section {
-    padding-right: 2rem;
-    text-align: center;
+    padding-right: 18rem;
+    margin-top: -2rem;
+    padding-bottom: 3rem;
+  }
+
+  .description-text {
+    font-size: 1.25rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .feather-smile {
+    width: 30px;
+    height: 30px;
   }
 }
+
+
+
+
