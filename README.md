@@ -1,124 +1,106 @@
 # AborrasDesign 🚀
 
-## Description 📄
-AborrasDesign is my personal portfolio project as a freelance specializing in **Frontend Web Development** and **Motion Graphics**. The project is built with React and is available as a live demo.
+## Descripció 📄
 
-## Live Demo 🌐
-You can check out the live demo of the application here: [Live Demo][https://annabf7.github.io/Aborrasdesign]  
-## How to Run Locally 💻
+**AborrasDesign** és el meu projecte personal de portfoli com a freelance especialitzada en Desenvolupament Web Frontend i Motion Graphics. Aquest projecte està desenvolupat amb React i és accessible com a demo en viu.
 
-If you'd like to run the project locally, follow these steps:
+## Demo en Viu 🌐
 
-### Prerequisites 🛠️
-Make sure you have installed:
-- [Node.js](https://nodejs.org/) (version 14 or higher) ![Node.js](https://img.shields.io/badge/Node.js-14+-green)
-- npm (Node Package Manager) ![npm](https://img.shields.io/badge/npm-6+-red)
+Pots veure la demo en viu de l'aplicació aquí: [www.aborrasdesign.com](https://www.aborrasdesign.com)
 
-### Installation ⚙️
+## Com executar localment 💻
 
-1. Clone this repository to your local machine:
+Si vols executar el projecte localment, segueix aquests passos:
 
+### **Prerequisits 🛠️**
+
+Assegura't de tenir instal·lats:
+
+- **Node.js** (versió 14 o superior): [Node.js](https://nodejs.org/)
+- **npm** (Node Package Manager): ja inclòs amb Node.js.
+
+### **Instal·lació ⚙️**
+
+1. Clona aquest repositori al teu ordinador:
    ```bash
-   git clone https://github.com/Annabf7/aborrasdesign.git
+   git clone https://github.com/Annabf7/aborrasdesign-freelance.git
+   ```
 
-2. Navigate to the project directory:
-cd aborrasdesign
+2. Navega al directori del projecte:
+   ```bash
+   cd aborrasdesign-freelance
+   ```
 
+3. Instal·la les dependències necessàries:
+   ```bash
+   npm install
+   ```
 
-3. Install the necessary dependencies:
-npm install
+4. Executa l'aplicació en mode desenvolupament:
+   ```bash
+   npm start
+   ```
 
+   L'aplicació s'obrirà automàticament al navegador a [http://localhost:3000](http://localhost:3000).
 
-4. Run the application in development mode:
-npm start
-The app will open in your browser at http://localhost:3000. 🌍
+### **Desplegament 🚢**
 
+Per desplegar l'aplicació per producció, utilitza els següents passos:
 
-Deployment 🚢
-If you wish to deploy the application for production or use GitHub Pages, follow the steps in the package.json file and use the following commands:
-npm run build
-npm run deploy
+1. Genera el build de producció:
+   ```bash
+   npm run build
+   ```
 
+2. Puja el projecte al Firebase Hosting:
+   ```bash
+   firebase deploy
+   ```
 
-Technologies Used 🛠️
-React: A JavaScript library for building user interfaces.
-HTML5: For structuring the web interface.
-CSS3: For styling the web interface.
-JavaScript: For the frontend logic.
-GitHub Pages: For hosting and deployment.
+## Tecnologies Utilitzades 🛠️
 
+- **React**: Biblioteca JavaScript per crear interfícies d'usuari.
+- **CSS3**: Per al disseny i l'estil del frontend.
+- **JavaScript (ES6+)**: Per a la lògica del frontend.
+- **Firebase**: Per al backend, autenticació i hosting.
+- **Stripe**: Per a la integració de la passarel·la de pagament.
+- **Processing**: Per a la generació d'obres d'art generatiu.
 
-Author 👩‍💻
-Anna Borràs Font - Frontend Developer & Motion Graphics Specialist
+## Característiques Principals ✨
 
+- Portfoli amb seccions dedicades a projectes de Motion Graphics, Fotografia i Desenvolupament Web.
+- Generació d'obres d'art generatiu interactiu.
+- Sistema de carret i passarel·la de pagament integrada amb Stripe.
+- Enviament automatitzat de comandes mitjançant Printful.
 
-# Getting Started with Create React App
+## Autor 👩‍💻
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Anna Borràs Font** - Desenvolupadora Frontend & Especialista en Motion Graphics.
 
-## Available Scripts
+## Scripts Disponibles 📜
 
-In the project directory, you can run:
+Aquests són els scripts disponibles al projecte:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Executa l'aplicació en mode desenvolupament.
+Obre [http://localhost:3000](http://localhost:3000) per veure-la al navegador.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Construeix l'aplicació per producció al directori `build`.
+Està optimitzada per a millor rendiment.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `firebase deploy`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Desplega l'aplicació al Firebase Hosting.
 
-### `npm run eject`
+## Informació Addicional 📚
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Aquest projecte es va iniciar amb [Create React App](https://github.com/facebook/create-react-app).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Per més informació sobre com utilitzar les eines:
+- [Documentació de React](https://reactjs.org/docs/getting-started.html)
+- [Documentació de Firebase](https://firebase.google.com/docs)
+- [Documentació de Stripe](https://stripe.com/docs)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
